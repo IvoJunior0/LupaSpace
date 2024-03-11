@@ -10,12 +10,15 @@
 /* BARRA DE NAVEGAÇÃO */
 
 header {
+    position: fixed;
+    width: 100%;
+}
+
+nav {
     display: flex;
     justify-content: space-between;
     background: #916dd5;
     padding: 37px;
-    position: fixed;
-    width: 100%;
 }
 
 /* ELEMENTOS DA ESQUERDA */
@@ -55,7 +58,11 @@ header {
     list-style-type: none;
 }
 
-.navbar-right i {
+.mobile-icon {
+    display: none;
+}
+
+.mobile-menu {
     display: none;
 }
 
@@ -82,15 +89,54 @@ header {
 /* RESPONSIVIDADE BARRA DE NAVEGAÇÃO */
 
 @media screen and (max-width: 800px) {
+    /* TIRA OS BOTÕES ORIGINAIS */
     .btn-login{
         display: none;
     }
     .singup {
         display: none;
     }
-    .navbar-right i {
+    /* ARRUMA O ICONE */
+    .mobile-icon {
         display: block;
-        font-size: 25px;
-        color: white;
+    }
+    .mobile-icon button {
+        padding: 20px;
+        cursor: pointer;
+    }
+    .mobile-icon img {
+        width: 25px;
+    }
+    .btn-menu{
+        background: transparent;
+        border: none;
+    }
+    /* CONFIGURAÇÃO DO MENU */
+    .mobile-menu {
+        background: #916dd5;
+    }
+    .mobile-menu ul {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        list-style-type: none;
+        width: 100%;
+    }
+    .mobile-menu a {
+        display: block;
+        padding: 37px 0px;
+        font-family: "Questrial";
+        cursor: pointer;
+        font-size: 15px;
+    }
+    .mobile-menu .btn-login {
+        display: block;
+        border-radius: 0px;
+        padding: 37px 0px;
+        width: 100%;
+    }
+    .open {
+        display: block
     }
 }

@@ -10,15 +10,26 @@
 </head>
 <body>
     <header>
-        <div class="navbar-left">
-            <a href="index.html" class="logo">LupaSpace</a>
-            <input type="text" placeholder="Buscar por..." class="search-bar">
+        <nav>
+            <div class="navbar-left">
+                <a href="index.html" class="logo">LupaSpace</a>
+                <input type="text" placeholder="Buscar por..." class="search-bar">
+            </div>
+            <ul class="navbar-right">
+                <li><a href="#" class="singup">Criar uma conta</a></li>
+                <li><button onclick="window.location.href = 'login.html'" class="btn-login">Login</button></li>
+            </ul>
+            <div class="mobile-icon">
+                <button class="btn-menu" onclick="menuShow()"><img src="assets/menu-icon.png" class="mobile-icon-img"></button>
+            </div>
+        </nav>
+        <div class="mobile-menu">
+            <ul>
+                <li><a href="#" class="singup">Criar uma conta</a></li>
+                <li><button onclick="window.location.href = 'login.html'" class="btn-login">Login</button></li>
+            </ul>
         </div>
-        <ul class="navbar-right">
-            <li><a href="#" class="singup">Criar uma conta</a></li>
-            <li><button onclick="window.location.href = 'login.html'" class="btn-login">Login</button></li>
-            <li><i class="fa-solid fa-bars"></i></li>
-        </ul>
     </header>
+    <script src="index.js"></script>
 </body>
 </html>
