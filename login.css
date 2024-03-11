@@ -12,12 +12,12 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #C1E8FF;
+    background: #dac7ff;
 }
 
 .wrapper {
     width: 376px;
-    background: #5483B3;
+    background: #916dd5;
     color: white;
     padding: 48px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
@@ -26,7 +26,7 @@ body {
 .bloco-branco {
     width: 376px;
     background: white;
-    height: 484px;
+    height: 464px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
 }
 
@@ -116,8 +116,8 @@ body {
 
 .wrapper .btn {
     width: 234px;
-    height: 78px;
-    background: #2E589B;
+    height: 58px;
+    background: #573d7f;
     border: none;
     outline: none;
     border-radius: 37px;
@@ -126,6 +126,10 @@ body {
     font-weight: bold;
     font-size: 17.3px;
     color: white;
+}
+
+.wrapper .btn:hover {
+    background: #7151A9;
 }
 
 /* CRIAR UMA CONTA */
