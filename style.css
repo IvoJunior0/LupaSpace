@@ -12,13 +12,13 @@
 header {
     position: fixed;
     width: 100%;
+    background: #14171A;
 }
 
 nav {
     display: flex;
     justify-content: space-between;
-    background: #916dd5;
-    padding: 37px;
+    padding: 23px;
 }
 
 /* ELEMENTOS DA ESQUERDA */
@@ -35,6 +35,11 @@ nav {
     font-family: "Sulphur Point";
     font-weight: 700;
     font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    color:#7795ed;
 }
 
 .search-bar {
@@ -75,15 +80,22 @@ nav {
     padding: 12px 30px;
     border: none;
     border-radius: 37px;
-    background: #573d7f;
+    background: #1a48cf;
     color: white;
     font-family: "Questrial";
     cursor: pointer;
     font-size: 15px;
+    transition: all 0.3s ease;
 }
 
 .btn-login:hover {
-    background: #7151A9;
+    background: #7795ed;
+}
+
+hr {
+    background-color: #A6A6A6;
+    height: 1px;
+    border: none;
 }
 
 /* RESPONSIVIDADE BARRA DE NAVEGAÇÃO */
@@ -139,4 +151,87 @@ nav {
     .open {
         display: block
     }
+}
+
+/* CONTEUDO */
+
+main {
+    padding-top: 86px;
+    background: #14171A;
+    height: 100vh;
+    display: flex;
+}
+
+/* LEFT BAR */
+
+.left-bar {
+    width: 300px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #2b2e30;
+}
+
+.tab-menu {
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+    gap: 15px;
+}
+
+.tab-btn {
+    width: 250px;
+    cursor: pointer;
+    background: transparent;
+    color: #d0d0d1;
+    font-family: "Questrial";
+    font-size: 15px;
+    text-align: left;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    transition: all .3s ease;
+}
+
+.tab-btn:hover {
+    background: #424547;
+}
+
+.tab-btn.active {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    background: #424547;
+}
+
+/* CONTENT */
+
+.content {
+    display: none;
+}
+
+.content.show {
+    display: flex;
+    flex-direction: column;
+}
+
+.tab-contents {
+    padding: 15px;
+}
+
+.content-title {
+    color: white;
+    font-family: "Questrial";
+    font-size: 35px;
+}
+
+.filter-btn {
+    border: none;
+    border-radius: 5px;
+    width: 100px;
+    padding: 5px;
+    background: #424547;
+    color: white;
+    font-family: "Questrial";
+    cursor: pointer;
+    margin-top: 10px;
 }
