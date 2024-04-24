@@ -5,8 +5,11 @@ import './index.css';
 
 import {  createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+// Importações das rotas/endpoints
 import Home from './routes/Home.jsx';
 import Login from './routes/Login.jsx';
+import Register from './routes/Register.jsx';
+import HelloWorld from './routes/HelloWorld.jsx';
 
 const router = createBrowserRouter([
   {
@@ -14,8 +17,16 @@ const router = createBrowserRouter([
     element: <Home/>
   },
   {
+    path: "helloworld",
+    element: <HelloWorld/>
+  },
+  {
     path: "login",
     element: <Login/>
+  },
+  {
+    path: "registro",
+    element: <Register/>
   }
 ])
 
