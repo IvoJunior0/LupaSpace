@@ -1,18 +1,20 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { Firestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCKB2Z3yMpOX2x_ZiA1fAmNoCHPlhw-_mQ",
-  authDomain: "lupaspace-8be83.firebaseapp.com",
-  projectId: "lupaspace-8be83",
-  storageBucket: "lupaspace-8be83.appspot.com",
-  messagingSenderId: "927648713693",
-  appId: "1:927648713693:web:616d16171443a14871c434",
-  measurementId: "G-F8FC7J72BV"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const auth = getAuth(app);
+export const db = Firestore(app);
 export const googleProvider = new GoogleAuthProvider();
