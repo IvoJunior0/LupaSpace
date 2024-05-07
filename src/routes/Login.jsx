@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 // Importações do Firebase
 import { auth, googleProvider } from "../config/firebase.jsx";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 // Importações de Icones
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,13 +17,14 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    console.log(auth?.currentUser?.email);
-
-    const signIn = async () => {
+    const signIn = async (e) => {
+        e.preventDefault();
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, email, password);
+            console.log("Usuário logado com sucesso!");
         } catch (err) {
             console.error(err);
+            console.log("deu ruim");
         }
     };
 
@@ -39,13 +40,19 @@ function Login() {
         <div className="bg-gradient-to-r from-white to-green-200 h-screen flex justify-center items-center">
             <div className="bg-green-600 p-8 rounded-xl w-full max-w-96 shadow-xl mx-4">
                 <h1 className="text-center text-white font-logo font-bold text-5xl pb-8"><FontAwesomeIcon icon={faCircleUser} /> Login</h1>
-                <form action="" className="text-center">
-                    <Input type="email" placeholder="Seu email" onChange={(e) => setEmail(e.target.value)}>
-                        <FontAwesomeIcon icon={faEnvelope} />
-                    </Input>
-                    <Input type="password" placeholder="Sua senha" onChange={(e) => setPassword(e.target.value)}>
-                        <FontAwesomeIcon icon={faLock} />
-                    </Input>
+                <form onSubmit={signIn} className="text-center">
+                    <div className="pb-7 relative">
+                        <input type="email" placeholder={"Seu email"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setEmail(e.target.value)} required/>
+                        <div className="absolute top-3 left-5 text-neutral-400">
+                            <FontAwesomeIcon icon={faEnvelope} />
+                        </div>
+                    </div>
+                    <div className="pb-7 relative">
+                        <input type="password" placeholder={"Sua senha"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setPassword(e.target.value)} required/>
+                        <div className="absolute top-3 left-5 text-neutral-400">
+                            <FontAwesomeIcon icon={faLock} />
+                        </div>
+                    </div>
                     <div className="flex justify-between text-white pb-7">
                         <div className="flex gap-2">
                             <input type="checkbox" name="lembrar" id="lembrar"/>
@@ -64,8 +71,7 @@ function Login() {
                     <hr className="bg-white h-px w-5/12"/>
                 </div>
                 <div className="flex justify-between items-center pt-7 py">
-                    <button onClick={signInWithGoogle}><FontAwesomeIcon icon={faGoogle} /></button>
-                    
+                    <button onClick={signInWithGoogle} type="submit"><FontAwesomeIcon icon={faGoogle} /></button>
                     <FontAwesomeIcon icon={faGithub} />
                 </div>
             </div>

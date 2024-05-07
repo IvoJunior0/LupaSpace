@@ -2,8 +2,9 @@
 import { useState } from "react";
 
 // Firebase
-import { auth } from "../config/firebase.jsx";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../config/firebase.jsx";
+import { setDoc, doc } from "firebase/firestore";
 
 // Componentes
 import Input from "../ui/components/form/Input";
@@ -23,10 +24,15 @@ function Register(){
         e.preventDefault();
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            // Debug
             const user = auth.currentUser;
-            console.log(user);
-            console.log("Usuário registrado!");
+            if (user) {
+                await setDoc(doc(db, "Users", user.uid), {
+                    email: user.email,
+                    name: name,
+                    username: username,
+                });
+            }
+            console.log(`Usuário registrado: ${user}`);
         } catch (error) {
             console.log(error.message);
             console.log(`Email: ${email}`);
@@ -40,28 +46,28 @@ function Register(){
                     <h1 className="text-center text-white font-logo font-bold text-5xl pb-8"><FontAwesomeIcon icon={faRightToBracket}/> Registro</h1>
                     {/* Nome do perfil */}
                     <div className="pb-7 relative">
-                        <input type="text" placeholder={"Nome do perfil (nome real)"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setName(e.target.value)}/>
+                        <input type="text" placeholder={"Nome do perfil (nome real)"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setName(e.target.value)} required/>
                         <div className="absolute top-3 left-5 text-neutral-400">
                             <FontAwesomeIcon icon={faGlobe}/>
                         </div>
                     </div>
                     {/* Nome de usuário */}
                     <div className="pb-7 relative">
-                        <input type="text" placeholder={"Nome de usuário"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setUsername(e.target.value)}/>
+                        <input type="text" placeholder={"Nome de usuário"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setUsername(e.target.value)} required/>
                         <div className="absolute top-3 left-5 text-neutral-400">
                             <FontAwesomeIcon icon={faUser}/>
                         </div>
                     </div>
                     {/* Email */}
                     <div className="pb-7 relative">
-                        <input type="email" placeholder={"Seu email"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setEmail(e.target.value)}/>
+                        <input type="email" placeholder={"Seu email"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setEmail(e.target.value)} required/>
                         <div className="absolute top-3 left-5 text-neutral-400">
                             <FontAwesomeIcon icon={faEnvelope} />
                         </div>
                     </div>
                     {/* Senha */}
                     <div className="pb-7 relative">
-                        <input type="password" placeholder={"Sua senha"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setPassword(e.target.value)}/>
+                        <input type="password" placeholder={"Sua senha"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setPassword(e.target.value)} required/>
                         <div className="absolute top-3 left-5 text-neutral-400">
                             <FontAwesomeIcon icon={faLock} />
                         </div>
