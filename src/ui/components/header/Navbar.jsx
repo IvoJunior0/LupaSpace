@@ -5,11 +5,19 @@ import { Link } from "react-router-dom";
 import { auth } from "../../../config/firebase";
 
 // FontAwesome
-import { faBars, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faPlus, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Navbar() {
     const user = auth.currentUser;
+
+    async function logOut() {
+        try {
+            await auth.signOut();
+            window.location.href = "/login";
+        }
+        catch (error) {}
+    }
 
     if (user) {
         console.log("logado");
@@ -22,6 +30,7 @@ function Navbar() {
                 <ul className="flex text-white gap-8 items-center">
                     <li><FontAwesomeIcon icon={faPlus} className="text-2xl"/></li>
                     <li><FontAwesomeIcon icon={faUser} className="text-2xl"/></li>
+                    <li><button onClick={logOut}><FontAwesomeIcon icon={faRightFromBracket} className="text-2xl"/></button></li>
                     <li><FontAwesomeIcon icon={faBars} className="text-2xl"/></li>
                 </ul>
             </header>
