@@ -11,7 +11,13 @@ import HelloWorld from "./routes/HelloWorld";
 import { auth } from "./config/firebase";
 
 function App() {
-
+  const [user, setUser] = useState();
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setUser(user);
+      console.log(user.email);
+    })
+  });
   return (
     <BrowserRouter>
       <Routes>
