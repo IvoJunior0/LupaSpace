@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import { auth } from "../../../config/firebase";
 
 // FontAwesome
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Navbar() {
     const user = auth.currentUser;
@@ -18,8 +19,10 @@ function Navbar() {
                     <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
                     <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400"/>
                 </div>
-                <ul className="flex text-white gap-6 items-center">
-                    <li></li>
+                <ul className="flex text-white gap-8 items-center">
+                    <li><FontAwesomeIcon icon={faPlus} className="text-2xl"/></li>
+                    <li><FontAwesomeIcon icon={faUser} className="text-2xl"/></li>
+                    <li><FontAwesomeIcon icon={faBars} className="text-2xl"/></li>
                 </ul>
             </header>
         );
