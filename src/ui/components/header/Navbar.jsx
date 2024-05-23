@@ -1,6 +1,30 @@
+// Componentes
 import { Link } from "react-router-dom";
 
+// Firebase
+import { auth } from "../../../config/firebase";
+
+// FontAwesome
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
 function Navbar() {
+    const user = auth.currentUser;
+
+    if (user) {
+        console.log("logado");
+        return(
+            <header className="bg-green-600 p-6 flex justify-between items-center">
+                <div className="nav-left flex items-center gap-6">
+                    <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
+                    <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400"/>
+                </div>
+                <ul className="flex text-white gap-6 items-center">
+                    <li></li>
+                </ul>
+            </header>
+        );
+    }
+
     return(
         <header className="bg-green-600 p-6 flex justify-between items-center">
             <div className="nav-left flex items-center gap-6">

@@ -6,15 +6,12 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../config/firebase.jsx";
 import { setDoc, doc } from "firebase/firestore";
 
-// Componentes
-import Input from "../ui/components/form/Input";
-
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobe, faLock, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons";
 
-function Register(){
+export default function Register(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
@@ -30,6 +27,7 @@ function Register(){
                     email: user.email,
                     name: name,
                     username: username,
+                    password: user.password,
                 });
             }
             console.log(`Usuário registrado: ${user}`);
@@ -78,5 +76,3 @@ function Register(){
         </div>
     );
 }
-
-export default Register
