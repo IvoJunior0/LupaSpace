@@ -30,11 +30,7 @@ export default function Register(){
                     password: user.password,
                 });
             }
-            console.log(`Usuário registrado: ${user}`);
-        } catch (error) {
-            console.log(error.message);
-            console.log(`Email: ${email}`);
-        }
+        } catch (error) {}
     }
 
     return(

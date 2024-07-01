@@ -20,7 +20,7 @@ function Navbar() {
     }
 
     if (user) {
-        console.log("logado");
+        console.log("logado"); // Debug
         return(
             <header className="bg-green-600 p-6 flex justify-between items-center">
                 <div className="nav-left flex items-center gap-6">
@@ -38,7 +38,7 @@ function Navbar() {
     }
 
     return(
-        <header className="bg-green-600 p-6 flex justify-between items-center">
+        <header className="bg-green-600 p-6 flex justify-between items-center row-span-full static z-10">
             <div className="nav-left flex items-center gap-6">
                 <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
                 <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400"/>

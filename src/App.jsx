@@ -7,6 +7,7 @@ import Home from "./routes/Home";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import HelloWorld from "./routes/HelloWorld";
+import Profile from "./routes/Profie";
 
 import { auth } from "./config/firebase";
 
@@ -21,9 +22,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/login" element={<Login/>} />
+        <Route path="/" element={<Home/>}/>
+        <Route path="/login" element={<Login/>}/>
         <Route path="/registro" element={<Register/>}/>
+        <Route path="/user" element={<Profile></Profile>}></Route>
         <Route path="/helloworld" element={<HelloWorld/>}/>
       </Routes>
     </BrowserRouter>

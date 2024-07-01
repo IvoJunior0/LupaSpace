@@ -21,10 +21,8 @@ function Login() {
         e.preventDefault();
         try {
             signInWithEmailAndPassword(auth, email, password);
-            console.log("Usuário logado com sucesso!");
         } catch (err) {
             console.error(err);
-            console.log("deu ruim");
         }
     };
 
