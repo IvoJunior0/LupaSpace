@@ -30,7 +30,9 @@ export default function Register(){
                     password: user.password,
                 });
             }
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return(

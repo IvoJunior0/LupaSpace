@@ -13,7 +13,7 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
-function Login() {
+export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -76,5 +76,3 @@ function Login() {
         </div>
     );
 }
-
-export default Login
