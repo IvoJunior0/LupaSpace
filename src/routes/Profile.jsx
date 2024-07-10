@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Profile() {
     return(
         <div>
-            <Navbar></Navbar>
+            <Navbar/>
         </div>
     );
 }
