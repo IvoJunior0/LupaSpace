@@ -1,6 +1,6 @@
 // Importações de componentes
 import Input from "../ui/components/form/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Importações do Firebase
 import { auth, googleProvider } from "../config/firebase.jsx";
@@ -16,11 +16,13 @@ import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const signIn = async (e) => {
         e.preventDefault();
         try {
-            signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, email, password);
+            navigate("/");
         } catch (err) {
             console.error(err);
         }

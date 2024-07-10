@@ -38,7 +38,7 @@ function Navbar() {
     }
 
     return(
-        <header className="bg-green-600 p-6 flex justify-between items-center col-span-full h-[121px]">
+        <header className="bg-green-600 p-6 flex justify-between items-center col-span-full row-start-1 row-end-2">
             <div className="nav-left flex items-center gap-6">
                 <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
                 <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400"/>

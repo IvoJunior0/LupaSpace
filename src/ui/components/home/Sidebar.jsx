@@ -5,7 +5,7 @@ import { faFaceSmile } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sidebar(){
     return(
-        <div className="flex flex-col border-r-4 w-80 bg-slate-50 col-span-1 row-span-6 gap-4 p-6 h-full">
+        <div className="flex flex-col border-r-4  bg-slate-50 row-start-2 row-end-3 gap-4 p-6 ">
             <SidebarButton text="Página Inicial" icon={faHouseChimney}/>
             <SidebarButton text="Seguindo" icon={faUser}/>
             <hr/>

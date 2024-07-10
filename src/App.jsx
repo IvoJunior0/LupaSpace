@@ -7,7 +7,7 @@ import Home from "./routes/Home";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import HelloWorld from "./routes/HelloWorld";
-import Profile from "./routes/Profie";
+import Profile from "./routes/Profile";
 
 import { auth } from "./config/firebase";
 
