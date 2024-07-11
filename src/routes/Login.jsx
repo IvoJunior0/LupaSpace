@@ -42,13 +42,13 @@ export default function Login() {
                 <h1 className="text-center text-white font-logo font-bold text-5xl pb-8"><FontAwesomeIcon icon={faCircleUser} /> Login</h1>
                 <form onSubmit={signIn} className="text-center">
                     <div className="pb-7 relative">
-                        <input type="email" placeholder={"Seu email"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setEmail(e.target.value)} required/>
+                        <input name="email" type="email" placeholder={"Seu email"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setEmail(e.target.value)} required/>
                         <div className="absolute top-3 left-5 text-neutral-400">
                             <FontAwesomeIcon icon={faEnvelope} />
                         </div>
                     </div>
                     <div className="pb-7 relative">
-                        <input type="password" placeholder={"Sua senha"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setPassword(e.target.value)} required/>
+                        <input name="password" type="password" placeholder={"Sua senha"} className="pl-12 py-3 px-5 rounded-xl w-full outline-none text-neutral-400" onChange={(e) => setPassword(e.target.value)} required/>
                         <div className="absolute top-3 left-5 text-neutral-400">
                             <FontAwesomeIcon icon={faLock} />
                         </div>

@@ -3,14 +3,20 @@ import { Link } from "react-router-dom";
 import SearchButton from "../buttons/SearchButton";
 
 // Firebase
-import { auth } from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 
 // FontAwesome
 import { faBars, faPlus, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { collection } from "firebase/firestore";
 
 function Navbar() {
     const user = auth.currentUser;
+    const myProfile = `/user/`;
+    console.log(`usuario: ${user}`);
+    const goToMyProfile = () => {
+        
+    }
 
     async function logOut() {
         try {
@@ -21,7 +27,7 @@ function Navbar() {
     }
 
     if (user) {
-        console.log("logado"); // Debug
+        console.log(user); // Debug
         return(
             <header className="bg-green-600 p-6 flex justify-between items-center col-span-full row-start-1 row-end-2">
                 <div className="nav-left flex items-center gap-6">
@@ -31,7 +37,7 @@ function Navbar() {
                 </div>
                 <ul className="flex text-white gap-8 items-center">
                     <li className="block max-lg:hidden"><FontAwesomeIcon icon={faPlus} className="text-2xl"/></li>
-                    <li className="block max-lg:hidden"><FontAwesomeIcon icon={faUser} className="text-2xl"/></li>
+                    <li className="block max-lg:hidden"><button><FontAwesomeIcon icon={faUser} className="text-2xl"/></button></li>
                     <li className="block max-lg:hidden"><button onClick={logOut}><FontAwesomeIcon icon={faRightFromBracket} className="text-2xl"/></button></li>
                     <li className="text-2xl hidden max-lg:block"><FontAwesomeIcon icon={faBars}/></li>
                 </ul>
