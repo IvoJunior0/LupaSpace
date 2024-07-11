@@ -1,5 +1,6 @@
 // Componentes
 import { Link } from "react-router-dom";
+import SearchButton from "../buttons/SearchButton";
 
 // Firebase
 import { auth } from "../../../config/firebase";
@@ -25,13 +26,14 @@ function Navbar() {
             <header className="bg-green-600 p-6 flex justify-between items-center col-span-full row-start-1 row-end-2">
                 <div className="nav-left flex items-center gap-6">
                     <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
-                    <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400"/>
+                    <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400 max-w-56 max-md:hidden"/>
+                    <SearchButton/>
                 </div>
                 <ul className="flex text-white gap-8 items-center">
-                    <li><FontAwesomeIcon icon={faPlus} className="text-2xl"/></li>
-                    <li><FontAwesomeIcon icon={faUser} className="text-2xl"/></li>
-                    <li><button onClick={logOut}><FontAwesomeIcon icon={faRightFromBracket} className="text-2xl"/></button></li>
-                    <li><FontAwesomeIcon icon={faBars} className="text-2xl"/></li>
+                    <li className="block max-lg:hidden"><FontAwesomeIcon icon={faPlus} className="text-2xl"/></li>
+                    <li className="block max-lg:hidden"><FontAwesomeIcon icon={faUser} className="text-2xl"/></li>
+                    <li className="block max-lg:hidden"><button onClick={logOut}><FontAwesomeIcon icon={faRightFromBracket} className="text-2xl"/></button></li>
+                    <li className="text-2xl hidden max-lg:block"><FontAwesomeIcon icon={faBars}/></li>
                 </ul>
             </header>
         );
@@ -41,11 +43,13 @@ function Navbar() {
         <header className="bg-green-600 p-6 flex justify-between items-center col-span-full row-start-1 row-end-2">
             <div className="nav-left flex items-center gap-6">
                 <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
-                <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400"/>
+                <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400 max-w-56 block max-md:hidden"/>
+                <SearchButton/>
             </div>
             <ul className="flex text-white gap-6 items-center">
-                <li><Link to="/registro">Cadastrar-se</Link></li>
-                <li><Link to="/login"><button className="bg-green-800 py-2.5 px-7 rounded-xl font-semibold transition-all duration-200 hover:bg-green-950">Login</button></Link></li>
+                <li className="block max-lg:hidden"><Link to="/registro">Cadastrar-se</Link></li>
+                <li className="block max-lg:hidden"><Link to="/login"><button className="bg-green-800 py-2.5 px-7 rounded-xl font-semibold transition-all duration-200 hover:bg-green-950">Login</button></Link></li>
+                <li className="text-2xl hidden max-lg:block"><FontAwesomeIcon icon={faBars}/></li>
             </ul>
         </header>
     );
