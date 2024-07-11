@@ -1,5 +1,5 @@
 // Componentes
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchButton from "../buttons/SearchButton";
 
 // Firebase
@@ -11,11 +11,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { collection } from "firebase/firestore";
 
 function Navbar() {
+    const navigate = useNavigate();
     const user = auth.currentUser;
-    const myProfile = `/user/`;
-    console.log(`usuario: ${user}`);
+
     const goToMyProfile = () => {
-        
+        navigate(`/user/${user.uid}`);
     }
 
     async function logOut() {
@@ -37,7 +37,7 @@ function Navbar() {
                 </div>
                 <ul className="flex text-white gap-8 items-center">
                     <li className="block max-lg:hidden"><FontAwesomeIcon icon={faPlus} className="text-2xl"/></li>
-                    <li className="block max-lg:hidden"><button><FontAwesomeIcon icon={faUser} className="text-2xl"/></button></li>
+                    <li className="block max-lg:hidden"><button onClick={goToMyProfile}><FontAwesomeIcon icon={faUser} className="text-2xl"/></button></li>
                     <li className="block max-lg:hidden"><button onClick={logOut}><FontAwesomeIcon icon={faRightFromBracket} className="text-2xl"/></button></li>
                     <li className="text-2xl hidden max-lg:block"><FontAwesomeIcon icon={faBars}/></li>
                 </ul>
