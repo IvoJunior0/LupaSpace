@@ -5,7 +5,7 @@ import Sidebar from "../ui/components/home/Sidebar";
 
 export default function Community() {
     useEffect(() => {
-        document.title = 'Comunidades'; // Quick solution
+        document.title = 'Comunidades';
     }, []);
 
     return(

@@ -8,22 +8,14 @@ import Menu from "./Menu";
 import { auth, db } from "../../../config/firebase";
 
 // FontAwesome
-import { faBars, faPlus, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faPlus, faRightFromBracket, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
     const navigate = useNavigate();
     const user = auth.currentUser;
     const [menu, setMenu] = useState(false);
-    const [width, setWidth] = useState(window.innerWidth);
-
-    useEffect(() => {
-        const handleResize = () => {
-          setWidth(window.innerWidth);
-        };
-    
-        window.addEventListener('resize', handleResize);
-    }, []);
+    let menuIcon = <FontAwesomeIcon icon={faBars}/>
 
     async function logOut() {
         try {
@@ -33,8 +25,13 @@ function Navbar() {
         catch (error) {}
     }
 
+    if (menu) {
+        menuIcon = <FontAwesomeIcon icon={faXmark} className="text-2xl"/>
+    } else {
+        menuIcon = <FontAwesomeIcon icon={faBars} className="text-2xl"/>
+    }
+
     if (user) {
-        console.log(user); // Debug
         return(
             <header className="bg-green-600 p-6 flex justify-between items-center col-span-full row-start-1 row-end-2">
                 <div className="nav-left flex items-center gap-6">
@@ -45,9 +42,9 @@ function Navbar() {
                 <ul className="flex text-white gap-8 items-center">
                     <li className="block max-lg:hidden"><FontAwesomeIcon icon={faPlus} className="text-2xl"/></li>
                     <li className="block max-lg:hidden"><button onClick={() => navigate(`/user/${user.uid}`)}><FontAwesomeIcon icon={faUser} className="text-2xl"/></button></li>
-                    <li className="block max-lg:hidden"><button onClick={logOut}><FontAwesomeIcon icon={faRightFromBracket} className="text-2xl"/></button></li>
-                    <li className="text-2xl hidden max-lg:block"><button><FontAwesomeIcon icon={faBars}/></button></li>
+                    <li className="text-2xl"><button onClick={() => setMenu(!menu)}>{menuIcon}</button></li>
                 </ul>
+                <Menu active={menu}></Menu>
             </header>
         );
     }
