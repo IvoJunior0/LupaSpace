@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 // Componentes
 import { useParams } from "react-router-dom";
 import Navbar from "../ui/components/header/Navbar";
+import Loading from '../ui/components/Loading';
 
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,7 +30,7 @@ export default function User() {
     }, [uid]);
 
     if (loading) {
-      return <div>Carregando...</div>;
+      return <Loading/>;
     }
 
     if (!userData) {
