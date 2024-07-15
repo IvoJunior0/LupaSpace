@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 // Componentes
 import { useParams } from "react-router-dom";
 import Navbar from "../ui/components/header/Navbar";
-import Loading from '../ui/components/Loading';
+import Loading from '../ui/components/extras/Loading';
 
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -40,7 +40,7 @@ export default function User() {
     }
 
     return(
-        <div>
+        <div className='mt-[90px]'>
             <Navbar/>
             <h2>Nome: {userData.name}</h2>
             <h2>Email: {userData.email}</h2>

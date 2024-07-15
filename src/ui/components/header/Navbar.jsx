@@ -33,7 +33,7 @@ function Navbar() {
 
     if (user) {
         return(
-            <header className="bg-green-600 p-6 flex justify-between items-center col-span-full row-start-1 row-end-2">
+            <header className="bg-green-600 p-6 flex justify-between items-center fixed top-0 left-0 w-full h-[90px] z-10">
                 <div className="nav-left flex items-center gap-6">
                     <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
                     <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400 max-w-56 max-md:hidden"/>
@@ -50,7 +50,7 @@ function Navbar() {
     }
 
     return(
-        <header className="bg-green-600 p-6 flex justify-between items-center col-span-full row-start-1 row-end-2">
+        <header className="bg-green-600 p-6 flex justify-between items-center col-span-full row-start-1 row-end-2 fixed top-0 left-0 w-full h-[90px] z-10">
             <div className="nav-left flex items-center gap-6">
                 <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
                 <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400 max-w-56 block max-md:hidden"/>
