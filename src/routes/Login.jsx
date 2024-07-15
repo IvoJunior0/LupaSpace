@@ -10,13 +10,17 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithP
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser, faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = 'Login'; // Quick solution
+    }, []);
 
     const signIn = async (e) => {
         e.preventDefault();

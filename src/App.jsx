@@ -9,7 +9,6 @@ import Login from "./routes/Login";
 import Register from "./routes/Register";
 import HelloWorld from "./routes/HelloWorld";
 import User from "./routes/User";
-import Profile from "./routes/Profile";
 import Following from "./routes/Following";
 
 import { auth } from "./config/firebase";

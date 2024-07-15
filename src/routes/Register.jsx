@@ -1,5 +1,5 @@
 // Outros
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Firebase
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -16,6 +16,10 @@ export default function Register(){
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        document.title = 'Registro'; // Quick solution
+    }, []);
 
     const handleRegister = async (e) => {
         e.preventDefault();

@@ -26,14 +26,16 @@ export default function User() {
         };
     
         fetchUserData();
-      }, [uid]);
+    }, [uid]);
 
     if (loading) {
-    return <div>Carregando...</div>;
+      return <div>Carregando...</div>;
     }
 
     if (!userData) {
-    return <div>Usuário não encontrado</div>;
+      return <div>Usuário não encontrado</div>;
+    } else {
+      document.title = userData.name;
     }
 
     return(
