@@ -8,7 +8,7 @@ import { faFaceSmile } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sidebar(){
     return(
-        <div className="opacity-80 fixed w-[350px] top-[90px] h-full flex flex-col border-r-4 bg-slate-50 gap-4 p-6 max-[1199px]:hidden">
+        <div className="fixed w-[350px] top-[90px] h-full flex flex-col border-r-4 bg-slate-50 gap-4 p-6 max-[1199px]:hidden">
             <SidebarButton text="Página Inicial" icon={faHouseChimney} route="/"/>
             <SidebarButton text="Seguindo" icon={faUser} route="/seguindo"/>
             <hr/>

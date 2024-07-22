@@ -10,12 +10,16 @@ import { auth, db } from "../../../config/firebase";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faPlus, faRightFromBracket, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import CreatePost from "./CreatePost";
 
 function Navbar() {
     const navigate = useNavigate();
     const user = auth.currentUser;
     const [menu, setMenu] = useState(false);
+    const [post, setPost] = useState(false);
     let menuIcon = <FontAwesomeIcon icon={faBars}/>
+
+    console.log("post:" + post);
 
     async function logOut() {
         try {
@@ -40,11 +44,12 @@ function Navbar() {
                     <SearchButton/>
                 </div>
                 <ul className="flex text-white gap-8 items-center">
-                    <li className="block max-lg:hidden"><FontAwesomeIcon icon={faPlus} className="text-2xl"/></li>
+                    <li className="block max-lg:hidden"><button onClick={() => setPost(!post)}><FontAwesomeIcon icon={faPlus} className="text-2xl"/></button></li>
                     <li className="block max-lg:hidden"><button onClick={() => navigate(`/user/${user.uid}`)}><FontAwesomeIcon icon={faUser} className="text-2xl"/></button></li>
                     <li className="text-2xl"><button onClick={() => setMenu(!menu)}>{menuIcon}</button></li>
                 </ul>
                 <Menu active={menu}></Menu>
+                <CreatePost active={post}/>
             </header>
         );
     }
@@ -53,7 +58,7 @@ function Navbar() {
         <header className="bg-green-600 p-6 flex justify-between items-center col-span-full row-start-1 row-end-2 fixed top-0 left-0 w-full h-[90px] z-10">
             <div className="nav-left flex items-center gap-6">
                 <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
-                <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400 max-w-56 block max-md:hidden"/>
+                <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400 max-w-56 max-md:hidden"/>
                 <SearchButton/>
             </div>
             <ul className="flex text-white gap-6 items-center">
