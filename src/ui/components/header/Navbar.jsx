@@ -19,8 +19,6 @@ function Navbar() {
     const [post, setPost] = useState(false);
     let menuIcon = <FontAwesomeIcon icon={faBars}/>
 
-    console.log("post:" + post);
-
     async function logOut() {
         try {
             await auth.signOut();
@@ -44,12 +42,12 @@ function Navbar() {
                     <SearchButton/>
                 </div>
                 <ul className="flex text-white gap-8 items-center">
-                    <li className="block max-lg:hidden"><button onClick={() => setPost(!post)}><FontAwesomeIcon icon={faPlus} className="text-2xl"/></button></li>
+                    <li className="block max-lg:hidden"><button onClick={() => setPost(true)}><FontAwesomeIcon icon={faPlus} className="text-2xl"/></button></li>
                     <li className="block max-lg:hidden"><button onClick={() => navigate(`/user/${user.uid}`)}><FontAwesomeIcon icon={faUser} className="text-2xl"/></button></li>
                     <li className="text-2xl"><button onClick={() => setMenu(!menu)}>{menuIcon}</button></li>
                 </ul>
                 <Menu active={menu}></Menu>
-                <CreatePost active={post}/>
+                <CreatePost trigger={post} setTrigger={setPost}/>
             </header>
         );
     }
