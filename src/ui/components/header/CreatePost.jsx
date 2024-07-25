@@ -12,16 +12,21 @@ export default function CreatePost(props) {
                     <button onClick={() => props.setTrigger(false)}><FontAwesomeIcon icon={faXmark} className="text-2xl"/></button>
                 </div>
                 <div>
-                    <label htmlFor="titulo" className="block text-xl">Título</label>
+                    <label className="block text-xl">Título</label>
                     <input type="text" placeholder="Insira o título aqui" className="block w-full p-2.5 bg-slate-100 border-slate-300 border-2 rounded-md focus:outline-none focus:border-slate-400" id="titulo"/>
                 </div>
                 <div>
-                    <label htmlFor="descricao" className="block">Descrição</label>
+                    <label className="block">Descrição</label>
                     <textarea className="block resize-none block w-full p-2.5 bg-slate-100 border-slate-300 border-2 rounded-md focus:outline-none focus:border-slate-400" id="descricao" placeholder="Descreva sua postagem aqui"></textarea>
                 </div>
                 <div>
-                    <label htmlFor="file_upload" className="block ">Enviar Arquivo</label>
-                    <input type="file" id="file_upload" className="block "/>
+                    <div class="space-y-8 max-w-md mx-auto my-5">
+                        <input type="file"
+                            className="w-full text-gray-500 font-medium text-sm bg-slate-100 border-slate-300 border-2 rounded-md file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-800 file:hover:bg-gray-700 file:text-white rounded" />
+                    </div>
+                </div>
+                <div className="flex justify-end">
+                    <button className="bg-green-600 text-slate-50 py-3 px-8 rounded hover:bg-green-500">Postar</button>
                 </div>
             </div>
         </div>
