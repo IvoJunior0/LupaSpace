@@ -37,7 +37,7 @@ function Navbar() {
         return(
             <header className="bg-green-600 p-6 flex justify-between items-center fixed top-0 left-0 w-full h-[90px] z-10">
                 <div className="nav-left flex items-center gap-6">
-                    <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
+                    <Link to={"/"} className="font-logo text-white text-2xl">LupaSpace</Link>
                     <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400 max-w-56 max-md:hidden"/>
                     <SearchButton/>
                 </div>

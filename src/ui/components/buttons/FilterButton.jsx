@@ -12,7 +12,7 @@ function FilterButton() {
     };
 
     return (
-        <div className='my-6'>
+        <div className='my-5'>
             <button className='bg-gray-500 text-white px-4 py-2 rounded' onClick={handleOpen}>
                 Filtrar por <FontAwesomeIcon icon={faChevronDown} />
             </button>
