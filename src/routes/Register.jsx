@@ -18,7 +18,7 @@ export default function Register(){
     const [username, setUsername] = useState("");
 
     useEffect(() => {
-        document.title = 'Registro'; // Quick solution
+        document.title = 'Registro';
     }, []);
 
     const handleRegister = async (e) => {
