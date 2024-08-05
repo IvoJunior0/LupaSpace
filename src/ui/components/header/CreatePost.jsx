@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 
 import { auth, db } from "../../../config/firebase";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+
+import { v4 } from "uuid";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -18,11 +20,13 @@ export default function CreatePost(props) {
         if (title.trim() && descricao.trim()) {
             setLoading(true);
             try {
-                await setDoc(doc(db, "Posts", user.uid), {
+                const postID = v4()
+                await setDoc(doc(db, "Posts", postID), {
                     titulo: title,
                     descricao: descricao,
                     userId: user ? user.uid : null,
-                    timestamp: new Date().toUTCString()
+                    tags: {},
+                    createdAt: serverTimestamp()
                 })
                 setTitle('');
                 setDescricao('');
@@ -33,7 +37,6 @@ export default function CreatePost(props) {
                 // setMensagem('Erro ao criar o post. Tente novamente.');
                 console.log("deu erro mano");
                 console.log(error);
-                
             } finally {
                 setLoading(false);
                 props.setTrigger(false);
