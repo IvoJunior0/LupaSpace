@@ -21,25 +21,28 @@ const getRecentPosts = async () => {
 
 export default function RecentPosts() {
     const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const recentPosts = await getRecentPosts();
-            setPosts(recentPosts);
+            try {
+                const recentPosts = await getRecentPosts();
+                setPosts(recentPosts);
+                setLoading(false);
+            } catch (err) {
+                setLoading(false);
+            }
         };
 
         fetchPosts();
     }, [])
-
-    console.log(posts);
     
-
     return (
         <div>
             {posts.length === 0 ? (
                 <p>Sem nenhum post.</p>
             ) : (
-                <ul>
+                <ul className='flex flex-col gap-6'>
                     {posts.map(post => (
                         <li key={post.id}>
                             <Post post={post}/>
