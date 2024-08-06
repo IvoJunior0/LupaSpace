@@ -14,9 +14,10 @@ import CreatePost from "./CreatePost";
 
 function Navbar() {
     const navigate = useNavigate();
-    const user = auth.currentUser;
+    const [user, setUser] = useState(null);
     const [menu, setMenu] = useState(false);
     const [post, setPost] = useState(false);
+    const [loading, setLoading] = useState(true);
     let menuIcon = <FontAwesomeIcon icon={faBars}/>
 
     async function logOut() {
@@ -33,38 +34,56 @@ function Navbar() {
         menuIcon = <FontAwesomeIcon icon={faBars} className="text-2xl"/>
     }
 
-    if (user) {
-        return(
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            setUser(user);
+            setLoading(false);
+        });
+    
+        return () => unsubscribe();
+    }, []);
+
+    if (loading) {
+        return (
             <header className="bg-green-600 p-6 flex justify-between items-center fixed top-0 left-0 w-full h-[90px] z-10">
-                <div className="nav-left flex items-center gap-6">
-                    <Link to={"/"} className="font-logo text-white text-2xl">LupaSpace</Link>
-                    <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400 max-w-56 max-md:hidden"/>
-                    <SearchButton/>
+                <div className="flex items-center justify-center w-full h-full">
+                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" role="status">
+                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0">
+                            carregando...
+                        </span>
+                    </div>
                 </div>
-                <ul className="flex text-white gap-8 items-center">
-                    <li className="block max-lg:hidden"><button onClick={() => setPost(true)}><FontAwesomeIcon icon={faPlus} className="text-2xl"/></button></li>
-                    <li className="block max-lg:hidden"><button onClick={() => navigate(`/user/${user.uid}`)}><FontAwesomeIcon icon={faUser} className="text-2xl"/></button></li>
-                    <li className="text-2xl"><button onClick={() => setMenu(!menu)}>{menuIcon}</button></li>
-                </ul>
-                <Menu active={menu}></Menu>
-                <CreatePost trigger={post} setTrigger={setPost}/>
             </header>
         );
     }
 
     return(
-        <header className="bg-green-600 p-6 flex justify-between items-center col-span-full row-start-1 row-end-2 fixed top-0 left-0 w-full h-[90px] z-10">
+        <header className="bg-green-600 p-6 flex justify-between items-center fixed top-0 left-0 w-full h-[90px] z-10">
             <div className="nav-left flex items-center gap-6">
-                <a href="#" className="font-logo text-white text-2xl">LupaSpace</a>
+                <Link to={"/"} className="font-logo text-white text-2xl">LupaSpace</Link>
                 <input type="text" placeholder="Buscar por..." className="border-none rounded-xl py-2.5 px-9 outline-none text-neutral-400 max-w-56 max-md:hidden"/>
                 <SearchButton/>
             </div>
-            <ul className="flex text-white gap-6 items-center">
-                <li className="block max-lg:hidden"><Link to="/registro">Cadastrar-se</Link></li>
-                <li className="block max-lg:hidden"><Link to="/login"><button className="bg-green-800 py-2.5 px-7 rounded-xl font-semibold transition-all duration-200 hover:bg-green-950">Login</button></Link></li>
-                <li className="text-2xl hidden max-lg:block"><button onClick={() => setMenu(!menu)}><FontAwesomeIcon icon={faBars}/></button></li> 
-            </ul>
-            <Menu active={menu}></Menu>
+
+            {user ? (
+                <>
+                    <ul className="flex text-white gap-8 items-center">
+                        <li className="block max-lg:hidden"><button onClick={() => setPost(true)}><FontAwesomeIcon icon={faPlus} className="text-2xl"/></button></li>
+                        <li className="block max-lg:hidden"><button onClick={() => navigate(`/user/${user.uid}`)}><FontAwesomeIcon icon={faUser} className="text-2xl"/></button></li>
+                        <li className="text-2xl"><button onClick={() => setMenu(!menu)}>{menuIcon}</button></li>
+                    </ul>
+                    <Menu active={menu}></Menu>
+                    <CreatePost trigger={post} setTrigger={setPost}/>
+                </>) : (
+                    <>
+                        <ul className="flex text-white gap-6 items-center">
+                            <li className="block max-lg:hidden"><Link to="/registro">Cadastrar-se</Link></li>
+                            <li className="block max-lg:hidden"><Link to="/login"><button className="bg-green-800 py-2.5 px-7 rounded-xl font-semibold transition-all duration-200 hover:bg-green-950">Login</button></Link></li>
+                            <li className="text-2xl hidden max-lg:block"><button onClick={() => setMenu(!menu)}><FontAwesomeIcon icon={faBars}/></button></li> 
+                        </ul>
+                        <Menu active={menu}></Menu>
+                    </>
+            )}
         </header>
     );
 }
