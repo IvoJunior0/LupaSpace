@@ -7,7 +7,7 @@ import Post from '../Post';
 
 const getRecentPosts = async () => {
     const postsRef = collection(db, "Posts");
-    const q = query(postsRef, orderBy("createdAt", "asc"), limit(10));
+    const q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
 
     const querySnapshot = await getDocs(q);
 
@@ -35,7 +35,7 @@ export default function RecentPosts() {
         };
 
         fetchPosts();
-    }, [])
+    }, []);
     
     return (
         <div>

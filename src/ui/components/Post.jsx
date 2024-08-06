@@ -6,6 +6,7 @@ import { db } from '../../config/firebase';
 
 import { formatDistanceToNow } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import { Link } from 'react-router-dom';
 
 export default function Post(props) {
     const [userData, setUserData] = useState(null);
@@ -39,7 +40,7 @@ export default function Post(props) {
     return (
         <div className=''>
             {loading ? <h1>Carregando informações...</h1> : (<>
-                <h6>{userData.name} - @{userData.username} - há {timeAgo}</h6>
+                <h6><Link to={`/user/${post.userId}`}>{userData.name} - @{userData.username}</Link> - há {timeAgo}</h6>
                 <h2>{post.titulo}</h2>
                 <p>{post.descricao}</p>
             </>)
