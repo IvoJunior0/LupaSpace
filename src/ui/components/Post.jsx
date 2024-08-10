@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
+import File from './Posts/File';
 
 import { collection, doc, getDoc } from "firebase/firestore";
 
@@ -7,8 +8,8 @@ import { db } from '../../config/firebase';
 import { onSnapshot } from 'firebase/firestore';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp as likeActive, faThumbsDown as dislikeActive, faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp as likeDesactive, faThumbsDown as dislikeDesactive } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp as likeActive, faThumbsDown as dislikeActive, faHeart as postFavoritedIcon, faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp as likeDesactive, faThumbsDown as dislikeDesactive, faHeart as notFavoritedIcon } from '@fortawesome/free-regular-svg-icons';
 
 import { formatDistanceToNow } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
@@ -55,13 +56,32 @@ export default function Post(props) {
     return (
         <div className='flex flex-col gap-6 text-gray-500'>
             <hr/>
-            <div className="py-4 px-6 hover:bg-slate-50 hover:border-gray-300 border-2 border-transparent rounded-md">
+            <div className="grid grid-cols-[auto_250px] grid-rows-[1fr_auto_auto_auto] py-4 px-6 gap-3 border-2 border-transparent rounded-md hover:bg-slate-50 hover:border-gray-300 items-center">
                 {loading ? <h1>Carregando informações...</h1> : (<>
-                    {!post.pfp ? (<h6><FontAwesomeIcon icon={faCircleUser}/></h6>) : (<h6>{post.pfp}</h6>)}
-                    <h6><Link to={`/user/${post.userId}`}>{userData.name} - @{userData.username}</Link> - há {timeAgo}</h6>
-                    <h2>{post.titulo}</h2>
-                    <p>{post.descricao}</p>
-                    <h4><button onClick={handleLike}><FontAwesomeIcon icon={likeDesactive} /></button> {post.likes} <button><FontAwesomeIcon icon={dislikeDesactive} /></button> {post.dislikes}</h4>
+                    <div className='col-span-1 grid grid-cols-[auto_1fr] grid-rows-2 gap-0'>
+                        {!post.pfp ? (<h6 className='row-span-2 self-center'><FontAwesomeIcon icon={faCircleUser} className='text-5xl'/></h6>) : (<h6>{post.pfp}</h6>)}
+                        <h6 className='col-start-2 row-start-1 pl-3 text-xl'><Link to={`/user/${post.userId}`}>{userData.name}</Link></h6>
+                        <h6 className='col-start-2 row-start-2 pl-3 text-sm'>Há {timeAgo}</h6>
+                    </div>
+                    <div className="col-start-1 row-start-2">
+                        <h2 className='text-2xl font-medium hover:font-bold'>{post.titulo}</h2>
+                    </div>
+                    <div className="col-start-1 row-start-3">
+                        <p>{post.descricao}</p>
+                    </div>
+                    <div className="col-start-1 row-start-4">
+                        <p>Tags, tags, tags,</p>
+                    </div>
+                    <div className="row-span-3 col-start-2 row-start-1">
+                        <File></File>
+                    </div>
+                    <div className="flex items-start justify-center gap-2">
+                        <button onClick={handleLike}><FontAwesomeIcon icon={likeDesactive} /></button>
+                        {post.likes}
+                        <button><FontAwesomeIcon icon={dislikeDesactive} /></button>
+                        {post.dislikes}
+                        <button> <FontAwesomeIcon icon={notFavoritedIcon} /> </button>
+                    </div>
                 </>)
                 }
             </div>
