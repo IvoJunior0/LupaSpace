@@ -56,7 +56,7 @@ export default function Post(props) {
     return (
         <div className='flex flex-col gap-6 text-gray-500'>
             <hr/>
-            <div className="grid grid-cols-[auto_250px] grid-rows-[1fr_auto_auto_auto] py-4 px-6 gap-3 border-2 border-transparent rounded-md hover:bg-slate-50 hover:border-gray-300 items-center">
+            <div className="grid sm:grid-cols-[auto_250px] sm:grid-rows-[1fr_auto_auto_auto] grid-rows-[1fr_auto_auto_auto_auto_auto] grid-cols-1 py-4 px-6 gap-3 border-2 border-transparent rounded-md hover:bg-slate-50 hover:border-gray-300 items-center">
                 {loading ? <h1>Carregando informações...</h1> : (<>
                     <div className='col-span-1 grid grid-cols-[auto_1fr] grid-rows-2 gap-0'>
                         {!post.pfp ? (<h6 className='row-span-2 self-center'><FontAwesomeIcon icon={faCircleUser} className='text-5xl'/></h6>) : (<h6>{post.pfp}</h6>)}
@@ -72,7 +72,7 @@ export default function Post(props) {
                     <div className="col-start-1 row-start-4">
                         <p>Tags, tags, tags,</p>
                     </div>
-                    <div className="row-span-3 col-start-2 row-start-1">
+                    <div className="sm:row-span-3 sm:col-start-2 sm:row-start-1">
                         <File></File>
                     </div>
                     <div className="flex items-start justify-center gap-2">
