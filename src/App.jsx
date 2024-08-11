@@ -12,6 +12,7 @@ import User from "./routes/User";
 import Following from "./routes/Following";
 
 import { auth } from "./config/firebase";
+import Error from "./routes/Error";
 
 function App() {
   const [user, setUser] = useState();
@@ -23,6 +24,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="*" element={<Error/>}/>
         <Route path="/" element={<Home/>}/>
         <Route path="/seguindo" element={<Following/>}/>
         <Route path="/comunidades" element={<Community/>}/>

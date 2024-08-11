@@ -84,7 +84,7 @@ export default function CreatePost(props) {
                 </div>
                 <div>
                     <div className="space-y-8 max-w-md mx-auto my-5">
-                        <input type="file"
+                        <input type="file" required
                             className="w-full text-gray-500 font-medium text-sm bg-slate-100 border-slate-300 border-2 rounded-md file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-800 file:hover:bg-gray-700 file:text-white rounded" onChange={(event) => {
                                 setFileUpload(event.target.files[0]);
                             }}/>
