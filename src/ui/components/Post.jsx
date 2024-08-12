@@ -21,8 +21,8 @@ export default function Post(props) {
     const [likes, setLikes] = useState(0);
     const [dislikes, setDislikes] = useState(0);
     const [hasLiked, setHasLiked] = useState(false);
-    const [likeIcon, setLikeIcon] = useState();
-    const [dislikeIcon, setDislikeIcon] = useState();
+    const [likeIcon, setLikeIcon] = useState(null);
+    const [dislikeIcon, setDislikeIcon] = useState(null);
     let timeAgo;
     const post = props.post;
 
