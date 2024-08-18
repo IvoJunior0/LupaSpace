@@ -16,6 +16,7 @@ export default function CreatePost(props) {
     const [descricao, setDescricao] = useState("");
     const [mensagem, setMensagem] = useState(""); // Mensagem de erro
     const [tagMenu, setTagMenu] = useState(false);
+    const [tags, setTags] = useState([]);
     const [fileUpload, setFileUpload] = useState(null);
     const [loading, setLoading] = useState(false);
     const user = auth.currentUser;
@@ -36,7 +37,7 @@ export default function CreatePost(props) {
                     titulo: title,
                     descricao: descricao,
                     userId: user ? user.uid : null,
-                    tags: {},
+                    tags: ['DB'],
                     likes: 0,
                     dislikes: 0,
                     createdAt: serverTimestamp(),
@@ -58,14 +59,6 @@ export default function CreatePost(props) {
         }
     }
 
-    const uploadFile = () => {
-        if (fileUpload === null) return;
-        const fileRef = ref(storage, `arquivos/${fileUpload.name}`);
-        const uploadTask = uploadBytes(fileRef, fileUpload).then((snapshot) => {
-            console.log("Coisou o arquivo");
-        })
-    }
-
     return(
         <div className={`top-0 left-0 flex justify-center backdrop-brightness-50 backdrop-blur-[1.5px] w-full h-full ${(props.trigger) ? 'fixed' : 'hidden'}`}>
             <form className="flex flex-col gap-5 w-[100%] h-[480px] p-8 max-w-3xl mx-4 bg-slate-50 text-gray-500 self-center rounded-xl border-4 border-gray-300 shadow-lg h-fit" onSubmit={handleSubmit}>
@@ -83,7 +76,7 @@ export default function CreatePost(props) {
                 </div>
                 <div>
                     <div className="space-y-8 max-w-md mx-auto my-5">
-                        <input type="file" required={props.trigger} className="w-full text-gray-500 font-medium text-sm bg-slate-100 border-slate-300 border-2 rounded-md file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-800 file:hover:bg-gray-700 file:text-white rounded" onChange={(event) => {
+                        <input type="file" className="w-full text-gray-500 font-medium text-sm bg-slate-100 border-slate-300 border-2 rounded-md file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-800 file:hover:bg-gray-700 file:text-white rounded" onChange={(event) => {
                                 setFileUpload(event.target.files[0]);
                             }}/>
                     </div>
