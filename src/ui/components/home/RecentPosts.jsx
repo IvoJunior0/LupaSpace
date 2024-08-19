@@ -48,11 +48,11 @@ export default function RecentPosts() {
     }, [selectedFilters]);
     
     return (
-        <div>
-            <div className="">
+        <>
+            <>
                 <FilterButton selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
-            </div>
-            <div>
+            </>
+            <>
                 {posts.length === 0 ? (
                     loading ? <p>Carregando...</p> : <p>Nenhum post encontrado.</p>
                 ) : (
@@ -64,7 +64,7 @@ export default function RecentPosts() {
                         ))}
                     </ul>
                 )}
-            </div>
-        </div>
+            </>
+        </>
     )
 }

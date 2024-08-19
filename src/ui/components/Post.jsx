@@ -71,7 +71,7 @@ export default function Post(props) {
                         <p>{post.descricao}</p>
                     </div>
                     <div className="col-start-1 row-start-4">
-                        <div className="flex items-center flex-wrap gap-2">{post.tags?.map((tag, index) => (
+                        <div className="flex items-center flex-wrap gap-2 py-3 sm:p-0">{post.tags?.map((tag, index) => (
                             <div key={index}>
                                 <Tag tagName={tag}/>
                             </div>
