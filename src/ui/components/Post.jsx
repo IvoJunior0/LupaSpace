@@ -14,6 +14,7 @@ import { faThumbsUp as likeDesactive, faThumbsDown as dislikeDesactive, faHeart 
 import { formatDistanceToNow } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { Link } from 'react-router-dom';
+import Tag from './Posts/Tag';
 
 export default function Post(props) {
     const [userData, setUserData] = useState(null);
@@ -70,7 +71,11 @@ export default function Post(props) {
                         <p>{post.descricao}</p>
                     </div>
                     <div className="col-start-1 row-start-4">
-                        <p>Tags, tags, tags,</p>
+                        <div className="flex items-center">{post.tags?.map((tag, index) => (
+                            <div key={index}>
+                                <Tag tagName={tag}/>
+                            </div>
+                        ))}</div>
                     </div>
                     <div className="sm:row-span-3 sm:col-start-2 sm:row-start-1 h-full">
                         <File filePath={post.fileURL}></File>

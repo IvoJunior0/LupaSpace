@@ -54,7 +54,7 @@ export default function RecentPosts() {
             </div>
             <div>
                 {posts.length === 0 ? (
-                    loading ? <p>Carregando...</p> : <p>Erro ao carregar os posts.</p>
+                    loading ? <p>Carregando...</p> : <p>Nenhum post encontrado.</p>
                 ) : (
                     <ul className='flex flex-col gap-6'>
                         {posts.map(post => (

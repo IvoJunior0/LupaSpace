@@ -9,7 +9,6 @@ import { v4 } from "uuid";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import FilterButton from "../buttons/FilterButton";
 
 export default function CreatePost(props) {
     const [title, setTitle] = useState("");
@@ -37,7 +36,7 @@ export default function CreatePost(props) {
                     titulo: title,
                     descricao: descricao,
                     userId: user ? user.uid : null,
-                    tags: ['DB'],
+                    tags: tags,
                     likes: 0,
                     dislikes: 0,
                     createdAt: serverTimestamp(),
@@ -58,6 +57,13 @@ export default function CreatePost(props) {
             }
         }
     }
+
+    const handleCheckboxChange = (tag) => {
+        if (!tags.includes(tag)) {
+            setTags(t => [...t, tag]);
+        }
+        console.log(tags);
+    };
 
     return(
         <div className={`top-0 left-0 flex justify-center backdrop-brightness-50 backdrop-blur-[1.5px] w-full h-full ${(props.trigger) ? 'fixed' : 'hidden'}`}>
@@ -86,31 +92,31 @@ export default function CreatePost(props) {
                         <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onClick={() => setTagMenu(!tagMenu)}>Selecione as tags</button>
                         <ul className={`${!tagMenu ? "hidden": "absolute"} bottom-11 z-10 bg-gray-400 min-w-56 text-white px-4 py-2 rounded shadow-md`}>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" onChange={() => handleCheckboxChange("Lógica de Programação")}/>
                                 <label htmlFor="">Lógica de Programação</label>
                             </li>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" onChange={() => handleCheckboxChange("Redes de Computadores")}/>
                                 <label htmlFor="">Redes de Computadores</label>
                             </li>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" onChange={() => handleCheckboxChange("Hardware")}/>
                                 <label htmlFor="">Hardware</label>
                             </li>
                             <li>
-                                <input type="checkbox" />
-                                <label htmlFor="">Informática básica</label>
+                                <input type="checkbox" onChange={() => handleCheckboxChange("Informática Básica")}/>
+                                <label htmlFor="">Informática Básica</label>
                             </li>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" onChange={() => handleCheckboxChange("POO")}/>
                                 <label htmlFor="">POO</label>
                             </li>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" onChange={() => handleCheckboxChange("Desenvolvimento Web")}/>
                                 <label htmlFor="">Desenvolvimento Web</label>
                             </li>
                             <li>
-                                <input type="checkbox" />
+                                <input type="checkbox" onChange={() => handleCheckboxChange("Banco de Dados")}/>
                                 <label htmlFor="">Banco de Dados</label>
                             </li>
                         </ul>
