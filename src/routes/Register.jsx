@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 // Firebase
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../config/firebase.jsx";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,11 +31,25 @@ export default function Register(){
                     email: user.email,
                     name: name,
                     username: username,
+                    bio: "",
+                    pfp: null,
+                    createdAt: serverTimestamp(),
                     password: user.password,
+                    lvl: 1,
+                    xp: 0,
+                    badge: "",
+                    achviments: [],
+                    projects: [],
+                    threads: [],
+                    posts: [],
+                    favoritedProjects: [],
+                    favoritedThreads: [],
+                    following: [],
+                    followers: [],
                 });
             }
         } catch (error) {
-            console.log(error);
+            console.log("Erro no cadastro:", error);
         }
     }
 

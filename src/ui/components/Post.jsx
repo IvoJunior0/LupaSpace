@@ -80,7 +80,7 @@ export default function Post(props) {
                     <div className="sm:row-span-3 sm:col-start-2 sm:row-start-1 h-full">
                         <File filePath={post.fileURL}></File>
                     </div>
-                    <div className="flex items-start justify-center gap-2">
+                    <div className="flex items-start justify-center gap-2 ">
                         <button onClick={handleLike}><FontAwesomeIcon icon={likeDesactive} /></button>
                         {post.likes}
                         <button><FontAwesomeIcon icon={dislikeDesactive} /></button>

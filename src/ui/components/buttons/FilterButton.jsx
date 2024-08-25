@@ -20,10 +20,6 @@ function FilterButton({ selectedFilters, setSelectedFilters }) {
         } else {
             setSelectedFilters(s => [...s, tag]);
         }
-        const teste = setTimeout(() => {
-            console.log(selectedFilters);
-        }, 1000)
-        
     };
 
     return (

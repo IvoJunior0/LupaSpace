@@ -9,6 +9,7 @@ import { v4 } from "uuid";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import TagSelector from "../Posts/TagSelector";
 
 export default function CreatePost(props) {
     const [title, setTitle] = useState("");
@@ -21,6 +22,7 @@ export default function CreatePost(props) {
     const user = auth.currentUser;
 
     const handleSubmit = async (e) => {
+        if (tags)
         e.preventDefault();
         if (title.trim() && descricao.trim()) {
             setLoading(true);
@@ -58,11 +60,13 @@ export default function CreatePost(props) {
         }
     }
 
-    const handleCheckboxChange = (tag) => {
-        if (!tags.includes(tag)) {
-            setTags(t => [...t, tag]);
+    const handleCheckboxChange = (event) => {
+        const { value, checked } = event.target;
+        if (checked) {
+            setTags(t => [...t, value]);
+        } else {
+            setTags(t => t.filter((item) => item !== value));
         }
-        console.log(tags);
     };
 
     return(
@@ -90,34 +94,14 @@ export default function CreatePost(props) {
                 <div className="flex justify-between items-center">
                     <div className="relative inline-block">
                         <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onClick={() => setTagMenu(!tagMenu)}>Selecione as tags</button>
-                        <ul className={`${!tagMenu ? "hidden": "absolute"} bottom-11 z-10 bg-gray-400 min-w-56 text-white px-4 py-2 rounded shadow-md`}>
-                            <li>
-                                <input type="checkbox" onChange={() => handleCheckboxChange("Lógica de Programação")}/>
-                                <label htmlFor="">Lógica de Programação</label>
+                        <ul className={`${!tagMenu ? "hidden": "absolute"} bottom-11 z-10 bg-gray-400 min-w-72 text-white px-4 py-2 rounded shadow-md`}>
+                            <li className="flex items-center gap-3">
+                                <input type="checkbox" onChange={handleCheckboxChange} id={"db"} className="accent-green-600 p-2 w-4 h-4 rounded outline-none border-0" value={"Banco de Dados"}></input>
+                                <label htmlFor={"db"} className="w-full text-[15px]">Banco de Dados</label>
                             </li>
-                            <li>
-                                <input type="checkbox" onChange={() => handleCheckboxChange("Redes de Computadores")}/>
-                                <label htmlFor="">Redes de Computadores</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" onChange={() => handleCheckboxChange("Hardware")}/>
-                                <label htmlFor="">Hardware</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" onChange={() => handleCheckboxChange("Informática Básica")}/>
-                                <label htmlFor="">Informática Básica</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" onChange={() => handleCheckboxChange("POO")}/>
-                                <label htmlFor="">POO</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" onChange={() => handleCheckboxChange("Desenvolvimento Web")}/>
-                                <label htmlFor="">Desenvolvimento Web</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" onChange={() => handleCheckboxChange("Banco de Dados")}/>
-                                <label htmlFor="">Banco de Dados</label>
+                            <li className="flex items-center gap-3">
+                                <input type="checkbox" onChange={handleCheckboxChange} id={"web"} className="accent-green-600 p-2 w-4 h-4 rounded outline-none border-0" value={"Desenvolvimento Web"}></input>
+                                <label htmlFor={"web"} className="w-full text-[15px]">Desenvolvimento Web</label>
                             </li>
                         </ul>
                     </div>
