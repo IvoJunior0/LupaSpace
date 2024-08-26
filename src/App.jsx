@@ -27,15 +27,17 @@ function App() {
         <Route path="*" element={<Error/>}/>
         <Route path="/" element={<Home/>}/>
         <Route path="/seguindo" element={<Following/>}/>
-        <Route path="/comunidades" element={<Community/>}/>
+        <Route path="/comunidades" element={<Community/>}>
+          <Route path=":communityID">
+            <Route path=":subforumID">
+              <Route path=":topicID"></Route>
+            </Route>
+          </Route>
+        </Route>
         <Route path="/login" element={<Login/>}/>
         <Route path="/registro" element={<Register/>}/>
         <Route path="/user/:uid" element={<User></User>}></Route>
-        <Route path="/comunidade/:communityID">
-          <Route path=":subforumID">
-            <Route path=":topicID"></Route>
-          </Route>
-        </Route>
+
         <Route path="/helloworld" element={<HelloWorld/>}/>
       </Routes>
     </BrowserRouter>

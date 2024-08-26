@@ -83,7 +83,9 @@ export default function CreatePost(props) {
             <form className="flex flex-col gap-5 w-[100%] h-[480px] p-8 max-w-3xl mx-4 bg-slate-50 text-gray-500 self-center rounded-xl border-4 border-gray-300 shadow-lg h-fit" onSubmit={handleSubmit}>
                 <div className="flex justify-between">
                     <h1 className="sm:text-4xl text-3xl font-semibold">Criar Projeto</h1>
-                    <button onClick={() => props.setTrigger(false)}><FontAwesomeIcon icon={faXmark} className="text-2xl"/></button>
+                    <button type="button" onClick={() => props.setTrigger(false)}>
+                        <FontAwesomeIcon icon={faXmark} className="text-2xl"/>
+                    </button>
                 </div>
                 <div>
                     <label className="block text-lg">Título</label>
