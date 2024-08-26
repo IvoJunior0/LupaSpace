@@ -12,18 +12,23 @@ export default function ForumBlocks() {
         const fetchForums = async () => {
             const querySnapshot = await getDocs(collection(db, "Forums"));
             setForums(querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+            setLoading(false);
         };
 
         fetchForums();
     }, []);
 
     return (
-        <div className="">
-            {forums.map((forum) => (
-                <div key={forum.id} className="">
-                    <p>{forum.name}</p>
-                </div>
-            ))}
-        </div>
+        <>
+            {loading ? <p>Carregando comunidades...</p> :         
+            <div className="">
+                {forums.map((forum) => (
+                    <div key={forum.id} className="">
+                        <Forum props={forum}/>
+                    </div>
+                ))}
+            </div>}
+        </>
+
     );
 }

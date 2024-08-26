@@ -33,6 +33,7 @@ function App() {
               <Route path=":topicID">
                 <Route path=":postID"></Route>
               </Route>
+              <Route path="membros"/>
             </Route>
           </Route>
         </Route>
