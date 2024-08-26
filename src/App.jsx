@@ -31,6 +31,11 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/registro" element={<Register/>}/>
         <Route path="/user/:uid" element={<User></User>}></Route>
+        <Route path="/comunidade/:communityID">
+          <Route path=":subforumID">
+            <Route path=":topicID"></Route>
+          </Route>
+        </Route>
         <Route path="/helloworld" element={<HelloWorld/>}/>
       </Routes>
     </BrowserRouter>
