@@ -16,7 +16,7 @@ import ptBR from 'date-fns/locale/pt-BR';
 import { Link } from 'react-router-dom';
 import Tag from './Posts/Tag';
 
-export default function Post(props) {
+export default function Project(props) {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [likes, setLikes] = useState(0);
@@ -30,7 +30,7 @@ export default function Post(props) {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const userDoc = await getDoc(doc(db, 'Users', post.userId));
+                const userDoc = await getDoc(doc(db, 'Users', post.authorID));
                 if (userDoc.exists()) {
                     setUserData(userDoc.data());
                 } else {
@@ -43,7 +43,7 @@ export default function Post(props) {
             }
           };
           fetchUserData();
-    }, [post.userId, post.createdAt]);
+    }, [post.authorID, post.createdAt]);
     
     const handleLike = () => {
         
@@ -60,8 +60,8 @@ export default function Post(props) {
             <div className="grid sm:grid-cols-[auto_250px] sm:grid-rows-[1fr_auto_auto_auto] grid-rows-[1fr_auto_auto_auto_auto_auto] grid-cols-1 py-4 px-6 gap-3 border-2 border-transparent rounded-md hover:bg-slate-50 hover:border-gray-300 items-center">
                 {loading ? <h1>Carregando informações...</h1> : (<>
                     <div className='col-span-1 grid grid-cols-[auto_1fr] grid-rows-2 gap-0'>
-                        {!post.pfp ? (<h6 className='row-span-2 self-center'><Link to={`/user/${post.userId}`}><FontAwesomeIcon icon={faCircleUser} className='text-5xl'/></Link></h6>) : (<h6>{post.pfp}</h6>)}
-                        <h6 className='col-start-2 row-start-1 pl-3 text-xl'><Link to={`/user/${post.userId}`}>{userData.name}</Link></h6>
+                        {!post.pfp ? (<h6 className='row-span-2 self-center'><Link to={`/user/${post.authorID}`}><FontAwesomeIcon icon={faCircleUser} className='text-5xl'/></Link></h6>) : (<h6>{post.pfp}</h6>)}
+                        <h6 className='col-start-2 row-start-1 pl-3 text-xl'><Link to={`/user/${post.authorID}`}>{userData.name}</Link></h6>
                         <h6 className='col-start-2 row-start-2 pl-3 text-sm'>Há {timeAgo}</h6>
                     </div>
                     <div className="col-start-1 row-start-2">

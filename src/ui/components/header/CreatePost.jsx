@@ -30,19 +30,28 @@ export default function CreatePost(props) {
                 const postID = v4();
                 let fileURL = null;
                 if (fileUpload) {
-                    const fileRef = ref(storage, `arquivos/posts/${postID}/${fileUpload.name}`);
+                    const fileRef = ref(storage, `arquivos/projects/${postID}/${fileUpload.name}`);
                     const uploadTask = await uploadBytes(fileRef, fileUpload);
                     fileURL = await getDownloadURL(uploadTask.ref);
                 }
-                await setDoc(doc(db, "Posts", postID), {
+                await setDoc(doc(db, "Projects", postID), {
                     titulo: title,
                     descricao: descricao,
-                    userId: user ? user.uid : null,
+                    authorID: user ? user.uid : null,
                     tags: tags,
                     likes: 0,
                     dislikes: 0,
                     createdAt: serverTimestamp(),
-                    fileURL: fileURL
+                    fileURL: fileURL,
+                    favoritedBy: [],
+                    collaborators: [],
+                    thumbnailURL: null,
+                    pinned: false,
+                    isPublic: true,
+                    comments: [],
+                    liked: false,
+                    favorited: false,
+                    disliked: false,
                 })
                 setTitle('');
                 setDescricao('');
@@ -73,7 +82,7 @@ export default function CreatePost(props) {
         <div className={`top-0 left-0 flex justify-center backdrop-brightness-50 backdrop-blur-[1.5px] w-full h-full ${(props.trigger) ? 'fixed' : 'hidden'}`}>
             <form className="flex flex-col gap-5 w-[100%] h-[480px] p-8 max-w-3xl mx-4 bg-slate-50 text-gray-500 self-center rounded-xl border-4 border-gray-300 shadow-lg h-fit" onSubmit={handleSubmit}>
                 <div className="flex justify-between">
-                    <h1 className="sm:text-4xl text-3xl font-semibold">Criar Postagem</h1>
+                    <h1 className="sm:text-4xl text-3xl font-semibold">Criar Projeto</h1>
                     <button onClick={() => props.setTrigger(false)}><FontAwesomeIcon icon={faXmark} className="text-2xl"/></button>
                 </div>
                 <div>
@@ -102,6 +111,10 @@ export default function CreatePost(props) {
                             <li className="flex items-center gap-3">
                                 <input type="checkbox" onChange={handleCheckboxChange} id={"web"} className="accent-green-600 p-2 w-4 h-4 rounded outline-none border-0" value={"Desenvolvimento Web"}></input>
                                 <label htmlFor={"web"} className="w-full text-[15px]">Desenvolvimento Web</label>
+                            </li>
+                            <li className="flex items-center gap-3">
+                                <input type="checkbox" onChange={handleCheckboxChange} id={"lp"} className="accent-green-600 p-2 w-4 h-4 rounded outline-none border-0" value={"Lógica de Programação"}></input>
+                                <label htmlFor={"lp"} className="w-full text-[15px]">Lógica de Programação</label>
                             </li>
                         </ul>
                     </div>

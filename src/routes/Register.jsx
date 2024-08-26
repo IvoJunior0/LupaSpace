@@ -1,5 +1,7 @@
 // Outros
 import { useState, useEffect } from "react";
+import bcrypt from 'bcryptjs';
+import { useNavigate } from "react-router-dom";
 
 // Firebase
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -16,6 +18,7 @@ export default function Register(){
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         document.title = 'Registro';
@@ -26,6 +29,8 @@ export default function Register(){
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             const user = auth.currentUser;
+            const saltRounds = 10;
+            const hashedPassword = bcrypt.hashSync(password, saltRounds);
             if (user) {
                 await setDoc(doc(db, "Users", user.uid), {
                     email: user.email,
@@ -34,20 +39,22 @@ export default function Register(){
                     bio: "",
                     pfp: null,
                     createdAt: serverTimestamp(),
-                    password: user.password,
+                    password: hashedPassword,
                     lvl: 1,
                     xp: 0,
-                    badge: "",
+                    badge: null,
                     achviments: [],
                     projects: [],
-                    threads: [],
+                    topics: [],
                     posts: [],
                     favoritedProjects: [],
-                    favoritedThreads: [],
+                    favoritedTopics: [],
                     following: [],
                     followers: [],
+                    notifications: [],
                 });
             }
+            navigate("/");
         } catch (error) {
             console.log("Erro no cadastro:", error);
         }

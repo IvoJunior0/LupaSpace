@@ -3,21 +3,25 @@ import { useState, useEffect } from 'react';
 
 import { collection, query, orderBy, getDocs, limit } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
-import Post from '../Post';
+import Post from '../Project';
 import FilterButton from '../buttons/FilterButton';
 
 const getRecentPosts = async () => {
-    const postsRef = collection(db, "Posts");
-    const q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
-
-    const querySnapshot = await getDocs(q);
-
-    const posts = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }))
-
-    return posts;
+    try {
+        const projectsRef = collection(db, "Projects");
+        const projectsQuery = query(projectsRef, orderBy("createdAt", "desc"), limit(10));
+        const projectsSnapshot = await getDocs(projectsQuery);
+    
+        const projects = projectsSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+    
+        return projects;
+    }
+    catch (error) {
+        console.error("Error fetching data RECENTPOSTS:", error);
+    }
 }
 
 export default function RecentPosts() {
@@ -46,7 +50,7 @@ export default function RecentPosts() {
 
         fetchPosts();
     }, [selectedFilters]);
-    
+
     return (
         <>
             <>
