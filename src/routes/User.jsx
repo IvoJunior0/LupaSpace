@@ -33,9 +33,6 @@ export default function User() {
       return <Loading/>;
     }
 
-    console.log(userData);
-    
-
     if (!userData) {
       return <div>Usuário não encontrado</div>;
     } else {

@@ -11,8 +11,8 @@ export default function Sidebar(){
         <div className="fixed w-[350px] top-[90px] h-full flex flex-col border-r-4 bg-slate-50 gap-4 p-6 max-[1199px]:hidden">
             <SidebarButton text="Página Inicial" icon={faHouseChimney} route="/"/>
             <SidebarButton text="Seguindo" icon={faUser} route="/seguindo"/>
-            <hr/>
             <SidebarButton text="Comunidades" icon={faFaceSmile} route="/comunidades"/>
+            <hr/>
         </div>
     );
 }

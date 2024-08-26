@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // Rotas
 import Home from "./routes/Home";
-import Community from "./routes/Community";
+import CommunityHub from "./routes/CommunityHub";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import HelloWorld from "./routes/HelloWorld";
@@ -27,10 +27,12 @@ function App() {
         <Route path="*" element={<Error/>}/>
         <Route path="/" element={<Home/>}/>
         <Route path="/seguindo" element={<Following/>}/>
-        <Route path="/comunidades" element={<Community/>}>
+        <Route path="/comunidades" element={<CommunityHub/>}>
           <Route path=":communityID">
             <Route path=":subforumID">
-              <Route path=":topicID"></Route>
+              <Route path=":topicID">
+                <Route path=":postID"></Route>
+              </Route>
             </Route>
           </Route>
         </Route>
