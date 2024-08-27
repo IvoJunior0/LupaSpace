@@ -29,7 +29,7 @@ export default function Forum({ props }) {
     }, [props.id]);
     
     return(
-        <div className="p-5 grid grid-cols-[110px_1fr_110px_110px_110px] grid-rows-[45px_45px] gap-4 text-gray-500 rounded-md bg-slate-100 border-4 hover:border-slate-300">
+        <div className="p-5 grid grid-cols-[110px_1fr_100px_100px_100px] grid-rows-[45px_45px] gap-4 text-gray-500 rounded-md hover:bg-slate-100 border-4 hover:border-slate-300">
             <div className={`rounded-md row-span-2 flex justify-center items-center ${forumStyles.backgroundColor}`}>
                 <FontAwesomeIcon icon={forumStyles.icon} className="text-white text-5xl"/>
             </div>

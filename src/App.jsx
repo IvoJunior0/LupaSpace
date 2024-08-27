@@ -29,8 +29,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/seguindo" element={<Following/>}/>
-        <Route path="/comunidades" element={<CommunityHub/>}/>
-        <Route path="/comunidades/:communityID" element={<CommunityPage/>} />
+        <Route path="/comunidades" element={<CommunityHub/>}>
+          <Route path=":communityID" element={<CommunityPage/>} />
+        </Route>
         <Route path="/comunidades/:communityID/:subforumID" element={<SubforumPage/>} />
         <Route path="/comunidades/:communityID/:subforumID/:topicID" element={<TopicPage/>} />
         <Route path="/login" element={<Login/>}/>

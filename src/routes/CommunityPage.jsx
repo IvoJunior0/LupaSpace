@@ -20,9 +20,10 @@ export default function CommunityPage() {
                 } else {
                     console.log("Forum não encontrado");
                 }
-                setLoading(false)
             } catch (error) {
                 console.log("Erro: ", error);
+            } finally {
+                setLoading(false);
             }
         }
         fetchCommunityData();
@@ -33,12 +34,12 @@ export default function CommunityPage() {
     if (!forumData) {
         return <div>Forum não encontrado</div>
     } else {
-        document.title = forumData.name;
+        document.title = `${forumData.name}`;
     }
 
     return(
-        <>
-            <h1>aaaaa</h1>
-        </>
+        <div>
+            <h1>SubForum Page: {communityID}</h1>
+        </div>
     );
 }

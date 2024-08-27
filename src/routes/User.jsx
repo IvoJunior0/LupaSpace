@@ -30,7 +30,11 @@ export default function User() {
     }, [uid]);
 
     if (loading) {
-      return <Loading/>;
+      return (
+        <div className="h-screen w-screen">
+          <Loading/>
+        </div>
+      );
     }
 
     if (!userData) {
