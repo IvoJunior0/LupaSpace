@@ -21,7 +21,7 @@ export default function ForumBlocks() {
     return (
         <>
             {loading ? <p>Carregando comunidades...</p> :         
-            <div className="">
+            <div className="flex flex-col gap-5">
                 {forums.map((forum) => (
                     <div key={forum.id} className="">
                         <Forum props={forum}/>

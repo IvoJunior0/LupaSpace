@@ -10,7 +10,7 @@ export default function Home() {
     }, []);
     
     return(
-        <div className="grid grid-rows-[90px_1fr] grid-cols-[350px_1fr] mx-lg:grid-cols-1 h-[100vh]">
+        <div className="grid grid-rows-[90px_1fr] grid-cols-[320px_1fr] mx-lg:grid-cols-1 h-[100vh]">
             <Navbar/>
             <Sidebar/>
             <Content/>
