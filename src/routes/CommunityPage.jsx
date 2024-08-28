@@ -5,16 +5,17 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import Loading from "../ui/components/extras/Loading";
 import addForumStyle from "../ui/components/extras/addForumStyle";
 
 export default function CommunityPage() {
     const { communityID } = useParams();
+    const [isFollowing, setIsFollowing] = useState(false);
     const [forumData, setForumData] = useState(null);
     const [id, setID] = useState("");
-    const [forumStyles, setForumStyles] = useState({ backgroundColor: '', icon: faSpinner });
+    const [forumStyles, setForumStyles] = useState({ backgroundColor: '', icon: faSpinner, textColor: '' });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -31,16 +32,14 @@ export default function CommunityPage() {
             } catch (error) {
                 console.log("Erro: ", error);
             } finally {
-                setLoading(false);              
+                setLoading(false);
             }
         }
         fetchCommunityData();
     }, [communityID]);
 
     useEffect(() => {
-        if (id) {
-            setForumStyles(addForumStyle(id));
-        }
+        id ? setForumStyles(addForumStyle(id)) : null;
     }, [id]);
 
     if (loading) return <Loading/>
@@ -53,7 +52,25 @@ export default function CommunityPage() {
 
     return(
         <>
-            <div className={`h-32 w-full relative ${forumStyles.backgroundColor}`}></div>
+            <div className="h-40 w-full relative">
+                <div className={`h-28 w-full relative rounded-xl ${forumStyles.backgroundColor}`} />
+                <div className="flex justify-around items-end absolute bottom-0 left-0 w-full">
+                    <div className={`rounded-full border-white border-4 w-24 h-24 flex justify-center items-center ${forumStyles.backgroundColor}`}>
+                        <FontAwesomeIcon icon={forumStyles.icon} className="text-white text-5xl"/>
+                    </div>
+                    <div>
+                        <h1 className="text-2xl text-gray-500">Comunidade de <span className={forumStyles.textColor}>{forumData.name}</span></h1>
+                    </div>
+                    <div className="flex gap-4">
+                        <button className={`self-center text-white py-1 px-3 rounded ${forumStyles.backgroundColor}`}>
+                            {isFollowing ? "Sair" : "Juntar-se"}
+                        </button>
+                        <button>
+                            <FontAwesomeIcon icon={faEllipsis} className="text-gray-500"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
