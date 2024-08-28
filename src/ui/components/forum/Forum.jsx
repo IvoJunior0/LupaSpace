@@ -1,23 +1,11 @@
 import { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPython } from "@fortawesome/free-brands-svg-icons";
-import { faDatabase, faWifi, faMicrochip, faHandshakeAngle, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import { Link } from "react-router-dom";
 import ForumData from "./ForumData";
-
-const forumStylesMap = {
-    programming: { backgroundColor: 'bg-yellow-400', icon: faPython },
-    db: { backgroundColor: 'bg-indigo-400', icon: faDatabase },
-    networks: { backgroundColor: 'bg-teal-400', icon: faWifi },
-    hardware: { backgroundColor: 'bg-rose-400', icon: faMicrochip },
-    help: { backgroundColor: 'bg-emerald-400', icon: faHandshakeAngle },
-};
-
-const getForumStyles = (id) => {
-    return forumStylesMap[id] || { backgroundColor: 'bg-gray-400', icon: faSpinner };
-};
+import addForumStyle from "../extras/addForumStyle";
 
 export default function Forum({ props }) {
     const [isFollowing, setIsFollowing] = useState(false);
@@ -25,7 +13,7 @@ export default function Forum({ props }) {
     const [forumStyles, setForumStyles] = useState({ backgroundColor: '', icon: faSpinner });
     
     useEffect(() => {
-        setForumStyles(getForumStyles(props.id));
+        setForumStyles(addForumStyle(props.id));
     }, [props.id]);
     
     return(

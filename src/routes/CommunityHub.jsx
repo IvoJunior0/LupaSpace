@@ -19,7 +19,7 @@ export default function CommunityHub() {
         <div className="grid grid-rows-[90px_1fr] grid-cols-[320px_1fr] h-screen w-full">
             <Navbar/>
             <Sidebar/>
-            <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 flex flex-col gap-7">
+            <div className={`${isParentRoute ? "px-5 py-[24px]" : ""} w-full mt-[90px] mb-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 flex flex-col gap-7`}>
                 { isParentRoute ? (<>
                     <h1 className="sm:text-4xl text-2xl text-gray-500 font-semibold">Comunidades do LupaSpace</h1>
                     <hr className="border-t-2"/>
