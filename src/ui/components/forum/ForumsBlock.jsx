@@ -11,8 +11,30 @@ export default function ForumBlocks() {
 
     useEffect(() => {
         const fetchForums = async () => {
-            const querySnapshot = await getDocs(collection(db, "Forums"));
-            setForums(querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+            const forumsSnapshot = await getDocs(collection(db, "Forums"));
+            const forumsWithSubforums = await Promise.all(
+                forumsSnapshot.docs.map(async (forumDoc) => {
+                    const forumData = forumDoc.data();
+                    const forumId = forumDoc.id;
+
+                    const subforumsSnapshot = await getDocs(
+                        collection(db, `Forums/${forumId}/Subforums`)
+                    );
+
+                    const subforums = subforumsSnapshot.docs.map(subforumDoc => ({
+                        ...subforumDoc.data(),
+                        id: subforumDoc.id,
+                    }));
+
+                    return {
+                        ...forumData,
+                        id: forumId,
+                        subforums,
+                    };
+                })
+            );
+
+            setForums(forumsWithSubforums);
             setLoading(false);
         };
         fetchForums();
@@ -24,7 +46,7 @@ export default function ForumBlocks() {
             <div className="flex flex-col gap-5">
                 {forums.map((forum) => (
                     <div key={forum.id} className="">
-                        <Forum props={forum}/>
+                        <Forum forumData={forum} subforums={forum.subforums}/>
                     </div>
                 ))}
             </div>}
