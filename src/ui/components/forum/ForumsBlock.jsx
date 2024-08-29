@@ -15,7 +15,6 @@ export default function ForumBlocks() {
             setForums(querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
             setLoading(false);
         };
-
         fetchForums();
     }, []);
 
