@@ -3,6 +3,7 @@ import { db } from "../../../config/firebase";
 import { getDocs, collection } from "firebase/firestore";
 
 import Forum from "./Forum";
+import Loading from "../extras/Loading";
 
 export default function ForumBlocks() {
     const [forums, setForums] = useState([]);
@@ -20,7 +21,7 @@ export default function ForumBlocks() {
 
     return (
         <>
-            {loading ? <p>Carregando comunidades...</p> :         
+            {loading ? <Loading/> :         
             <div className="flex flex-col gap-5">
                 {forums.map((forum) => (
                     <div key={forum.id} className="">

@@ -1,14 +1,27 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner, faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faEllipsis, faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 
 import Loading from "../ui/components/extras/Loading";
 import addForumStyle from "../ui/components/extras/addForumStyle";
+import Subforum from "../ui/components/forum/Subforum";
+
+async function getSubforumData(communityId, subforumId) {
+    const subforumRef = doc(db, `Forums/${communityId}/Subforums/${subforumId}`);
+    const subforumSnapshot = await getDoc(subforumRef);
+
+    if (subforumSnapshot.exists()) {
+        return subforumSnapshot.data();
+    } else {
+        console.log("Subcomunidade não encontrada!");
+        return null;
+    }
+}
 
 export default function CommunityPage() {
     const { communityID } = useParams();
@@ -26,8 +39,11 @@ export default function CommunityPage() {
                 if (forumDoc.exists()) {
                     setID(forumDoc.id);
                     setForumData(forumDoc.data());
-                } else {
-                    console.log("Forum não encontrado");
+                    // Debug
+                    const jsonString = JSON.stringify(forumData);
+                    const sizeInBytes = new Blob([jsonString]).size;
+                    const sizeInMB = sizeInBytes / (1024 * 1024);
+                    console.log(`Tamanho do documento: ${sizeInMB.toFixed(4)} MB`);
                 }
             } catch (error) {
                 console.log("Erro: ", error);
@@ -61,7 +77,7 @@ export default function CommunityPage() {
                     <div>
                         <h1 className="text-2xl text-gray-500">Comunidade de <span className={forumStyles.textColor}>{forumData.name}</span></h1>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex gap-5">
                         <button className={`self-center text-white py-1 px-3 rounded ${forumStyles.backgroundColor}`}>
                             {isFollowing ? "Sair" : "Juntar-se"}
                         </button>
@@ -71,6 +87,31 @@ export default function CommunityPage() {
                     </div>
                 </div>
             </div>
+            <div className="flex flex-col gap-2 text-gray-500">
+                <h3 className="flex gap-2">
+                    <Link to={"/comunidades"} className="hover:underline">
+                        Comunidades
+                    </Link>
+                    {">"}
+                    <span className={forumStyles.textColor}>{forumData.name}</span>
+                </h3>
+                <p>{forumData.description}</p>
+            </div>
+            {/* Subcomunidades */}
+            <section className="flex flex-col gap-4">
+                <hr className="border-t-2"/>
+                <div className="grid grid-cols-2 grid-rows-1 text-gray-500 mt-1 pb-3">
+                    <h1>Salas</h1>
+                    <h1>Tópicos</h1>
+                </div>
+                <div className="flex flex-col gap-4">
+                    {forumData.subForumsID.map((subforum, index) => (
+                        <div key={index}>
+                            <Subforum subforumId={subforum} communityId={communityID}/>
+                        </div>
+                    ))}
+                </div>
+            </section>
         </>
     );
 }
