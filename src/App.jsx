@@ -30,9 +30,10 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/seguindo" element={<Following/>}/>
         <Route path="/comunidades" element={<CommunityHub/>}>
-          <Route path=":communityID" element={<CommunityPage/>} />
+          <Route path=":communityID" element={<CommunityPage/>}>
+            <Route path=":subforumID" element={<SubforumPage/>}></Route>  
+          </Route>
         </Route>
-        <Route path="/comunidades/:communityID/:subforumID" element={<SubforumPage/>} />
         <Route path="/comunidades/:communityID/:subforumID/:topicID" element={<TopicPage/>} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/registro" element={<Register/>}/>

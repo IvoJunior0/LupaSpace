@@ -11,7 +11,7 @@ export default function CommunityHub() {
 
     useEffect(() => {
         document.title = 'Comunidades';
-    }, []);
+    });
 
     const isParentRoute = location.pathname === '/comunidades';
 

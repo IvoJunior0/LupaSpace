@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import Loading from "../extras/Loading";
 
-import { doc, getDoc, collection } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../config/firebase";
 import { Link } from "react-router-dom";
 

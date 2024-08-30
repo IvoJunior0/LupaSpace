@@ -10,18 +10,7 @@ import { faSpinner, faEllipsis, faGreaterThan } from "@fortawesome/free-solid-sv
 import Loading from "../ui/components/extras/Loading";
 import addForumStyle from "../ui/components/extras/addForumStyle";
 import Subforum from "../ui/components/forum/Subforum";
-
-async function getSubforumData(communityId, subforumId) {
-    const subforumRef = doc(db, `Forums/${communityId}/Subforums/${subforumId}`);
-    const subforumSnapshot = await getDoc(subforumRef);
-
-    if (subforumSnapshot.exists()) {
-        return subforumSnapshot.data();
-    } else {
-        console.log("Subcomunidade não encontrada!");
-        return null;
-    }
-}
+import TopicsBlock from "../ui/components/forum/TopicsBlock";
 
 export default function CommunityPage() {
     const { communityID } = useParams();
@@ -30,6 +19,7 @@ export default function CommunityPage() {
     const [id, setID] = useState("");
     const [forumStyles, setForumStyles] = useState({ backgroundColor: '', icon: faSpinner, textColor: '' });
     const [loading, setLoading] = useState(true);
+    const [isParentRoute, setIsParentRoute] = useState(false);
 
     useEffect(() => {
         const fetchCommunityData = async () => {
@@ -39,6 +29,7 @@ export default function CommunityPage() {
                 if (forumDoc.exists()) {
                     setID(forumDoc.id);
                     setForumData(forumDoc.data());
+                    setIsParentRoute(location.pathname === `/comunidades/${communityID}`);                    
                     // Debug
                     const jsonString = JSON.stringify(forumData);
                     const sizeInBytes = new Blob([jsonString]).size;
@@ -68,6 +59,7 @@ export default function CommunityPage() {
 
     return(
         <>
+            {/* Banner */}
             <div className="h-40 w-full relative">
                 <div className={`h-28 w-full relative rounded-xl ${forumStyles.backgroundColor}`} />
                 <div className="flex justify-around items-end absolute bottom-0 left-0 w-full">
@@ -111,6 +103,14 @@ export default function CommunityPage() {
                         </div>
                     ))}
                 </div>
+            </section>
+            {/* Tópicos recentes */}
+            <section className="flex flex-col gap-4">
+                <hr className="border-t-2"/>
+                <div className="text-gray-500 mt-1 pb-3">
+                    <h1>Tópicos recentes</h1>
+                </div>
+                <TopicsBlock path={`Forums/${communityID}/Subforums/`} ids={forumData.subForumsID}/>
             </section>
         </>
     );
