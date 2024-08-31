@@ -15,50 +15,53 @@ export default function JoinCommunityButton({ backgroundColor, id }) {
     const [user, loadingUser] = useAuth();
     const contentRef = useRef();
 
-    const handleCommunity =  async () => {
-        switch(isFollowing){
-            case false:
-                communitiesList.push(id);
-                const userRef = doc(db, "Users", user.uid);
-                try {
-                    await updateDoc(userRef, {
-                        communities: communitiesList
-                    })
-                } catch (error) {
-                    console.log("Erro ao atualizar o documento: ", error);
-                }
-                console.log("nao tá nela, mas agr táa ", communitiesList);
-                setIsFollowing(true);
-                break;
-            case true:
-                console.log("tá nela")
-                break;
-        }
-    }
-
     useEffect(() => {
+        // Não sei se esse foi o melhor jeito de fazer isso, mas tá funcionando
         if (!loadingUser) {
-            setLoading(false);
             const fetchCommunityList = async () => {
                 try {
                     const userSnapshot = await getDoc(doc(db, "Users", user.uid));
-                    setCommunitiesList(userSnapshot.data().communities);
-                    console.log(communitiesList.includes(id))
-                    if (communitiesList.includes(id)) {
-                        setIsFollowing(true);
-                    } else {
-                        setIsFollowing(false);
-                    }
-                    console.log(communitiesList);
+                    const communities = userSnapshot.data().communities || [];
+                    setCommunitiesList(communities);
+                    setIsFollowing(communities.includes(id));
                 } catch (error) {
-                    console.log("Erro: ", error);
+                    console.log("Erro: ", error); // Debug
                 }
             }
             fetchCommunityList();
         } else {
-            setLoading(true);
+            setLoading(false)
         }
-    }, [loadingUser]);
+    }, [loadingUser, id, user]);
+
+    const handleCommunity =  async () => {
+        // ALgum dia eu mudo esse código pra alguma coisa mais bonita
+        setLoading(true);
+        if (!isFollowing) {
+            try {
+                const updatedCommunities = [...communitiesList, id];
+                await updateDoc(doc(db, "Users", user.uid), {
+                    communities: updatedCommunities
+                });
+                setCommunitiesList(updatedCommunities);
+                setIsFollowing(true);
+            } catch (error) {
+                console.log("Erro ao atualizar o documento: ", error); // Debug
+            }
+        } else {
+            try {
+                const updatedCommunities = communitiesList.filter(e => e !== id);
+                await updateDoc(doc(db, "Users", user.uid), {
+                    communities: updatedCommunities
+                })
+                setCommunitiesList(updatedCommunities);
+                setIsFollowing(false);
+            } catch (error) {
+                console.log("Erro ao atualizar o documento: ", error); // Debug
+            }
+        }
+        setLoading(false);
+    }
 
     if (loading) return <Loading/>
 
@@ -68,7 +71,7 @@ export default function JoinCommunityButton({ backgroundColor, id }) {
             onClick={handleCommunity} 
             className={`self-center text-white py-1 px-3 rounded ${backgroundColor}`}
         >
-            {isFollowing ? "Sair" : "Juntar-se"}
+            {loading ? (<Loading/>) : (isFollowing ? "Sair" : "Juntar-se")}
         </button>
     );
 }
