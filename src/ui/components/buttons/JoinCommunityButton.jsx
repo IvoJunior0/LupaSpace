@@ -5,7 +5,7 @@ import Loading from "../extras/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus, faUserMinus } from "@fortawesome/free-solid-svg-icons";
 
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import { getDoc, doc, updateDoc, increment, arrayUnion, arrayRemove  } from "firebase/firestore";
 import { db } from "../../../config/firebase";
 
 export default function JoinCommunityButton({ backgroundColor, id }) {
@@ -43,6 +43,10 @@ export default function JoinCommunityButton({ backgroundColor, id }) {
                 await updateDoc(doc(db, "Users", user.uid), {
                     communities: updatedCommunities
                 });
+                await updateDoc(doc(db, "Forums", id), {
+                    members: arrayUnion(user.uid),
+                    membersCount: increment(1)
+                })
                 setCommunitiesList(updatedCommunities);
                 setIsFollowing(true);
             } catch (error) {
@@ -53,6 +57,10 @@ export default function JoinCommunityButton({ backgroundColor, id }) {
                 const updatedCommunities = communitiesList.filter(e => e !== id);
                 await updateDoc(doc(db, "Users", user.uid), {
                     communities: updatedCommunities
+                })
+                await updateDoc(doc(db, "Forums", id), {
+                    members: arrayRemove(user.uid),
+                    membersCount: increment(-1)
                 })
                 setCommunitiesList(updatedCommunities);
                 setIsFollowing(false);
