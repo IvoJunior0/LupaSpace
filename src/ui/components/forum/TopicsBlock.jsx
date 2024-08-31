@@ -7,7 +7,6 @@ import Loading from "../extras/Loading";
 
 export default function TopicsBlock({ path, ids }) {
     const [data, setData] = useState([]);
-    const [topicsList, setTopicsList] = useState([]);
     const [loading, setLoading] = useState(true);
     let timeAgo;
 

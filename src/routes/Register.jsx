@@ -52,6 +52,7 @@ export default function Register(){
                     following: [],
                     followers: [],
                     notifications: [],
+                    communities: [],
                 });
             }
             navigate("/");

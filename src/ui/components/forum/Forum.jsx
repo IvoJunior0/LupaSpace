@@ -6,9 +6,9 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import ForumData from "./ForumData";
 import addForumStyle from "../extras/addForumStyle";
+import JoinCommunityButton from "../buttons/JoinCommunityButton";
 
 export default function Forum({ forumData, subforums }) {
-    const [isFollowing, setIsFollowing] = useState(false);
     const [memberCount, setMemberCount] = useState(0);
     const [forumStyles, setForumStyles] = useState({ backgroundColor: '', icon: faSpinner });    
     
@@ -23,9 +23,9 @@ export default function Forum({ forumData, subforums }) {
             </div>
             <div className="flex gap-4 items-center">
                 <Link to={`/comunidades/${forumData.id}`}><h1 className="text-2xl">{forumData.name}</h1></Link>
-                <button className={`self-center text-white py-1 px-3 rounded ${forumStyles.backgroundColor}`}>{isFollowing ? "Sair" : "Juntar-se"}</button>
+                <JoinCommunityButton backgroundColor={forumStyles.backgroundColor} id={forumData.id}/>
             </div>
-            <div className="col-start-2 row-start-2 flex flex-wrap gap-1 text-sm -mt-1 items-start w-full max-w-80">
+            <div className="col-start-2 row-start-2 flex flex-wrap gap-1 text-sm -mt-1 items-start w-full max-w-96">
                 {subforums.map((subforum, index) => (
                     <div key={index}>
                         <p>{subforum.name}{index < (subforums.length - 1) ? <span>,</span> : null}</p>

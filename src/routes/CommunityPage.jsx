@@ -15,9 +15,11 @@ import Loading from "../ui/components/extras/Loading";
 import addForumStyle from "../ui/components/extras/addForumStyle";
 import Subforum from "../ui/components/forum/Subforum";
 import TopicsBlock from "../ui/components/forum/TopicsBlock";
+import JoinCommunityButton from "../ui/components/buttons/JoinCommunityButton";
 
 // Funções
 import createTopic from "../functions/createTopic";
+import ForumMembers from "../ui/components/forum/ForumMembers";
 
 const changeCreatePostHeight = (createTopicActive, contentRef) => {
     if (createTopicActive) {
@@ -36,10 +38,7 @@ export default function CommunityPage() {
     const [isParentRoute, setIsParentRoute] = useState(false);
     const [createTopicActive, setCreateTopicActive] = useState(false);
     const contentRef = useRef(null);
-
-    const joinCommunity = async () => {
-        console.log("teste")
-    }
+    const user = auth.currentUser;
 
     useEffect(() => {
         const fetchCommunityData = async () => {
@@ -99,9 +98,7 @@ export default function CommunityPage() {
                         <button onClick={() => setCreateTopicActive(true)}>
                             <FontAwesomeIcon icon={faCirclePlus} className={`text-2xl ${forumStyles.textColor}`}/>
                         </button>
-                        <button onClick={joinCommunity} className={`self-center text-white py-1 px-3 rounded ${forumStyles.backgroundColor}`}>
-                            {isFollowing ? "Sair" : "Juntar-se"}
-                        </button>
+                        <JoinCommunityButton backgroundColor={forumStyles.backgroundColor} id={communityID}/>
                         <button>
                             <FontAwesomeIcon icon={faEllipsis} className="text-gray-500"/>
                         </button>
@@ -114,7 +111,7 @@ export default function CommunityPage() {
                 className="bg-slate-200 transition-all duration-500 ease-in-out overflow-hidden"
                 style={{ height: '0px' }}
             >
-                <div className="flex flex-col justify-between">
+                <div className="flex justify-between">
                     <h1>Criar tópico</h1>
                     <button type="button" onClick={() => setCreateTopicActive(false)}>
                         <FontAwesomeIcon icon={faXmark}/>
@@ -167,6 +164,14 @@ export default function CommunityPage() {
                     <h1>Tópicos recentes</h1>
                 </div>
                 <TopicsBlock path={`Forums/${communityID}/Subforums/`} ids={forumData.subForumsID}/>
+            </section>
+            {/* Membros */}
+            <section className="flex flex-col gap-4">
+                <hr className="border-t-2"/>
+                <div className="text-gray-500 mt-1 pb-3">
+                    <h1>Membros</h1>
+                </div>
+                <ForumMembers id={communityID}/>
             </section>
         </>
     );
