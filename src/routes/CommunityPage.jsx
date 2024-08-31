@@ -1,16 +1,30 @@
-import { useEffect, useState } from "react";
+// React e React Router DOM
+import { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 
+// Firebase
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { db, auth } from "../config/firebase";
 
+// Fontsawasome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner, faEllipsis, faGreaterThan } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faEllipsis, faCirclePlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 
+// Componentes
 import Loading from "../ui/components/extras/Loading";
 import addForumStyle from "../ui/components/extras/addForumStyle";
 import Subforum from "../ui/components/forum/Subforum";
 import TopicsBlock from "../ui/components/forum/TopicsBlock";
+
+// Funções
+import createTopic from "../functions/createTopic";
+
+const changeCreatePostHeight = (createTopicActive, contentRef) => {
+    if (createTopicActive) {
+        return `${contentRef.current.scrollHeight}px`;
+    }
+    return '0px';
+}
 
 export default function CommunityPage() {
     const { communityID } = useParams();
@@ -20,6 +34,12 @@ export default function CommunityPage() {
     const [forumStyles, setForumStyles] = useState({ backgroundColor: '', icon: faSpinner, textColor: '' });
     const [loading, setLoading] = useState(true);
     const [isParentRoute, setIsParentRoute] = useState(false);
+    const [createTopicActive, setCreateTopicActive] = useState(false);
+    const contentRef = useRef(null);
+
+    const joinCommunity = async () => {
+        console.log("teste")
+    }
 
     useEffect(() => {
         const fetchCommunityData = async () => {
@@ -49,6 +69,12 @@ export default function CommunityPage() {
         id ? setForumStyles(addForumStyle(id)) : null;
     }, [id]);
 
+    useEffect(() => {
+        if (contentRef.current) {
+            contentRef.current.style.height = changeCreatePostHeight(createTopicActive, contentRef);
+        }
+    }, [createTopicActive]);
+
     if (loading) return <Loading/>
 
     if (!forumData) {
@@ -70,7 +96,10 @@ export default function CommunityPage() {
                         <h1 className="text-2xl text-gray-500">Comunidade de <span className={forumStyles.textColor}>{forumData.name}</span></h1>
                     </div>
                     <div className="flex gap-5">
-                        <button className={`self-center text-white py-1 px-3 rounded ${forumStyles.backgroundColor}`}>
+                        <button onClick={() => setCreateTopicActive(true)}>
+                            <FontAwesomeIcon icon={faCirclePlus} className={`text-2xl ${forumStyles.textColor}`}/>
+                        </button>
+                        <button onClick={joinCommunity} className={`self-center text-white py-1 px-3 rounded ${forumStyles.backgroundColor}`}>
                             {isFollowing ? "Sair" : "Juntar-se"}
                         </button>
                         <button>
@@ -79,6 +108,33 @@ export default function CommunityPage() {
                     </div>
                 </div>
             </div>
+            {/* Criar tópico */}
+            <div 
+                ref={contentRef} 
+                className="bg-slate-200 transition-all duration-500 ease-in-out overflow-hidden"
+                style={{ height: '0px' }}
+            >
+                <div className="flex flex-col justify-between">
+                    <h1>Criar tópico</h1>
+                    <button type="button" onClick={() => setCreateTopicActive(false)}>
+                        <FontAwesomeIcon icon={faXmark}/>
+                    </button>
+                </div>
+                <form onSubmit={createTopic}>
+                    <div className="">
+                        <label htmlFor="">Título</label>
+                        <input type="text" />
+                    </div>
+                    <div className="">
+                        <label htmlFor="">Conteúdo</label>
+                        <textarea name="" id=""></textarea>
+                    </div>
+                    <div className="">
+                        <button type="submit">Publicar</button>
+                    </div>
+                </form>
+            </div>
+            {/* Descrição */}
             <div className="flex flex-col gap-2 text-gray-500">
                 <h3 className="flex gap-2">
                     <Link to={"/comunidades"} className="hover:underline">

@@ -19,7 +19,7 @@ export default function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        document.title = 'Login'; // Quick solution
+        document.title = 'Login'; // Um dia eu mudo isso
     }, []);
 
     const signIn = async (e) => {

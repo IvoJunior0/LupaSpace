@@ -13,6 +13,7 @@ import { faThumbsUp as likeDesactive, faThumbsDown as dislikeDesactive, faHeart 
 
 import { formatDistanceToNow } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+
 import { Link } from 'react-router-dom';
 import Tag from './Posts/Tag';
 
