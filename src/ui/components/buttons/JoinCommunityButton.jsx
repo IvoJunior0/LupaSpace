@@ -79,7 +79,12 @@ export default function JoinCommunityButton({ backgroundColor, id }) {
             onClick={handleCommunity} 
             className={`self-center text-white py-1 px-3 rounded ${backgroundColor}`}
         >
-            {loading ? (<Loading/>) : (isFollowing ? "Sair" : "Juntar-se")}
+            <div className="lg:hidden block">
+                <FontAwesomeIcon icon={isFollowing ? faUserMinus : faUserPlus}/>
+            </div>
+            <div className="lg:block hidden">
+                {loading ? (<Loading/>) : (isFollowing ? "Sair" : "Juntar-se")}
+            </div>
         </button>
     );
 }
