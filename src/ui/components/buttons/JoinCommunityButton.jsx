@@ -24,13 +24,12 @@ export default function JoinCommunityButton({ backgroundColor, id }) {
                     const communities = userSnapshot.data().communities || [];
                     setCommunitiesList(communities);
                     setIsFollowing(communities.includes(id));
+                    setLoading(false);
                 } catch (error) {
                     console.log("Erro: ", error); // Debug
                 }
             }
             fetchCommunityList();
-        } else {
-            setLoading(false)
         }
     }, [loadingUser, id, user]);
 
@@ -71,20 +70,24 @@ export default function JoinCommunityButton({ backgroundColor, id }) {
         setLoading(false);
     }
 
-    if (loading) return <Loading/>
-
     return(
         <button
             ref={contentRef}
             onClick={handleCommunity} 
-            className={`self-center text-white py-1 px-3 rounded ${backgroundColor}`}
+            className={`text-white py-1 px-3 rounded ${backgroundColor}`}
         >
-            <div className="lg:hidden block">
-                <FontAwesomeIcon icon={isFollowing ? faUserMinus : faUserPlus}/>
-            </div>
-            <div className="lg:block hidden">
-                {loading ? (<Loading/>) : (isFollowing ? "Sair" : "Juntar-se")}
-            </div>
+            {loading ? 
+                <div className="inline-block h-5 w-5 animate-spin rounded-full border-[3px] border-solid border-white border-r-transparent align-[-0.125em] text-success motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"/>
+            : 
+            <>
+                <div className="lg:hidden block">
+                    <FontAwesomeIcon icon={isFollowing ? faUserMinus : faUserPlus}/>
+                </div>
+                <div className="lg:block hidden">
+                    {loading ? (<Loading/>) : (isFollowing ? "Sair" : "Juntar-se")}
+                </div>
+            </>
+            }
         </button>
     );
 }
