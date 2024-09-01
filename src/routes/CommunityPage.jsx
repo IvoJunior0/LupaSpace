@@ -171,7 +171,13 @@ export default function CommunityPage() {
                 <div className="text-gray-500 mt-1 pb-3">
                     <h1>Membros</h1>
                 </div>
-                <ForumMembers id={communityID}/>
+                <div className="">
+                    {forumData.members.map((id, index) => (
+                        <div key={index} className="flex text-gray-500">
+                            <ForumMembers id={id}/>
+                        </div>
+                    ))}
+                </div>
             </section>
         </>
     );
