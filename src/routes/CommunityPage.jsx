@@ -1,6 +1,6 @@
 // React e React Router DOM
 import { useEffect, useState, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 
 // Firebase
 import { doc, getDoc } from "firebase/firestore";
@@ -30,14 +30,14 @@ const changeCreatePostHeight = (createTopicActive, contentRef) => {
 
 export default function CommunityPage() {
     const { communityID } = useParams();
+    const contentRef = useRef(null);
+    const location = useLocation();
     const [isFollowing, setIsFollowing] = useState(false);
     const [forumData, setForumData] = useState(null);
     const [id, setID] = useState("");
     const [forumStyles, setForumStyles] = useState({ backgroundColor: '', icon: faSpinner, textColor: '' });
     const [loading, setLoading] = useState(true);
-    const [isParentRoute, setIsParentRoute] = useState(false);
     const [createTopicActive, setCreateTopicActive] = useState(false);
-    const contentRef = useRef(null);
     const user = auth.currentUser;
 
     useEffect(() => {
@@ -47,8 +47,7 @@ export default function CommunityPage() {
                 const forumDoc = await getDoc(forumRef);
                 if (forumDoc.exists()) {
                     setID(forumDoc.id);
-                    setForumData(forumDoc.data());
-                    setIsParentRoute(location.pathname === `/comunidades/${communityID}`);                    
+                    setForumData(forumDoc.data());                 
                     // Debug
                     const jsonString = JSON.stringify(forumData);
                     const sizeInBytes = new Blob([jsonString]).size;
@@ -82,8 +81,11 @@ export default function CommunityPage() {
         document.title = `${forumData.name}`;
     }
 
+    const isParentRoute = location.pathname === `/comunidades/${communityID}`;
+
     return(
         <>
+            {isParentRoute ? (<>
             {/* Banner */}
             <div className="h-40 w-full relative">
                 <div className={`h-28 w-full relative rounded-xl ${forumStyles.backgroundColor}`} />
@@ -179,6 +181,10 @@ export default function CommunityPage() {
                     ))}
                 </div>
             </section>
+            </>) : (
+                <Outlet/>
+            )}
+
         </>
     );
 }
