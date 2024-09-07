@@ -47,12 +47,7 @@ export default function CommunityPage() {
                 const forumDoc = await getDoc(forumRef);
                 if (forumDoc.exists()) {
                     setID(forumDoc.id);
-                    setForumData(forumDoc.data());                 
-                    // Debug
-                    const jsonString = JSON.stringify(forumData);
-                    const sizeInBytes = new Blob([jsonString]).size;
-                    const sizeInMB = sizeInBytes / (1024 * 1024);
-                    console.log(`Tamanho do documento: ${sizeInMB.toFixed(4)} MB`);
+                    setForumData(forumDoc.data());
                 }
             } catch (error) {
                 console.log("Erro: ", error);
@@ -73,15 +68,15 @@ export default function CommunityPage() {
         }
     }, [createTopicActive]);
 
-    if (loading) return <Loading/>
+    const isParentRoute = location.pathname === `/comunidades/${communityID}`;
+
+    if (loading) return <>{isParentRoute ? (<Loading/>) : (<Outlet/>)}</>
 
     if (!forumData) {
-        return <div>Forum não encontrado</div>
+        return <div>Comunidade não encontrada</div>
     } else {
         document.title = `${forumData.name}`;
     }
-
-    const isParentRoute = location.pathname === `/comunidades/${communityID}`;
 
     return(
         <>
@@ -108,7 +103,7 @@ export default function CommunityPage() {
                 </div>
             </div>
             {/* Criar tópico */}
-            <div 
+            {/* <div 
                 ref={contentRef} 
                 className="bg-slate-200 transition-all duration-500 ease-in-out overflow-hidden"
                 style={{ height: '0px' }}
@@ -132,7 +127,7 @@ export default function CommunityPage() {
                         <button type="submit">Publicar</button>
                     </div>
                 </form>
-            </div>
+            </div> */}
             {/* Descrição */}
             <div className="flex flex-col gap-2 text-gray-500">
                 <h3 className="flex gap-2">
