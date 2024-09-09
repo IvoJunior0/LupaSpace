@@ -23,24 +23,27 @@ export default function CreateTopicPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        try {
-            const topicPath = `Forums/${forumID}/Subforums/${subforumID}/Topics`;
-            await addDoc(collection(db, topicPath), {
-                title: title,
-                content: content,
-                authorID: user.uid,
-                createdAt: serverTimestamp(),
-                replyCount: 0,
-                viewCount: 0,
-                status: "ativo",
-                mentions: []
-            })
-            console.log("deu bom") // Debug
-        } catch (error) {
-            console.log("Erro: ", error) // Debug
-        } finally {
-            setLoading(false);
+        if (subforumID && forumID) {
+            try {
+                const topicPath = `Forums/${forumID}/Subforums/${subforumID}/Topics`;
+                await addDoc(collection(db, topicPath), {
+                    title: title,
+                    content: content,
+                    authorID: user.uid,
+                    createdAt: serverTimestamp(),
+                    replyCount: 0,
+                    viewCount: 0,
+                    status: "ativo",
+                    mentions: []
+                })
+                console.log("deu bom") // Debug
+            } catch (error) {
+                console.log("Erro: ", error) // Debug
+            }
+        } else {
+            console.log("Erro: Forum ou Subforum não encontrados (query parameters inválidos)") // Debug
         }
+        setLoading(false);
     }
 
     return(
@@ -52,11 +55,11 @@ export default function CreateTopicPage() {
                 </div>
                 <div className="">
                     <label className="block font-semibold">Título</label>
-                    <input type="text" placeholder="Título do tópico" onChange={(e) => setTitle(e.target.value)} className="block w-full p-2.5 bg-slate-100 border-slate-300 border-2 rounded-md focus:outline-none focus:border-slate-400"/>
+                    <input type="text" placeholder="Título do tópico" onChange={(e) => setTitle(e.target.value)} className="block w-full p-2.5 bg-slate-100 border-slate-300 border-2 rounded-md focus:outline-none focus:border-slate-400" required/>
                 </div>
                 <div className="">
                     <label className="block font-semibold">Conteúdo</label>
-                    <textarea name="" id="" placeholder="Conteúdo do tópico" onChange={(e) => setContent(e.target.value)} className="block resize-none w-full min-h-44 p-2.5 bg-slate-100 border-slate-300 border-2 rounded-md focus:outline-none focus:border-slate-400"/>
+                    <textarea name="" id="" placeholder="Conteúdo do tópico" onChange={(e) => setContent(e.target.value)} className="block resize-none w-full min-h-44 p-2.5 bg-slate-100 border-slate-300 border-2 rounded-md focus:outline-none focus:border-slate-400" required/>
                 </div>
                 <div className="self-end">
                     <button type="submit" className="text-white py-2 px-4 rounded bg-green-600 hover:bg-green-500">Publicar</button>
