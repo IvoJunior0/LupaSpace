@@ -93,7 +93,7 @@ export default function CreatePost(props) {
                 </div>
                 <div>
                     <label className="block text-lg">Descrição</label>
-                    <textarea className="block resize-none block w-full p-2.5 bg-slate-100 border-slate-300 border-2 rounded-md focus:outline-none focus:border-slate-400" id="descricao" value={descricao} onChange={(e) => setDescricao(e.target.value)} placeholder="Descreva sua postagem aqui" required={props.trigger}></textarea>
+                    <textarea className="block resize-none w-full p-2.5 bg-slate-100 border-slate-300 border-2 rounded-md focus:outline-none focus:border-slate-400" id="descricao" value={descricao} onChange={(e) => setDescricao(e.target.value)} placeholder="Descreva sua postagem aqui" required={props.trigger}></textarea>
                 </div>
                 <div>
                     <div className="space-y-8 max-w-md mx-auto my-5">

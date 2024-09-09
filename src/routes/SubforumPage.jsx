@@ -59,38 +59,49 @@ export default function SubforumPage() {
 
     return(
         <>
-            {isParentRoute ? (<>
-                {/* Banner */}
-                <div className="h-40 w-full relative">
-                    <div className={`h-28 w-full relative rounded-xl ${forumStyles.backgroundColor}`} />
-                    <div className="flex justify-around items-end absolute bottom-0 left-0 w-full">
-                        <div className={`rounded-full border-white border-4 w-24 h-24 flex justify-center items-center ${forumStyles.backgroundColor}`}>
-                            <FontAwesomeIcon icon={forumStyles.icon} className="text-white text-5xl"/>
-                        </div>
-                        <div>
-                            <h1 className={`text-2xl text-gray-500`}>Sala de <span className={forumStyles.textColor}>{subforumData.name}</span></h1>
-                        </div>
-                        <div>
-                            <Link to={`${location.pathname}/postar`}>
-                                <FontAwesomeIcon icon={faCirclePlus} className={`text-2xl ${forumStyles.textColor}`}/>
-                            </Link>
-                        </div>
+            
+            {/* Banner */}
+            <div className="h-40 w-full relative">
+                <div className={`h-28 w-full relative rounded-xl ${forumStyles.backgroundColor}`} />
+                <div className="flex justify-around items-end absolute bottom-0 left-0 w-full">
+                    <div className={`rounded-full border-white border-4 w-24 h-24 flex justify-center items-center ${forumStyles.backgroundColor}`}>
+                        <FontAwesomeIcon icon={forumStyles.icon} className="text-white text-5xl"/>
+                    </div>
+                    <div>
+                        <h1 className={`text-2xl text-gray-500`}>Sala de <span className={forumStyles.textColor}>{subforumData.name}</span></h1>
+                    </div>
+                    <div>
+                        {isParentRoute ? (
+                        <Link to={`${location.pathname}/postar?forumID=${subforumData.forumID}`}>
+                            <FontAwesomeIcon icon={faCirclePlus} className={`text-2xl ${forumStyles.textColor}`}/>
+                        </Link>
+                        ) : (
+                            null
+                        )}
                     </div>
                 </div>
-                {/* Hyperlinks */}
-                <div className="flex flex-col gap-2 text-gray-500">
-                    <h3 className="flex gap-2">
-                        <Link to={"/comunidades"} className="hover:underline">
-                            Comunidades
+            </div>
+            {/* Hyperlinks */}
+            <div className="flex gap-2 text-gray-500 w-full">
+                <h3 className="flex gap-2 flex-wrap">
+                    <Link to={"/comunidades"} className="hover:underline">
+                        Comunidades
+                    </Link>
+                    <span>{">"}</span>
+                    <Link to={`/comunidades/${forumID}`} className="hover:underline">
+                        {forumData.name}
+                    </Link>
+                    <span>{">"}</span>
+                    {isParentRoute ? <span className={forumStyles.textColor}>{subforumData.name}</span> : (<>
+                        <Link to={`/comunidades/${forumID}/${subforumID}`} className="hover:underline">
+                            <span>{subforumData.name}</span>
                         </Link>
-                        {">"}
-                        <Link to={`/comunidades/${forumID}`} className="hover:underline">
-                            {forumData.name}
-                        </Link>
-                        {">"}
-                        <span className={forumStyles.textColor}>{subforumData.name}</span>
-                    </h3>
-                </div>
+                        <span>{">"}</span>
+                        <span className={`${forumStyles.textColor}`}>Criar tópico</span>
+                    </>)}
+                </h3>
+            </div>
+            {isParentRoute ? (<>
                 {/* Tópicos fixados */}
                 <div className="flex flex-col gap-4">
                     <hr className="border-t-2"/>
