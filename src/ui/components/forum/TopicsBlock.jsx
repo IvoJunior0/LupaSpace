@@ -30,7 +30,7 @@ export default function TopicsBlock({ path, ids }) {
                 setData(AllDataSorted);
                 setLoading(false);
             } catch (error) {
-                console.log("Erro: ", error);   
+                console.log("Erro: ", error);
             }
         };
         fetchForums();

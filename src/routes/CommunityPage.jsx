@@ -21,13 +21,6 @@ import JoinCommunityButton from "../ui/components/buttons/JoinCommunityButton";
 import createTopic from "../functions/createTopic";
 import ForumMembers from "../ui/components/forum/ForumMembers";
 
-const changeCreatePostHeight = (createTopicActive, contentRef) => {
-    if (createTopicActive) {
-        return `${contentRef.current.scrollHeight}px`;
-    }
-    return '0px';
-}
-
 export default function CommunityPage() {
     const { communityID } = useParams();
     const contentRef = useRef(null);
@@ -37,7 +30,6 @@ export default function CommunityPage() {
     const [id, setID] = useState("");
     const [forumStyles, setForumStyles] = useState({ backgroundColor: '', icon: faSpinner, textColor: '' });
     const [loading, setLoading] = useState(true);
-    const [createTopicActive, setCreateTopicActive] = useState(false);
     const user = auth.currentUser;
 
     useEffect(() => {
@@ -62,21 +54,13 @@ export default function CommunityPage() {
         id ? setForumStyles(addForumStyle(id)) : null;
     }, [id]);
 
-    useEffect(() => {
-        if (contentRef.current) {
-            contentRef.current.style.height = changeCreatePostHeight(createTopicActive, contentRef);
-        }
-    }, [createTopicActive]);
-
     const isParentRoute = location.pathname === `/comunidades/${communityID}`;
 
-    if (loading) return <>{isParentRoute ? (<Loading/>) : (<Outlet/>)}</>
+    if (loading) return isParentRoute ? (<Loading/>) : (<Outlet/>);
 
-    if (!forumData) {
-        return <div>Comunidade não encontrada</div>
-    } else {
-        document.title = `${forumData.name}`;
-    }
+    if (!forumData) return <div>Comunidade não encontrada</div>
+    
+    document.title = `${forumData.name}`;
 
     return(
         <>
@@ -92,9 +76,6 @@ export default function CommunityPage() {
                         <h1 className="text-2xl text-gray-500">Comunidade de <span className={forumStyles.textColor}>{forumData.name}</span></h1>
                     </div>
                     <div className="flex gap-5">
-                        <button onClick={() => setCreateTopicActive(true)}>
-                            <FontAwesomeIcon icon={faCirclePlus} className={`text-2xl ${forumStyles.textColor}`}/>
-                        </button>
                         <JoinCommunityButton backgroundColor={forumStyles.backgroundColor} id={communityID}/>
                         <button>
                             <FontAwesomeIcon icon={faEllipsis} className="text-gray-500"/>
@@ -102,32 +83,6 @@ export default function CommunityPage() {
                     </div>
                 </div>
             </div>
-            {/* Criar tópico */}
-            {/* <div 
-                ref={contentRef} 
-                className="bg-slate-200 transition-all duration-500 ease-in-out overflow-hidden"
-                style={{ height: '0px' }}
-            >
-                <div className="flex justify-between">
-                    <h1>Criar tópico</h1>
-                    <button type="button" onClick={() => setCreateTopicActive(false)}>
-                        <FontAwesomeIcon icon={faXmark}/>
-                    </button>
-                </div>
-                <form onSubmit={createTopic}>
-                    <div className="">
-                        <label htmlFor="">Título</label>
-                        <input type="text" />
-                    </div>
-                    <div className="">
-                        <label htmlFor="">Conteúdo</label>
-                        <textarea name="" id=""></textarea>
-                    </div>
-                    <div className="">
-                        <button type="submit">Publicar</button>
-                    </div>
-                </form>
-            </div> */}
             {/* Descrição */}
             <div className="flex flex-col gap-2 text-gray-500">
                 <h3 className="flex gap-2">

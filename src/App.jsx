@@ -1,6 +1,11 @@
+// Hooks
 import { useEffect, useState } from "react";
 
+// React Router
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+// Firebase
+import { auth } from "./config/firebase";
 
 // Rotas
 import Home from "./routes/Home";
@@ -12,10 +17,9 @@ import User from "./routes/User";
 import Following from "./routes/Following";
 import CommunityPage from "./routes/CommunityPage";
 import SubforumPage from "./routes/SubforumPage";
-
-import { auth } from "./config/firebase";
-import Error from "./routes/Error";
 import TopicPage from "./routes/TopicPage";
+import CreateTopicPage from "./routes/CreateTopicPage";
+import Error from "./routes/Error";
 
 function App() {
   const [user, setUser] = useState();
@@ -31,7 +35,9 @@ function App() {
         <Route path="/seguindo" element={<Following/>}/>
         <Route path="/comunidades" element={<CommunityHub/>}>
           <Route path=":communityID" element={<CommunityPage/>}>
-            <Route path=":subforumID" element={<SubforumPage/>}></Route>  
+            <Route path=":subforumID" element={<SubforumPage/>}>
+              <Route path="postar" element={<CreateTopicPage/>}></Route>
+            </Route>  
           </Route>
         </Route>
         <Route path="/comunidades/:communityID/:subforumID/:topicID" element={<TopicPage/>} />
