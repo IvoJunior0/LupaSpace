@@ -72,7 +72,7 @@ export default function SubforumPage() {
                     </div>
                     <div>
                         {isParentRoute ? (
-                        <Link to={`${location.pathname}/postar?forumID=${subforumData.forumID}`}>
+                        <Link to={`${location.pathname}/postar?subforumID=${subforumID}&forumID=${forumID}`}>
                             <FontAwesomeIcon icon={faCirclePlus} className={`text-2xl ${forumStyles.textColor}`}/>
                         </Link>
                         ) : (
