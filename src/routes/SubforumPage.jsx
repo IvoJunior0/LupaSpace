@@ -9,6 +9,7 @@ import { db } from "../config/firebase";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faSpinner, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import TopicSubforum from "../ui/components/forum/TopicSubforum";
 
 export default function SubforumPage() {
     const { subforumID } = useParams();
@@ -115,6 +116,7 @@ export default function SubforumPage() {
                     <div className="text-gray-500 mt-1 pb-3">
                         <h1>Tópicos recentes</h1>
                     </div>
+                    <TopicSubforum recentTopic={true} path={reference}/>
                 </div>
             </>) : (
                 <Outlet/>
