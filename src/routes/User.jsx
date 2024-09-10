@@ -9,6 +9,7 @@ import Loading from '../ui/components/extras/Loading';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import Sidebar from '../ui/components/home/Sidebar';
 
 export default function User() {
     const { uid } = useParams();
@@ -44,11 +45,14 @@ export default function User() {
     }
 
     return(
-        <div className='mt-[90px]'>
+        <div className='grid grid-rows-[90px_1fr] grid-cols-[320px_1fr] mx-lg:grid-cols-1 h-[100vh]'>
             <Navbar/>
-            <h2>Nome: {userData.name}</h2>
-            <h2>Email: {userData.email}</h2>
-            <h2>Username: {userData.username}</h2>
+            <Sidebar/>
+            <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2">
+              <h2>Nome: {userData.name}</h2>
+              <h2>Email: {userData.email}</h2>
+              <h2>Username: {userData.username}</h2>
+            </div>
         </div>
     );
 }
