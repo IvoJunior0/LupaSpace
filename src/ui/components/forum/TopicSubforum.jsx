@@ -14,16 +14,20 @@ import getPosts from "../../../functions/getPosts";
 export default function TopicSubforum({ recentTopic, path }) {
     const [topicsList, setTopicsList] = useState([]);
     const [loading, setLoading] = useState(true);
+    let parameters = [path, "createdAt", 10];
 
     useEffect(() => {
-        const fetchTopics = async (path, order, limiter) => {
-            const posts = await getPosts(path, order, limiter);
+        const fetchTopics = async (path, order, limiter, fixed) => {
+            const posts = await getPosts(path, order, limiter, fixed);
             setTopicsList(posts);
             setLoading(false);
-            console.log(topicsList)
         }
+        
         if (recentTopic) {
-            fetchTopics(...[path, "createdAt", 10]);
+            fetchTopics(...parameters);
+        } else {
+            parameters.push(true);
+            fetchTopics(...parameters);
         }
     }, [recentTopic, path])
 
@@ -33,7 +37,7 @@ export default function TopicSubforum({ recentTopic, path }) {
         <>
             <ul>
                 {topicsList.map((topic) => (
-                    <li key={topic.id}>{topic.status}</li>
+                    <li key={topic.id}>{topic.title}</li>
                 ))}
             </ul>
         </>

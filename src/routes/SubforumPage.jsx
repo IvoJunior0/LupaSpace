@@ -109,6 +109,7 @@ export default function SubforumPage() {
                     <div className="text-gray-500 mt-1 pb-3">
                         <h1>Tópicos fixados</h1>
                     </div>
+                    <TopicSubforum recentTopic={false} path={reference}/>
                 </div>
                 {/* Tópicos recentes */}
                 <div className="flex flex-col gap-4">

@@ -1,13 +1,20 @@
 // Essa função serve tanto para projetos quanto para os tópicos dos fóruns
 
 import { db } from "../config/firebase";
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 
-export default async function getPosts(path, organizer, limitItems = 10) {
+export default async function getPosts(path, organizer, limitItems = 10, getFixed = false) {
     try {
-        // Coletando dados
+        let postsQuery;
+
         const postsRef = collection(db, path);
-        const postsQuery = query(postsRef, orderBy(organizer, "desc"), limit(limitItems));
+
+        // Organização e coleta dos tópicos
+        if (!getFixed) {
+            postsQuery = query(postsRef, orderBy(organizer, "desc"), limit(limitItems));
+        } else {
+            postsQuery = query(postsRef, where("fixed", "==", true));
+        }
         const postsSnapshot = await getDocs(postsQuery);
 
         // Armazenando em uma lista

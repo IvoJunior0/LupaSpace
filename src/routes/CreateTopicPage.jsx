@@ -34,7 +34,8 @@ export default function CreateTopicPage() {
                     replyCount: 0,
                     viewCount: 0,
                     status: "ativo",
-                    mentions: []
+                    mentions: [],
+                    fixed: false
                 })
                 console.log("deu bom") // Debug
             } catch (error) {
