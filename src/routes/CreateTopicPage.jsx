@@ -33,7 +33,7 @@ export default function CreateTopicPage() {
                     createdAt: serverTimestamp(),
                     replyCount: 0,
                     viewCount: 0,
-                    status: "ativo",
+                    status: "aberto",
                     mentions: [],
                     fixed: false
                 })

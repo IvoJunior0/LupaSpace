@@ -5,7 +5,7 @@ import SearchButton from "../buttons/SearchButton";
 import Menu from "./Menu";
 
 // Firebase
-import { auth, db } from "../../../config/firebase";
+import { auth } from "../../../config/firebase";
 
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
