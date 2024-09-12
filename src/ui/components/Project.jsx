@@ -35,10 +35,10 @@ export default function Project(props) {
                 if (userDoc.exists()) {
                     setUserData(userDoc.data());
                 } else {
-                    console.log("Usuário não encontrado");
+                    console.log("Usuário não encontrado"); // Debug
                 }
             } catch (err) {
-                console.log('Erro ao buscar dados do usuário');
+                console.log('Erro ao buscar dados do usuário'); // Debug
             } finally {
                 setLoading(false);
             }

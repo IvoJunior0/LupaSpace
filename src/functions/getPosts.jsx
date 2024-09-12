@@ -5,16 +5,14 @@ import { collection, getDocs, limit, orderBy, query, where } from "firebase/fire
 
 export default async function getPosts(path, organizer, limitItems = 10, getFixed = false) {
     try {
-        let postsQuery;
-
+        // Referência
         const postsRef = collection(db, path);
 
         // Organização e coleta dos tópicos
-        if (!getFixed) {
-            postsQuery = query(postsRef, orderBy(organizer, "desc"), limit(limitItems));
-        } else {
-            postsQuery = query(postsRef, where("fixed", "==", true));
-        }
+        const postsQuery = query(
+            postsRef,
+            ...(getFixed ? [where("fixed", "==", true)] : [orderBy(organizer, "desc"), limit(limitItems)])
+        );
         const postsSnapshot = await getDocs(postsQuery);
 
         // Armazenando em uma lista

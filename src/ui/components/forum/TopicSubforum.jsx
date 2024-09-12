@@ -7,6 +7,7 @@ import { db } from "../../../config/firebase";
 
 // Componentes
 import Loading from "../extras/Loading";
+import Topic from "./Topic";
 
 // Funções
 import getPosts from "../../../functions/getPosts";
@@ -22,7 +23,7 @@ export default function TopicSubforum({ recentTopic, path }) {
             setTopicsList(posts);
             setLoading(false);
         }
-        
+
         if (recentTopic) {
             fetchTopics(...parameters);
         } else {
@@ -35,9 +36,11 @@ export default function TopicSubforum({ recentTopic, path }) {
 
     return (
         <>
-            <ul>
+            <ul className="flex flex-col gap-4">
                 {topicsList.map((topic) => (
-                    <li key={topic.id}>{topic.title}</li>
+                    <li key={topic.id}>
+                        <Topic topic={topic}/>
+                    </li>
                 ))}
             </ul>
         </>
