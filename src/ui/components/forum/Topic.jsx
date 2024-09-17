@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 
 import Loading from "../extras/Loading";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments } from "@fortawesome/free-regular-svg-icons";
@@ -21,6 +21,7 @@ const topicIconMapping = (state) => {
 }
 
 export default function Topic({ topic }) {
+    const navigate = useNavigate();
     const [authorData, setAuthorData] = useState(null);
     const [topicIcon, setTopicIcon] = useState(faQuestion);
     const [loading, setLoading] = useState(true);
@@ -39,34 +40,40 @@ export default function Topic({ topic }) {
         setTopicIcon(topicIconMapping(topic.status))
     }, [topic, topicIcon]);
 
+    const goToTopicPage = () => {
+        navigate(`${topic.id}`);
+    }
+
     if (loading) return <Loading/>
 
     return (
         <>
-            <div className="grid grid-cols-[60px_1fr_250px_250px_auto_auto] grid-rows-2 pr-4 py-3 border-[3px] border-gray-200 rounded text-gray-500">
-                <div className="row-span-2 self-center justify-self-center	">
-                    <FontAwesomeIcon icon={topicIcon} />
+            <Link to={`${topic.id}`}>
+                <div className="grid grid-cols-[60px_1fr_250px_250px_auto_auto] grid-rows-2 pr-4 py-3 border-[3px] border-gray-200 rounded text-gray-500 hover:cursor-pointer">
+                    <div className="row-span-2 self-center justify-self-center">
+                        <FontAwesomeIcon icon={topicIcon} />
+                    </div>
+                    <div className="row-span-2">
+                        <h1>{topic.title}</h1>
+                        <h1>Por {authorData.name}</h1>
+                    </div>
+                    <div className="row-span-2">
+                        {/* Debug */}
+                        <h1>{topic.replyCount} publicações</h1>
+                        <h1>{topic.viewCount} views</h1>
+                    </div>
+                    <div className="row-span-2">
+                        {/* Debug */}
+                        <h1>Ultima respota por fulano</h1>
+                        <h1>há x horas</h1>
+                    </div>
+                    <div className="self-center">
+                        <button>
+                            <FontAwesomeIcon icon={faEllipsis} />
+                        </button>
+                    </div>
                 </div>
-                <div className="row-span-2">
-                    <h1>{topic.title}</h1>
-                    <h1>Por <Link to={`/user/${topic.authorID}`} className="hover:underline">{authorData.name}</Link></h1>
-                </div>
-                <div className="row-span-2">
-                    {/* Debug */}
-                    <h1>{topic.replyCount} publicações</h1>
-                    <h1>{topic.viewCount} views</h1>
-                </div>
-                <div className="row-span-2">
-                    {/* Debug */}
-                    <h1>Ultima respota por fulano</h1>
-                    <h1>há x horas</h1>
-                </div>
-                <div className="self-center">
-                    <button>
-                        <FontAwesomeIcon icon={faEllipsis} />
-                    </button>
-                </div>
-            </div>
+            </Link>
         </>
     )
 }

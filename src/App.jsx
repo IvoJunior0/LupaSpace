@@ -36,11 +36,11 @@ function App() {
         <Route path="/comunidades" element={<CommunityHub/>}>
           <Route path=":communityID" element={<CommunityPage/>}>
             <Route path=":subforumID" element={<SubforumPage/>}>
-              <Route path="postar" element={<CreateTopicPage/>}></Route>
+              <Route path="postar" element={<CreateTopicPage/>} />
+              <Route path=":topicID" element={<TopicPage/>}/>
             </Route>  
           </Route>
         </Route>
-        <Route path="/comunidades/:communityID/:subforumID/:topicID" element={<TopicPage/>} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/registro" element={<Register/>}/>
         <Route path="/user/:uid" element={<User></User>}></Route>

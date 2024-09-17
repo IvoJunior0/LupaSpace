@@ -4,7 +4,7 @@ import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 
 // Firebase
 import { doc, getDoc } from "firebase/firestore";
-import { db, auth } from "../config/firebase";
+import { db } from "../config/firebase";
 
 // Fontsawasome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,7 +30,6 @@ export default function CommunityPage() {
     const [id, setID] = useState("");
     const [forumStyles, setForumStyles] = useState({ backgroundColor: '', icon: faSpinner, textColor: '' });
     const [loading, setLoading] = useState(true);
-    const user = auth.currentUser;
 
     useEffect(() => {
         const fetchCommunityData = async () => {

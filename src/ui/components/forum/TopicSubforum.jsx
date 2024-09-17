@@ -1,10 +1,6 @@
 // Hooks
 import { useState, useEffect } from "react"
 
-// Firebase
-import { getDocs, collection, query, orderBy, limit } from "firebase/firestore";
-import { db } from "../../../config/firebase";
-
 // Componentes
 import Loading from "../extras/Loading";
 import Topic from "./Topic";

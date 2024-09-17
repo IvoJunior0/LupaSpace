@@ -60,7 +60,6 @@ export default function SubforumPage() {
 
     return(
         <>
-            
             {/* Banner */}
             <div className="h-40 w-full relative">
                 <div className={`h-28 w-full relative rounded-xl ${forumStyles.backgroundColor}`} />
