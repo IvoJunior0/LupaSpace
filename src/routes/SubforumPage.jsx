@@ -81,27 +81,27 @@ export default function SubforumPage() {
                     </div>
                 </div>
             </div>
-            {/* Hyperlinks */}
-            <div className="flex gap-2 text-gray-500 w-full">
-                <h3 className="flex gap-2 flex-wrap">
-                    <Link to={"/comunidades"} className="hover:underline">
-                        Comunidades
-                    </Link>
-                    <span>{">"}</span>
-                    <Link to={`/comunidades/${forumID}`} className="hover:underline">
-                        {forumData.name}
-                    </Link>
-                    <span>{">"}</span>
-                    {isParentRoute ? <span className={forumStyles.textColor}>{subforumData.name}</span> : (<>
-                        <Link to={`/comunidades/${forumID}/${subforumID}`} className="hover:underline">
-                            <span>{subforumData.name}</span>
+            {isParentRoute ? (<>
+                {/* Hyperlinks */}
+                <div className="flex gap-2 text-gray-500 w-full">
+                    <h3 className="flex gap-2 flex-wrap">
+                        <Link to={"/comunidades"} className="hover:underline">
+                            Comunidades
                         </Link>
                         <span>{">"}</span>
-                        <span className={`${forumStyles.textColor}`}>Criar tópico</span>
-                    </>)}
-                </h3>
-            </div>
-            {isParentRoute ? (<>
+                        <Link to={`/comunidades/${forumID}`} className="hover:underline">
+                            {forumData.name}
+                        </Link>
+                        <span>{">"}</span>
+                        {isParentRoute ? <span className={forumStyles.textColor}>{subforumData.name}</span> : (<>
+                            <Link to={`/comunidades/${forumID}/${subforumID}`} className="hover:underline">
+                                <span>{subforumData.name}</span>
+                            </Link>
+                            <span>{">"}</span>
+                            <span className={`${forumStyles.textColor}`}>Criar tópico</span>
+                        </>)}
+                    </h3>
+                </div>
                 {/* Tópicos fixados */}
                 <div className="flex flex-col gap-4">
                     <hr className="border-t-2"/>

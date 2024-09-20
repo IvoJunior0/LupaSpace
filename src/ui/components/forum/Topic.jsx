@@ -75,5 +75,5 @@ export default function Topic({ topic }) {
                 </div>
             </Link>
         </>
-    )
+    );
 }
