@@ -67,8 +67,9 @@ export default function TopicPage() {
 
     return (
         <div className="text-gray-500 p-4">
+            {/* Header */}
             <div className="">
-                <div className="grid grid-cols-[1fr_auto] grid-rows-2 p-2.5">
+                <div className="grid grid-cols-[1fr_auto] grid-rows-[auto_auto] p-2.5">
                     <div className="">
                         <h1 className="text-2xl hover:underline hover:cursor-pointer">{topicData.title}</h1>
                     </div>
@@ -84,11 +85,27 @@ export default function TopicPage() {
                         <h2>{topicData.viewCount} <FontAwesomeIcon icon={faEye}/></h2>
                     </div>
                 </div>
-                <hr />
-                <div className="p-2.5">
-                    <p>{parse(topicData.content)}</p>
-                </div>
             </div>
+            {/* Content */}
+            <div className="py-5 px-3">
+                <p>{parse(topicData.content)}</p>
+            </div>
+            <hr />
+            {/* Respostas */}
+            <div className="py-5">
+                <h1>Nenhuma resposta ainda...</h1>
+            </div>
+            {/* Fazer respotas */}
+            <form className="flex flex-col gap-5">
+                <textarea 
+                    placeholder="Sua resposta" 
+                    className="block resize-none w-full min-h-44 p-2.5 bg-slate-100 border-slate-300 border-2 rounded-md focus:outline-none focus:border-slate-400" 
+                    required
+                />
+                <div className="self-end">
+                    <button type="submit" className="text-white py-2 px-4 rounded bg-green-600 hover:bg-green-500">Publicar</button>
+                </div>
+            </form>
         </div>
     );
 }
