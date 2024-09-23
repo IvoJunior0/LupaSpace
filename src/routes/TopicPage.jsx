@@ -6,6 +6,17 @@ import Loading from "../ui/components/extras/Loading";
 import { db } from "../config/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
+import parse from 'html-react-parser';
+
+function formatTimeAgo(timestampSeconds) {
+    const convertedDate = new Date(timestampSeconds * 1000);
+    const timeAgoFormated = formatDistanceToNow(convertedDate, { includeSeconds: true, locale: ptBR});
+    return timeAgoFormated;
+}
+
 export default function TopicPage() {
     const { topicID } = useParams();
     const location = useLocation();
@@ -13,7 +24,8 @@ export default function TopicPage() {
     const [authorData, setAuthorData] = useState({});
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(true);
-    
+    let timeAgo;
+
     useEffect(() => {
         const fetchTopicData = async () => {
             // Informações do tópico
@@ -42,19 +54,23 @@ export default function TopicPage() {
     // Mudando o título da página
     (topicData && !loading) ? document.title = `${topicData.title}` : document.title = "Carregando...";
 
-    if (loading) return <Loading/>;
-
-    console.log(topicData)
+    if (loading) {
+        return <Loading/>
+    } else {
+        timeAgo = formatTimeAgo(topicData.createdAt.seconds);
+    }
 
     return (
         <div className="text-gray-500 p-4">
             <div className="">
-                <h5>Por há</h5>
+                <h5>Por {authorData.name}  há {timeAgo}</h5>
                 <h1 className="">{topicData.title}</h1>
                 <h2>{topicData.replyCount} respostas</h2>
                 <h2>{topicData.viewCount} visualizações</h2>
                 <hr />
-                <p>{topicData.content}</p>
+                <div className="">
+                    <p>{parse(topicData.content)}</p>
+                </div>
             </div>
         </div>
     );
