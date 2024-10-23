@@ -18,14 +18,11 @@ import TopicsBlock from "../ui/components/forum/TopicsBlock";
 import JoinCommunityButton from "../ui/components/buttons/JoinCommunityButton";
 
 // Funções
-import createTopic from "../functions/createTopic";
 import ForumMembers from "../ui/components/forum/ForumMembers";
 
 export default function CommunityPage() {
     const { communityID } = useParams();
-    const contentRef = useRef(null);
     const location = useLocation();
-    const [isFollowing, setIsFollowing] = useState(false);
     const [forumData, setForumData] = useState(null);
     const [id, setID] = useState("");
     const [forumStyles, setForumStyles] = useState({ backgroundColor: '', icon: faSpinner, textColor: '' });
@@ -108,14 +105,6 @@ export default function CommunityPage() {
                     ))}
                 </div>
             </section>
-            {/* Tópicos recentes */}
-            <section className="flex flex-col gap-4">
-                <hr className="border-t-2"/>
-                <div className="text-gray-500 mt-1 pb-3">
-                    <h1>Tópicos recentes</h1>
-                </div>
-                <TopicsBlock path={`Forums/${communityID}/Subforums/`} ids={forumData.subForumsID}/>
-            </section>
             {/* Membros */}
             <section className="flex flex-col gap-4">
                 <hr className="border-t-2"/>
@@ -133,7 +122,6 @@ export default function CommunityPage() {
             </>) : (
                 <Outlet/>
             )}
-
         </>
     );
 }

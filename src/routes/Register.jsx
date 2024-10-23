@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 // Firebase
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../config/firebase.jsx";
-import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp, collection } from "firebase/firestore";
 
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,7 +32,8 @@ export default function Register(){
             const saltRounds = 10;
             const hashedPassword = bcrypt.hashSync(password, saltRounds);
             if (user) {
-                await setDoc(doc(db, "Users", user.uid), {
+                const userRef = doc(db, "Users", user.uid);
+                await setDoc(userRef, {
                     email: user.email,
                     name: name,
                     username: username,

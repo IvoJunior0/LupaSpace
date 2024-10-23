@@ -2,7 +2,7 @@ import { useState } from "react"
 
 import { useLocation } from "react-router-dom";
 
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 
 export default function CreateTopicPage() {
@@ -25,18 +25,33 @@ export default function CreateTopicPage() {
         setLoading(true);
         if (subforumID && forumID) {
             try {
+                // Paths
                 const topicPath = `Forums/${forumID}/Subforums/${subforumID}/Topics`;
-                await addDoc(collection(db, topicPath), {
+                const userTopicPath = `Users/${user.uid}/Topics`;
+
+                // Usando o mesmo id para os dois documentos
+                const newTopicRef = doc(collection(db, topicPath));
+                const newTopicID = newTopicRef.id;
+
+                // Atributos dos tópicos
+                const data = {
                     title: title,
                     content: content,
                     authorID: user.uid,
                     createdAt: serverTimestamp(),
                     replyCount: 0,
-                    viewCount: 0,
                     status: "aberto",
                     mentions: [],
                     fixed: false
-                })
+                }
+
+                // Adicionando na coleção de tópicos do SUBFORUM
+                await addDoc(newTopicRef, data);
+
+                // Adicionando na coleção de tópicos do USUÁRIO
+                const userTopicRef = doc(db, userTopicPath, newTopicID);
+                await addDoc(userTopicRef, data);
+
                 console.log("deu bom") // Debug
             } catch (error) {
                 console.log("Erro: ", error) // Debug
@@ -45,7 +60,7 @@ export default function CreateTopicPage() {
             console.log("Erro: Forum ou Subforum não encontrados (query parameters inválidos)") // Debug
         }
         setLoading(false);
-    }
+    };
 
     return(
         <>

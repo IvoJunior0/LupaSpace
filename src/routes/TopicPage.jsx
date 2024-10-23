@@ -65,6 +65,10 @@ export default function TopicPage() {
         timeAgo = formatTimeAgo(topicData.createdAt.seconds);
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    }
+
     return (
         <div className="text-gray-500 p-4">
             {/* Header */}
@@ -96,7 +100,7 @@ export default function TopicPage() {
                 <h1>Nenhuma resposta ainda...</h1>
             </div>
             {/* Fazer respotas */}
-            <form className="flex flex-col gap-5">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <textarea 
                     placeholder="Sua resposta" 
                     className="block resize-none w-full min-h-44 p-2.5 bg-slate-100 border-slate-300 border-2 rounded-md focus:outline-none focus:border-slate-400" 

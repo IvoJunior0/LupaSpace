@@ -23,6 +23,7 @@ export default function User() {
     useEffect(() => {
         const fetchUserData = async () => {
           const userDoc = await getDoc(doc(db, 'Users', uid));
+            
           if (userDoc.exists()) {
             setUserData(userDoc.data());
           } else {
@@ -45,7 +46,7 @@ export default function User() {
     if (!userData) {
       return <div>Usuário não encontrado</div>;
     } else {
-      document.title = userData.name;
+      document.title = `${userData.name} no LupaSpace`;
     }
 
     return(
@@ -53,9 +54,6 @@ export default function User() {
             <Navbar/>
             <Sidebar/>
             <div className="mt-[90px] mb-[24px] w-full h-fit col-end-2 max-[1199px]:col-span-full col-start-2">
-              <div className="h-40 w-full relative">
-                <div className="bg-green-500 h-32 w-full relative" />
-                <div className="flex justify-around items-end absolute bottom-0 left-0 w-full text-gray-500">
                   <h2 className='relative z-20'>
                     {!userData.pfp ? (
                       <FontAwesomeIcon icon={faCircleUser} className='text-6xl text-green-500 border-4 border-white rounded-full'/>
@@ -66,8 +64,6 @@ export default function User() {
                     <h2>@{userData.username}</h2>
                   </div>
                   <button>Seguir +</button>
-                </div>
-              </div>
             </div>
         </div>
     );

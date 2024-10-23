@@ -24,12 +24,12 @@ export default function Sidebar(){
                 if (userSnapshot.exists()) {
                     setUserData(userSnapshot.data());
                 } else {
-                    console.log("Usuario não existe"); // Debug
+                    console.log("Usuario não existe"); // TODO: trocar por uma resposta visual
                 }
             }
             fetchUserData();
         }
-    }, [user, userData]);
+    }, []);
 
     return(
         <div className="fixed w-[320px] top-[90px] h-full flex flex-col border-r-4 bg-slate-50 gap-4 p-6 max-[1199px]:hidden text-gray-500">
@@ -45,7 +45,6 @@ export default function Sidebar(){
                             <CommunityShortcut id={forum}/>
                         </li>
                     ))}
-                    <li></li>
                 </ul>
             </>) : null}
         </div>
