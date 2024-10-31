@@ -43,6 +43,8 @@ export default function User() {
         );
     }
 
+    console.log(userData)
+
     if (!userData) {
         return <div>Usuário não encontrado</div>;
     } else {
@@ -54,7 +56,8 @@ export default function User() {
             <Navbar/>
             <Sidebar/>
             <div className="mt-[90px] mb-[24px] w-full h-fit col-end-2 max-[1199px]:col-span-full col-start-2">
-                <div className="flex items-center justify-around w-full bg-green-800 p-3">
+                {/* Cabeçalho */}
+                <section className="flex items-center justify-around w-full bg-green-800 p-3">
                     <h2 className=''>
                         {!userData.pfp ? (
                             <FontAwesomeIcon icon={faCircleUser} className='text-7xl text-green-500 border-4 border-white rounded-full'/>
@@ -67,7 +70,11 @@ export default function User() {
                     <div className="">
                         <button className='bg-green-500 text-white py-1.5 px-3.5 rounded'>Seguir +</button>
                     </div>
-                </div>
+                </section>
+                {/* Informações */}
+                <section>
+                    
+                </section>
             </div>
         </div>
     );
