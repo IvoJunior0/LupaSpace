@@ -12,6 +12,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faPlus, faRightFromBracket, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import CreatePost from "./CreatePost";
 
+/**
+ * Barra de navegação do topo.
+ */
 function Navbar() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
@@ -20,14 +23,16 @@ function Navbar() {
     const [loading, setLoading] = useState(true);
     let menuIcon = <FontAwesomeIcon icon={faBars}/>
 
+    // Função de logout
     async function logOut() {
         try {
             await auth.signOut();
-            window.location.href = "/login";
+            window.location.href = "/login"; // Redireciona para página de login
         }
-        catch (error) {}
+        catch (error) {} // TODO: trocar por erro visual
     }
 
+    // Trocar icone do menu da navbar
     if (menu) {
         menuIcon = <FontAwesomeIcon icon={faXmark} className="text-2xl"/>
     } else {

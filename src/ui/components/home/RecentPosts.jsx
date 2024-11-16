@@ -3,15 +3,21 @@ import { useState, useEffect } from 'react';
 
 import { collection, query, orderBy, getDocs, limit } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
-import Post from '../Project';
+import Project from '../Project';
 import FilterButton from '../buttons/FilterButton';
 
+/**
+ * Retorna as informações dos 10 projetos mais recentes.
+ * @returns {Array} Array de objetos com informações dos projetos.
+ */
 const getRecentPosts = async () => {
     try {
-        const projectsRef = collection(db, "Projects");
-        const projectsQuery = query(projectsRef, orderBy("createdAt", "desc"), limit(10));
-        const projectsSnapshot = await getDocs(projectsQuery);
+        const projectsRef = collection(db, "Projects"); // Referência
+        const projectsQuery = query(projectsRef, orderBy("createdAt", "desc"), limit(10)); // Filtro
+        const projectsSnapshot = await getDocs(projectsQuery); // Informações
     
+        // Lista dos projetos mais recentes.
+        // TODO: fazer com que o usuário possa aumentar o limite de 10 projetos.
         const projects = projectsSnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
@@ -24,6 +30,9 @@ const getRecentPosts = async () => {
     }
 }
 
+/**
+ * Componente que engloba e faz o fetch dos projetos mais recentes
+ */
 export default function RecentPosts() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -63,7 +72,7 @@ export default function RecentPosts() {
                     <ul className='flex flex-col gap-6'>
                         {posts.map(post => (
                             <li key={post.id}>
-                                <Post post={post}/>
+                                <Project post={post}/>
                             </li>
                         ))}
                     </ul>

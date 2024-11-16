@@ -1,3 +1,4 @@
+// HomePage do site
 import Navbar from "../ui/components/header/Navbar";
 import Content from "../ui/components/home/Content";
 import Sidebar from "../ui/components/home/Sidebar";

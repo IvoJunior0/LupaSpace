@@ -43,15 +43,16 @@ export default function CreatePost(props) {
                     dislikes: 0,
                     createdAt: serverTimestamp(),
                     fileURL: fileURL,
-                    favoritedBy: [],
-                    collaborators: [],
+                    // TODO: Procurar os favoritos em um documento de uma coleção "Favoritos" no documento do usuário
+                    favoritedBy: [], // TODO: tirar dps
+                    collaborators: [], // TODO: transformar em coleção
                     thumbnailURL: null,
                     pinned: false,
                     isPublic: true,
-                    comments: [],
+                    comments: [], // TODO: transformar em coleção
                     liked: false,
                     favorited: false,
-                    disliked: false,
+                    disliked: false, // TODO: tirar dps e deixar só os likes
                 })
                 setTitle('');
                 setDescricao('');

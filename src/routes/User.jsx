@@ -1,6 +1,6 @@
 // Hooks
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 // Componentes
 import Navbar from "../ui/components/header/Navbar";
@@ -15,66 +15,101 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
+import { Outlet } from 'react-router-dom';
+
+/**
+ * Página de perfil do usuário.
+ * 
+ * @returns {JSX.Element} Componente renderizado.
+ */
 export default function User() {
     const { uid } = useParams();
+    const location = useLocation();
+
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const userDoc = await getDoc(doc(db, 'Users', uid));
-            
-            if (userDoc.exists()) {
-                setUserData(userDoc.data());
-            } else {
-                console.log('Usuário não encontrado');
+            try {
+                const userDoc = await getDoc(doc(db, 'Users', uid));
+
+                if (userDoc.exists()) {
+                    setUserData(userDoc.data());
+                } else {
+                    console.log('Usuário não encontrado');
+                }
+                setLoading(false);
+            } catch (error) {
+                console.log(error);
             }
-            setLoading(false);
         };
-    
         fetchUserData();
     }, [uid]);
 
-    if (loading) {
-        return (
-            <div className="h-screen w-screen">
-                <Loading/>
-            </div>
-        );
-    }
+    const isParentRoute = location.pathname === `/user/${uid}`;
 
-    console.log(userData)
+    useEffect(() => {
+        // Retornar erro visual se o usuário não for encontrado
+        if (!userData && !loading) {
+            return (<div className='grid grid-rows-[90px_1fr] grid-cols-[320px_1fr] mx-lg:grid-cols-1 h-[100vh]'>
+                <Navbar />
+                <Sidebar />
+                <div className="mt-[90px] mb-[24px] w-full h-fit col-end-2 max-[1199px]:col-span-full col-start-2">
+                    <h1>Usuário não encontrado</h1>
+                </div>
+            </div>)
+        }
 
-    if (!userData) {
-        return <div>Usuário não encontrado</div>;
-    } else {
-        document.title = `${userData.name} (@${userData.username}) | LupaSpace`;
-    }
+        // Trocando o título da página somente quando o objeto userData existir de fato.
+        // O else nao funciona nesse caso. Ele retorna undefined primeiro e depois que troca pelo valor da variável.
+        if (userData) {
+            // "Usuário X - @username_x"
+            document.title = `${userData?.name} - @${userData.username}`;
+        }
+    }, [userData, loading]);
 
-    return(
+    return (
         <div className='grid grid-rows-[90px_1fr] grid-cols-[320px_1fr] mx-lg:grid-cols-1 h-[100vh]'>
-            <Navbar/>
-            <Sidebar/>
+            <Navbar />
+            <Sidebar />
             <div className="mt-[90px] mb-[24px] w-full h-fit col-end-2 max-[1199px]:col-span-full col-start-2">
-                {/* Cabeçalho */}
-                <section className="flex items-center justify-around w-full bg-green-800 p-3">
-                    <h2 className=''>
-                        {!userData.pfp ? (
-                            <FontAwesomeIcon icon={faCircleUser} className='text-7xl text-green-500 border-4 border-white rounded-full'/>
-                        ) : userData.pfp}
-                    </h2>
-                    <div className="text-white">
-                        <h2 className='font-bold'>{userData.name}</h2>
-                        <h2>@{userData.username}</h2>
-                    </div>
-                    <div className="">
-                        <button className='bg-green-500 text-white py-1.5 px-3.5 rounded'>Seguir +</button>
-                    </div>
-                </section>
-                {/* Informações */}
-                <section>
-                    
-                </section>
+                {loading ? <Loading /> : (<>
+                    {/* Cabeçalho */}
+                    <section className="flex items-center justify-around w-full bg-green-800 p-3">
+                        {/* Foto de perfil */}
+                        <h2 className=''>
+                            {!userData.pfp ? (
+                                <FontAwesomeIcon icon={faCircleUser} className='text-7xl text-green-500 border-4 border-white rounded-full' />
+                            ) : userData.pfp}
+                        </h2>
+                        {/* Nome e username */}
+                        <div className="text-white">
+                            <h2 className='font-bold'>{userData.name}</h2>
+                            <h2>@{userData.username}</h2>
+                        </div>
+                        {/* Botão de seguir */}
+                        <div className="">
+                            <button className='bg-green-500 text-white py-1.5 px-3.5 rounded'>Seguir +</button>
+                        </div>
+                    </section>
+                    {/* Informações */}
+                    <section className='flex flex-col gap-2.5 p-6 text-gray-500'>
+                        {isParentRoute ? (<>
+                            <div className="grid grid-cols-2 grid-rows-1">
+                                {/* Biografia */}
+                                <p>{userData.bio}</p>
+                                {/* Contatos */}
+                            </div>
+                            <hr className='border-2'/>
+                            {/* Projetos */}
+                            <div className="">
+                                <h1 className='text-3xl font-bold'>Projetos</h1>
+                            </div>
+                        </>) : 
+                        <Outlet />}
+                    </section>
+                </>)}
             </div>
         </div>
     );

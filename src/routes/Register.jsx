@@ -1,6 +1,5 @@
 // Outros
 import { useState, useEffect } from "react";
-import bcrypt from 'bcryptjs';
 import { useNavigate } from "react-router-dom";
 
 // Firebase
@@ -29,8 +28,6 @@ export default function Register(){
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             const user = auth.currentUser;
-            const saltRounds = 10;
-            const hashedPassword = bcrypt.hashSync(password, saltRounds);
             if (user) {
                 const userRef = doc(db, "Users", user.uid);
                 await setDoc(userRef, {
@@ -40,20 +37,16 @@ export default function Register(){
                     bio: "",
                     pfp: null,
                     createdAt: serverTimestamp(),
-                    password: hashedPassword,
                     lvl: 1,
                     xp: 0,
                     badge: null,
-                    achviments: [],
-                    projects: [],
-                    topics: [],
-                    posts: [],
+                    achviments: [], // Talvez trocar por uma coleção ao invés de um atributo no futuro.
+                    projects: [], // TODO: trocar por uma subcoleção com id dos documentos dos projetos
                     favoritedProjects: [],
-                    favoritedTopics: [],
                     following: [],
                     followers: [],
                     notifications: [],
-                    communities: [],
+                    contacs: []
                 });
             }
             navigate("/");
