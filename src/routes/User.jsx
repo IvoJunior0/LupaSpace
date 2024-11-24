@@ -13,9 +13,10 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 // Firebase
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { db, auth } from "../config/firebase";
 
 import { Outlet } from 'react-router-dom';
+import ProjectsContainer from '../ui/components/user/ProjectsContainer';
 
 /**
  * Página de perfil do usuário.
@@ -23,12 +24,16 @@ import { Outlet } from 'react-router-dom';
  * @returns {JSX.Element} Componente renderizado.
  */
 export default function User() {
-    const { uid } = useParams();
-    const location = useLocation();
+    const { uid } = useParams(); // id do usuário.
+    const location = useLocation(); // URL.
 
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // Atual usuário
+    const user = auth.currentUser;
+
+    // Coletando os dados do usuário e colocando no userData.
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -47,8 +52,10 @@ export default function User() {
         fetchUserData();
     }, [uid]);
 
+    // É falso quando está na página de algum projeto de usuário.
     const isParentRoute = location.pathname === `/user/${uid}`;
 
+    // Mudando o título da página e dando mensagem de erro.
     useEffect(() => {
         // Retornar erro visual se o usuário não for encontrado
         if (!userData && !loading) {
@@ -61,10 +68,14 @@ export default function User() {
             </div>)
         }
 
-        // Trocando o título da página somente quando o objeto userData existir de fato.
-        // O else nao funciona nesse caso. Ele retorna undefined primeiro e depois que troca pelo valor da variável.
+        /**
+         * Trocando o título da página somente quando o objeto userData existir de fato.
+         * O else nao funciona nesse caso. Ele retorna undefined primeiro e depois que troca pelo valor da variável.
+         * 
+         * @example
+         * document.title = "Usuário X - @username_x";
+         */
         if (userData) {
-            // "Usuário X - @username_x"
             document.title = `${userData?.name} - @${userData.username}`;
         }
     }, [userData, loading]);
@@ -90,7 +101,9 @@ export default function User() {
                         </div>
                         {/* Botão de seguir */}
                         <div className="">
-                            <button className='bg-green-500 text-white py-1.5 px-3.5 rounded'>Seguir +</button>
+                            {uid === user.uid ? null : 
+                                <button className='bg-green-500 text-white py-1.5 px-3.5 rounded'>Seguir +</button>
+                            }
                         </div>
                     </section>
                     {/* Informações */}
@@ -105,6 +118,7 @@ export default function User() {
                             {/* Projetos */}
                             <div className="">
                                 <h1 className='text-3xl font-bold'>Projetos</h1>
+                                <ProjectsContainer userId={uid}/>
                             </div>
                         </>) : 
                         <Outlet />}

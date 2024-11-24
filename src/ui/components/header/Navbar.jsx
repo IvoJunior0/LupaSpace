@@ -13,13 +13,13 @@ import { faBars, faPlus, faRightFromBracket, faUser, faXmark } from "@fortawesom
 import CreatePost from "./CreatePost";
 
 /**
- * Barra de navegação do topo.
+ * Componente da barra de navegação superior.
  */
 function Navbar() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const [menu, setMenu] = useState(false);
-    const [post, setPost] = useState(false);
+    const [menu, setMenu] = useState(false); // Icone do menu.
+    const [post, setPost] = useState(false); // Abrir ou fechar o menu.
     const [loading, setLoading] = useState(true);
     let menuIcon = <FontAwesomeIcon icon={faBars}/>
 

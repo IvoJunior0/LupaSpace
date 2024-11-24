@@ -29,7 +29,8 @@ export default function Register(){
             await createUserWithEmailAndPassword(auth, email, password);
             const user = auth.currentUser;
             if (user) {
-                const userRef = doc(db, "Users", user.uid);
+                const userRef = doc(db, "Users", user.uid); // Documento do usuário.        
+                
                 await setDoc(userRef, {
                     email: user.email,
                     name: name,
@@ -39,13 +40,22 @@ export default function Register(){
                     createdAt: serverTimestamp(),
                     lvl: 1,
                     xp: 0,
-                    badge: null,
+                    badge: [], // TODO: fazer uma coleção com todas as badges e depois colocar o id dos documentos nesse array
                     achviments: [], // Talvez trocar por uma coleção ao invés de um atributo no futuro.
                     projects: [], // TODO: trocar por uma subcoleção com id dos documentos dos projetos
-                    favoritedProjects: [],
+                    favoritedProjects: [], // TODO: mesma coisa do de cima
                     following: [],
                     followers: [],
-                    notifications: [],
+                    /**
+                     * Sites e redes sociais compatíveis:
+                     * - Github
+                     * - Linkedin
+                     * - Instagram
+                     * - Email acadêmico
+                     * 
+                     * Os index no array são organizados na ordem que está na lista.
+                     * Contacs[0] vai ser o link do github, contacts[1] o do linkedin e assim sucessivamente.
+                     */
                     contacs: []
                 });
             }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { auth, db } from "../../../config/firebase";
-import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp, collection, getCountFromServer } from "firebase/firestore";
 import { storage } from "../../../config/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -11,6 +11,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import TagSelector from "../Posts/TagSelector";
 
+/**
+ * Componente do formulário de criação de publicações.
+ * 
+ * @param {Object} props - O componente aceita dois parâmetros pela props.
+ * @param {boolean} trigger - Estado atual do menu (aberto ou fechado).
+ * @param {Function} setTrigger - Mudar o atual estado do menu (fechar ou abrir).
+ * 
+ * @returns {JSX.Element} - Componente renderizado.
+ */
 export default function CreatePost(props) {
     const [title, setTitle] = useState("");
     const [descricao, setDescricao] = useState("");
@@ -29,31 +38,46 @@ export default function CreatePost(props) {
             try {
                 const postID = v4();
                 let fileURL = null;
+                const projectRef = doc(db, "Projects", postID); // Documento dos projeto na coleçao "Projects".
+
+                const userRef = doc(db, "Users", user.uid); // Documento do usuário.        
+                const projectsInUserRef = collection(db, userRef.path, "Projects"); // Subcoleção "Projects" no documento do usuário.
+
+                // Só será adicionada a URL do arquivo no objeto do projeto se ele for selecionado no formulário. 
                 if (fileUpload) {
                     const fileRef = ref(storage, `arquivos/projects/${postID}/${fileUpload.name}`);
                     const uploadTask = await uploadBytes(fileRef, fileUpload);
                     fileURL = await getDownloadURL(uploadTask.ref);
                 }
-                await setDoc(doc(db, "Projects", postID), {
+
+                const countSnapshot = await getCountFromServer(collection(db, "Projects"));
+                console.log(countSnapshot.data().count);
+
+                const projectData =  {
+                    // projectId: countSnapshot + 1
                     titulo: title,
                     descricao: descricao,
-                    authorID: user ? user.uid : null,
+                    authorID: user ? user.uid : "",
                     tags: tags,
                     likes: 0,
                     dislikes: 0,
                     createdAt: serverTimestamp(),
                     fileURL: fileURL,
                     // TODO: Procurar os favoritos em um documento de uma coleção "Favoritos" no documento do usuário
-                    favoritedBy: [], // TODO: tirar dps
-                    collaborators: [], // TODO: transformar em coleção
-                    thumbnailURL: null,
+                    collaborators: [],
+                    thumbnailURL: "",
                     pinned: false,
                     isPublic: true,
-                    comments: [], // TODO: transformar em coleção
-                    liked: false,
-                    favorited: false,
-                    disliked: false, // TODO: tirar dps e deixar só os likes
-                })
+                    // comments: [] TODO: transformar em coleção
+                }
+
+                // Adicionando na coleção própria dos projetos "Projects".
+                await setDoc(projectRef, projectData);
+
+                // Adicionando na subcoleção "Projects" do usuário.
+                await setDoc(doc(projectsInUserRef, postID), projectData);
+
+                // Resetando os inputs do formulário.
                 setTitle('');
                 setDescricao('');
                 setMensagem('');
@@ -103,6 +127,8 @@ export default function CreatePost(props) {
                             }}/>
                     </div>
                 </div>
+                {/* Selecionar tags */}
+                {/* TODO: fazer as tags serem obrigatórias na hora de enviar o formulário */}
                 <div className="flex justify-between items-center">
                     <div className="relative inline-block">
                         <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onClick={() => setTagMenu(!tagMenu)}>Selecione as tags</button>

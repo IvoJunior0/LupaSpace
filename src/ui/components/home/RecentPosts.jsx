@@ -8,6 +8,7 @@ import FilterButton from '../buttons/FilterButton';
 
 /**
  * Retorna as informações dos 10 projetos mais recentes.
+ * 
  * @returns {Array} Array de objetos com informações dos projetos.
  */
 const getRecentPosts = async () => {
@@ -31,7 +32,7 @@ const getRecentPosts = async () => {
 }
 
 /**
- * Componente que engloba e faz o fetch dos projetos mais recentes
+ * Componente que engloba os projetos mais recentes.
  */
 export default function RecentPosts() {
     const [posts, setPosts] = useState([]);

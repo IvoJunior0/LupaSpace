@@ -69,7 +69,6 @@ export default function Project(props) {
         timeAgo = formatDistanceToNow(convertedDate, { includeSeconds: true, locale: ptBR });
     }
 
-    // FIXME: passar parâmetros no componente <Link/>
     return (
         <div className='flex flex-col gap-6 text-gray-500'>
             <hr/>

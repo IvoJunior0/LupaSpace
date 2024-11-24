@@ -28,6 +28,7 @@ export default function ProjectPage() {
     const [projectData, setProjectData] = useState();
     const [userData, setUserData] = useState();
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     let timeAgo;
 
@@ -39,7 +40,7 @@ export default function ProjectPage() {
                 if (projectDoc.exists()) {
                     setProjectData(projectDoc.data());
                 } else {
-                    console.log("Projeto não encontrado") // TODO: resposta visual
+                    setError(true);
                 }
 
                 // Fetch do usuário
@@ -78,54 +79,57 @@ export default function ProjectPage() {
     }
 
     // TODO: trocar pela função convertDate.jsx
-    if (!loading) {
+    if (!loading && !error) {
         const convertedDate = new Date(projectData.createdAt.seconds * 1000);
         timeAgo = formatDistanceToNow(convertedDate, { includeSeconds: true, locale: ptBR });
     }
 
     return(
         <>
-            {/* Títutlo */}
-            <div>
-                <h1 className="text-3xl font-bold hover:underline hover:cursor-pointer" onClick={() => clipboardShareLink(window.location.href)}>{projectData.titulo}</h1>
-            </div>
-            {/* Informações do autor */}
-            <div className="text-sm">
-                <h4>Publicado por {userData.name} - Há {timeAgo}</h4>
-            </div>
-            {/* Conteúdo */}
-            <div className="">
-                <p>{parse(projectData.descricao)}</p>
-            </div>
-            {/* Arquivo */}
-            <div className="">
-                <File filePath={projectData.fileURL}/>
-            </div>
-            {/* Likes, dislikes, e favoritos */}
-            <div className="flex gap-1.5">
-                <button>
-                    <FontAwesomeIcon icon={likeDesactive} />
-                </button>
-                <span>
-                    {projectData.likes}
-                </span>
-                <button>
-                    <FontAwesomeIcon icon={dislikeDesactive} />
-                </button>
-                <span>
-                    {projectData.dislikes}</span>
-                <button>
-                    <FontAwesomeIcon icon={notFavoritedIcon} />
-                </button>
-            </div>
-            {/* Lista de tags */}
-            <div className="">
-                <TagsList list={projectData.tags} />
-            </div>
-            <hr className="border-2"/>
-            <div className="">
-                <h1 className="text-2xl font-bold">Comentários</h1>
-            </div>
+            {/* TODO: criar dps uma página bonitinha de erro 404 */}
+            {error ? <h1>Projeto não encontrado</h1> : (<>
+                {/* Títutlo */}
+                <div>
+                    <h1 className="text-3xl font-bold hover:underline hover:cursor-pointer" onClick={() => clipboardShareLink(window.location.href)}>{projectData.titulo}</h1>
+                </div>
+                {/* Informações do autor */}
+                <div className="text-sm">
+                    <h4>Publicado por {userData.name} - Há {timeAgo}</h4>
+                </div>
+                {/* Conteúdo */}
+                <div className="">
+                    <p>{parse(projectData.descricao)}</p>
+                </div>
+                {/* Arquivo */}
+                <div className="">
+                    <File filePath={projectData.fileURL}/>
+                </div>
+                {/* Likes, dislikes, e favoritos */}
+                <div className="flex gap-1.5">
+                    <button>
+                        <FontAwesomeIcon icon={likeDesactive} />
+                    </button>
+                    <span>
+                        {projectData.likes}
+                    </span>
+                    <button>
+                        <FontAwesomeIcon icon={dislikeDesactive} />
+                    </button>
+                    <span>
+                        {projectData.dislikes}</span>
+                    <button>
+                        <FontAwesomeIcon icon={notFavoritedIcon} />
+                    </button>
+                </div>
+                {/* Lista de tags */}
+                <div className="">
+                    <TagsList list={projectData.tags} />
+                </div>
+                <hr className="border-2"/>
+                <div className="">
+                    <h1 className="text-2xl font-bold">Comentários</h1>
+                </div>
+            </>)}
         </>
     );
 }
