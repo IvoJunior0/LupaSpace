@@ -22,7 +22,9 @@ export default function Menu({active}) {
     
     if (user) {
         return(
+            // TODO: fazer os items funcionarem dps
             <ul className={`flex flex-col gap-4 fixed p-6 border-4 rounded-xl w-full sm:w-96 bg-slate-50 text-gray-500 top-[90px] transition-all duration-500 ${active ? 'right-0' : '-right-full'}`}>
+                {/* TODO: fazer isso funcionar */}
                 <li><a href="#"><FontAwesomeIcon icon={faFolder}></FontAwesomeIcon> Meus Projetos</a></li>
                 <li><a href="#"><FontAwesomeIcon icon={faGear}></FontAwesomeIcon> Configurações</a></li>
                 <li><button><FontAwesomeIcon icon={faSun}/>  <FontAwesomeIcon icon={faToggleOff}/> <FontAwesomeIcon icon={faMoon}/></button></li>
