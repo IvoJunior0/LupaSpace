@@ -1,6 +1,6 @@
 // Hooks
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 // Componentes
 import Navbar from "../ui/components/header/Navbar";
@@ -46,7 +46,7 @@ export default function User() {
                 }
                 setLoading(false);
             } catch (error) {
-                console.log(error);
+                console.log(error); // TODO: resposta visual
             }
         };
         fetchUserData();

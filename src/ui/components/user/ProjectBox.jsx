@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
  * @returns {JSX.Element} Componente renderizado.
  */
 export default function ProjectBox({ post }) {
-    console.log(post)
     return (
         <div className="p-4 border-4 border-slate-200 rounded-md hover:border-slate-400 hover:bg-slate-100">
             <Link to={`projetos/${post.id}`} >

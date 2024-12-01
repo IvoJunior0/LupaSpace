@@ -31,10 +31,8 @@ export default function ProjectsContainer({ userId }) {
                     ...doc.data()
                 }));
 
-                console.log(projects);
                 setUserProjects(projects);
                 setLoading(false);
-
             } catch (error) {
                 console.log("ERRO: " + error) // TODO: resposta visual
             }

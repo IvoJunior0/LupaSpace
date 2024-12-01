@@ -17,6 +17,7 @@ export default function Register(){
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
+    const [turma, setTurma] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -56,7 +57,9 @@ export default function Register(){
                      * Os index no array são organizados na ordem que está na lista.
                      * Contacs[0] vai ser o link do github, contacts[1] o do linkedin e assim sucessivamente.
                      */
-                    contacs: []
+                    contacs: [],
+                    // Info. 1, Info. 2 ou Info. 3
+                    turma: turma
                 });
             }
             navigate("/");

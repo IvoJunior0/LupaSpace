@@ -2,7 +2,10 @@ import Tag from "./Tag";
 
 /**
  * Componente container que mostra todas as tags de um projeto.
+ * 
  * @param {Array} list Lista de tags.
+ * 
+ * @returns {JSX.Element} Componente div em forma de lista com todas as tags do post.
  */
 export default function TagsList({ list }) {
     return (
