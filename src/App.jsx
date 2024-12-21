@@ -17,6 +17,7 @@ import Following from "./routes/Following";
 import Error from "./routes/Error";
 import ProjectPage from "./routes/ProjectPage";
 import SearchPage from "./routes/SearchPage";
+import QueryResultPage from "./routes/QueryResultPage";
 
 function App() {
     const [user, setUser] = useState();
@@ -35,7 +36,9 @@ function App() {
                 <Route path="/user/:uid" element={<User />}>
                     <Route path="projetos/:projectId" element={<ProjectPage />} />
                 </Route>
-                <Route path="/pesquisa" element={<SearchPage/>}/>
+                <Route path="/pesquisa" element={<SearchPage/>}>
+                    <Route path="busca" element={<QueryResultPage/>}/> {/* Resultado da pesquisa */}
+                </Route>
                 <Route path="/helloworld" element={<HelloWorld />} />
                 <Route path="*" element={<Error />} />
             </Routes>
