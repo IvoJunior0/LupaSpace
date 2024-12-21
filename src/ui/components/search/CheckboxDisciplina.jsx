@@ -9,10 +9,13 @@
  * 
  * @returns {JSX.Element} - Componente renderizado.
  */
-export default function CheckboxDisciplina({ updateDisciplinas, id, text }) {
+export default function CheckboxDisciplina({ updateDisciplinas, id, text, disabled }) {
+    if (disabled) {
+        
+    }
     return (
         <div>
-            <input type="checkbox" id={id} value={id} onChange={updateDisciplinas} />
+            <input type="checkbox" id={id} value={id} onChange={updateDisciplinas} disabled={disabled} />
             <label htmlFor={id}>{text}</label>
         </div>
     );

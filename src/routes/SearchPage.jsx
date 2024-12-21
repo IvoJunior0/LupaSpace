@@ -11,14 +11,9 @@ import CheckboxDisciplina from "../ui/components/search/CheckboxDisciplina.jsx";
 export default function SearchPage() {
     const [queryText, setQueryText] = useState("");
     const [disciplinas, setDisciplinas] = useState([]);
-    const [turma, setTurma] = useState(0); // 1, 2 ou 3
-    /**
-     * Tipo de resultado de pesquisa
-     * 0 = valor default
-     * 1 = projeto
-     * 2 = aluno
-     */
-    const [queryType, setQueryType] = useState(0);
+    const [turma, setTurma] = useState(0);
+    const [queryType, setQueryType] = useState("");
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -47,7 +42,7 @@ export default function SearchPage() {
             console.log("NENHUM campo preenchido"); // TODO: resposta visual
         } else {
             // TODO: outra rota
-            navigate(`busca?tag=${disciplinas}`); // TODO: passar os parametros CORRETOS dps
+            navigate(`busca?q=${queryText}&type=${queryType}&info=${turma}${queryType === "projetos" ? `tag=${disciplinas}` : ``}`); // TODO: passar os parametros CORRETOS dps
             console.log("aaaaa");
         }
     }
@@ -56,6 +51,7 @@ export default function SearchPage() {
         return (<Outlet/>);
     }
 
+    // TODO: fazer com que quando a opção aluno for selecionada, as opções de disciplinas sejam desabilitadas, tiradas da lista e
     // TODO: componentização dos inputs e checkboxes
     return (
         <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
@@ -66,16 +62,16 @@ export default function SearchPage() {
             <div className="py-3 flex flex-col gap-3.5">
                 <h2 className="text-xl">Pesquisa por filtros</h2>
                 <div className="flex flex-wrap gap-2.5 justify-between w-full">
-                    <div className="min-w-80">
+                    <div className="min-w-80" id="checkboxes">
                         <h4>Disciplina</h4>
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="lp" text="Lógica de Programação" />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="poo" text="Programação Orientada a Objetos" />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="web" text="Desenvolvimento Web" />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="db" text="Banco de Dados" />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="redes" text="Redes de Computadores" />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="hardware" text="Hardware" />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="info" text="Informática Básica" />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="tcc" text="Artigo" />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="lp" text="Lógica de Programação" disabled={queryType === "alunos"} />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="poo" text="Programação Orientada a Objetos" disabled={queryType === "alunos"} />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="web" text="Desenvolvimento Web" disabled={queryType === "alunos"} />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="db" text="Banco de Dados" disabled={queryType === "alunos"} />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="redes" text="Redes de Computadores" disabled={queryType === "alunos"} />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="hardware" text="Hardware" disabled={queryType === "alunos"} />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="info" text="Informática Básica" disabled={queryType === "alunos"} />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="tcc" text="Artigo" disabled={queryType === "alunos"} />
                     </div>
                     <div className="min-w-80">
                         {/* Cada input radio define um novo valor em turma (1, 2 ou 3) */}
@@ -97,11 +93,11 @@ export default function SearchPage() {
                         {/* Funciona igual a div acima */}
                         <h4>Tipo de pesquisa</h4>
                         <div className="">
-                            <input type="radio" id="project" name="queryType" onChange={() => setQueryType(1)} />
+                            <input type="radio" id="project" name="queryType" onChange={() => setQueryType("projetos")} />
                             <label htmlFor="project">Projeto</label>
                         </div>
                         <div className="">
-                            <input type="radio" id="user" name="queryType" onChange={() => setQueryType(2)} />
+                            <input type="radio" id="user" name="queryType" onChange={() => setQueryType("alunos")} />
                             <label htmlFor="user">Aluno</label>
                         </div>
                     </div>

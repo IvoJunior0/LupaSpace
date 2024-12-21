@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 /**
@@ -17,6 +17,15 @@ import { useLocation } from "react-router-dom";
 export default function QueryResultPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
+
+    // Parâmetros
+    const queryText = queryParams.get('q');
+    const queryType = queryParams.get('type');
+    // NOTA: quando não forem passadas as tags, a variável tags terá o tipo UNDEFINED
+    const tags = queryParams.get('tag')?.split(',').map(item => item.trim()); // Formatação de string para array
+    const turma = queryParams.get('info');
+
+    console.log(queryText, queryType, tags, turma)
 
     const [loading, setLoading] = useState(false);
 
