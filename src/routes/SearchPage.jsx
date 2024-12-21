@@ -18,13 +18,6 @@ export default function SearchPage() {
      * 2 = aluno
      */
     const [queryType, setQueryType] = useState(0);
-    /**
-     * Lista usada pra armazenar todos filtros e passar como parametro no submit
-     * - Primeiro vão ser as disciplinas
-     * - Segundo o numero da turma (index[-2])
-     * - Terceiro o tipo de de pesquisa (index[-1])
-     */
-    const [filtersList, setFiltersList] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -53,9 +46,8 @@ export default function SearchPage() {
             console.log("NENHUM campo preenchido"); // TODO: resposta visual
         } else {
             // TODO: outra rota
-            navigate(`busca`); // TODO: passar os parametros CORRETOS dps
+            navigate(`busca?tag=${disciplinas}`); // TODO: passar os parametros CORRETOS dps
             console.log("aaaaa");
-            setLoading(true);
         }
     }
 
@@ -63,7 +55,6 @@ export default function SearchPage() {
         return (<Outlet/>);
     }
 
-    // Se nenhum parametro for passado (PÁGINA DE BUSCA NORMAL)
     // TODO: componentização dos inputs e checkboxes
     return (
         <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
