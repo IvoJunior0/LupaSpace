@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import CheckboxDisciplina from "../ui/components/search/CheckboxDisciplina.jsx";
 
 // TODO: colocar a barra de navegação
 /**
@@ -67,38 +68,14 @@ export default function SearchPage() {
                 <div className="flex flex-wrap gap-2.5 justify-between w-full">
                     <div className="min-w-80">
                         <h4>Disciplina</h4>
-                        <div className="">
-                            <input type="checkbox" id="lp" value={"lp"} onChange={updateDisciplinas} />
-                            <label htmlFor="lp">Lógica de Programação</label>
-                        </div>
-                        <div className="">
-                            <input type="checkbox" id="poo" value={"poo"} onChange={updateDisciplinas} />
-                            <label htmlFor="poo">Programação Orientada a Objetos</label>
-                        </div>
-                        <div className="">
-                            <input type="checkbox" id="web" value={"web"} onChange={updateDisciplinas} />
-                            <label htmlFor="web">Desenvolvimento Web</label>
-                        </div>
-                        <div className="">
-                            <input type="checkbox" id="db" value={"db"} onChange={updateDisciplinas} />
-                            <label htmlFor="db">Banco de Dados</label>
-                        </div>
-                        <div className="">
-                            <input type="checkbox" id="redes" value={"redes"} onChange={updateDisciplinas} />
-                            <label htmlFor="redes">Redes de Computadores</label>
-                        </div>
-                        <div className="">
-                            <input type="checkbox" id="hardware" value={"hardware"} onChange={updateDisciplinas} />
-                            <label htmlFor="hardware">Hardware</label>
-                        </div>
-                        <div className="">
-                            <input type="checkbox" id="info" value={"info"} onChange={updateDisciplinas} />
-                            <label htmlFor="info">Informática Básica</label>
-                        </div>
-                        <div className="">
-                            <input type="checkbox" id="tcc" value={"tcc"} onChange={updateDisciplinas} />
-                            <label htmlFor="tcc">Artigo</label>
-                        </div>
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="lp" text="Lógica de Programação" />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="poo" text="Programação Orientada a Objetos" />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="web" text="Desenvolvimento Web" />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="db" text="Banco de Dados" />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="redes" text="Redes de Computadores" />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="hardware" text="Hardware" />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="info" text="Informática Básica" />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="tcc" text="Artigo" />
                     </div>
                     <div className="min-w-80">
                         {/* Cada input radio define um novo valor em turma (1, 2 ou 3) */}
