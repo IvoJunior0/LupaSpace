@@ -86,6 +86,15 @@ export default function QueryResultPage() {
     return (
         <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
             {queryParams.size === 0 ? <h1>Nenhum filtro selecionado.</h1> : <></>}
+            {queryType === "alunos" ? <>
+                <ul className='flex flex-col gap-6'>
+                    {alunos.map(aluno => (
+                        <li key={aluno.id}>
+                            <h1>{aluno.turma}</h1>
+                        </li>
+                    ))}
+                </ul>
+            </> : <></>}
         </div>
     );
 }
