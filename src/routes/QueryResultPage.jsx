@@ -4,6 +4,9 @@ import capitalizeText from "../functions/capitalizeText";
 
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
+import Project from "../ui/components/Project";
+import Loading from "../ui/components/extras/Loading";
+import UserBox from "../ui/components/search/UserBox";
 
 const fetchQueryData = async (queryType, queryText, turma) => {
     try {
@@ -83,6 +86,14 @@ export default function QueryResultPage() {
     }, []);
     console.log(typeof(turma));
 
+    if (loading) {
+        return (
+            <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
+                <Loading />
+            </div>
+        )
+    }
+
     return (
         <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
             {queryParams.size === 0 ? <h1>Nenhum filtro selecionado.</h1> : <></>}
@@ -90,7 +101,7 @@ export default function QueryResultPage() {
                 <ul className='flex flex-col gap-6'>
                     {alunos.map(aluno => (
                         <li key={aluno.id}>
-                            <h1>{aluno.turma}</h1>
+                            <UserBox props={aluno} />
                         </li>
                     ))}
                 </ul>

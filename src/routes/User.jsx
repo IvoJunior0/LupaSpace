@@ -102,6 +102,7 @@ export default function User() {
                         {/* Botão de seguir */}
                         <div className="">
                             {uid === user.uid ? null : 
+                                // TODO: trocar pelo componente do botão de seguir
                                 <button className='bg-green-500 text-white py-1.5 px-3.5 rounded'>Seguir +</button>
                             }
                         </div>
