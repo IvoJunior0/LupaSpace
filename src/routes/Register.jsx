@@ -1,6 +1,7 @@
 // Outros
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import capitalizeText from "../functions/capitalizeText.jsx";
 
 // Firebase
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -34,7 +35,7 @@ export default function Register(){
                 
                 await setDoc(userRef, {
                     email: user.email,
-                    name: name,
+                    name: capitalizeText(name),
                     username: username,
                     bio: "",
                     pfp: null,

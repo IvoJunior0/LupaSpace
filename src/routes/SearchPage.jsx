@@ -18,12 +18,12 @@ export default function SearchPage() {
     const navigate = useNavigate();
 
     const inputClassname = "transition-colors text-slate-500 px-5 py-3 border-[3px] rounded focus:outline-none focus:border-slate-400";
-    
+
     document.title = "Filtro de pesquisa";
 
     // Atualizar o texto de pesquisa quando input text mudar
     const changeQueryText = (e) => {
-        setQueryText(e.target.value);        
+        setQueryText(e.target.value);
     }
 
     // Atualizar a lista de disciplinas
@@ -42,7 +42,7 @@ export default function SearchPage() {
             console.log("NENHUM campo preenchido"); // TODO: resposta visual
         } else {
             // TODO: outra rota
-            navigate(`busca?q=${queryText}&type=${queryType}&info=${turma}${queryType === "projetos" ? `tag=${disciplinas}` : ``}`); // TODO: passar os parametros CORRETOS dps
+            navigate(`busca?q=${queryText}&type=${queryType}&info=${turma}${queryType === "projetos" ? `&tag=${disciplinas}` : ``}`); // TODO: passar os parametros CORRETOS dps
             console.log("aaaaa");
         }
     }
