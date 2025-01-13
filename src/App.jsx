@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // React Router
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
 // Firebase
 import { auth } from "./config/firebase";
@@ -27,7 +27,7 @@ function App() {
         })
     });
     return (
-        <BrowserRouter>
+        <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/seguindo" element={<Following />} />
@@ -42,7 +42,7 @@ function App() {
                 <Route path="/helloworld" element={<HelloWorld />} />
                 <Route path="*" element={<Error />} />
             </Routes>
-        </BrowserRouter>
+        </Router>
     );
 }
 
