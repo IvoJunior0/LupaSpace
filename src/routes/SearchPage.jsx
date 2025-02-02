@@ -43,7 +43,6 @@ export default function SearchPage() {
         } else {
             // TODO: outra rota
             navigate(`busca?q=${queryText}&type=${queryType}&info=${turma}${queryType === "projetos" ? `&tag=${disciplinas}` : ``}`); // TODO: passar os parametros CORRETOS dps
-            console.log("aaaaa");
         }
     }
 

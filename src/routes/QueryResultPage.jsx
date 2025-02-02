@@ -8,12 +8,22 @@ import Project from "../ui/components/Project";
 import Loading from "../ui/components/extras/Loading";
 import UserBox from "../ui/components/search/UserBox";
 
+/**
+ * Função que retorna o resultado da busca.
+ * Depende do tipo de pesquisa do usuário (aluno ou projeto).
+ * 
+ * @param {string} queryType Tipo de pesquisa.
+ * @param {string} queryText Texto de busca.
+ * @param {number} turma Turma do aluno (o tipo de pesquisa for aluno).
+ * 
+ * @returns Lista de resultados de busca.
+ */
 const fetchQueryData = async (queryType, queryText, turma) => {
     try {
         if (queryType === "alunos") {
             const q = query(
                 collection(db, "Users"),
-                where("name", "==", queryText),
+                ("searchKeywords", "array-contains", queryText.toLowerCase()),
                 where("turma", "==", turma)
             );
 
@@ -83,6 +93,7 @@ export default function QueryResultPage() {
             }
         };
         queryData();
+        console.log(alunos);
     }, []);
     console.log(typeof(turma));
 

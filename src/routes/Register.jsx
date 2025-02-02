@@ -13,6 +13,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobe, faLock, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons";
 
+/**
+ * Gerador de keywords do usuário para busca.
+ * 
+ * @example
+ * nome = "Ivo Junior";
+ * keywords = ["ivo", "junior", "ivo junior"];
+ * 
+ * @param {string} nome Nome do usuário
+ * @returns Lista de keywords
+ */
+const generateKeywords = (nome) => {
+    const keywords = [];
+    const words = nome.toLowerCase().split(" ");
+  
+    // Adiciona cada palavra separadamente
+    words.forEach((word) => keywords.push(word));
+  
+    // Adiciona combinações de palavras
+    for (let i = 0; i < words.length; i++) {
+      for (let j = i; j < words.length; j++) {
+        keywords.push(words.slice(i, j + 1).join(" "));
+      }
+    }
+  
+    return [...new Set(keywords)]; // Remove duplicatas
+};
+
 export default function Register(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -30,12 +57,13 @@ export default function Register(){
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             const user = auth.currentUser;
+            const nomeAluno = capitalizeText(name);
             if (user) {
                 const userRef = doc(db, "Users", user.uid); // Documento do usuário.        
                 
                 await setDoc(userRef, {
                     email: user.email,
-                    name: capitalizeText(name),
+                    name: nomeAluno,
                     username: username,
                     bio: "",
                     pfp: null,
@@ -60,7 +88,8 @@ export default function Register(){
                      */
                     contacs: [],
                     // Info. 1, Info. 2 ou Info. 3
-                    turma: turma
+                    turma: turma,
+                    keywords: generateKeywords(nomeAluno)
                 });
             }
             navigate("/");

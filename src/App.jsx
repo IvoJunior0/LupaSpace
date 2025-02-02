@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // React Router
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 // Firebase
 import { auth } from "./config/firebase";
