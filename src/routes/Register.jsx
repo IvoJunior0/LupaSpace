@@ -26,17 +26,17 @@ import { faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons";
 const generateKeywords = (nome) => {
     const keywords = [];
     const words = nome.toLowerCase().split(" ");
-  
-    // Adiciona cada palavra separadamente
+
+    // Separação de cada palavra
     words.forEach((word) => keywords.push(word));
-  
-    // Adiciona combinações de palavras
+
+    // Combinações possíveis
     for (let i = 0; i < words.length; i++) {
-      for (let j = i; j < words.length; j++) {
-        keywords.push(words.slice(i, j + 1).join(" "));
-      }
+        for (let j = i; j < words.length; j++) {
+            keywords.push(words.slice(i, j + 1).join(" "));
+        }
     }
-  
+
     return [...new Set(keywords)]; // Remove duplicatas
 };
 

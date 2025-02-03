@@ -2,6 +2,20 @@ import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import CheckboxDisciplina from "../ui/components/search/CheckboxDisciplina.jsx";
 
+const generateKeywords = (titulo, descricao) => {
+    const keywords = [];
+    const palavrasIrrelevantesRegex = /\b(o|a|os|cada|as|um|uma|uns|umas|de|da|do|das|dos|para|por|pelo|pela|em|no|na|nos|nas|com|sem|sobre|sob|entre|até|desde|e|ou|mas|então|logo|pois|porque|porquê|que|como|quando|onde|eu|tu|ele|ela|nós|vós|eles|elas|meu|minha|seus|suas|nosso|nossa|isso|aquilo|fazer|ter|ser|estar|haver|ou|de|a|o|que|e|do|da|em|um|para|com|não|uma|os|no|se|na|por|mais|as|dos|como|mas|ao|ele|das|tem|à|seu|sua|ou|quando|muito|nos|já|está|eu|também|só|pelo|pela|até|isso|ela|entre|era|depois|sem|mesmo|aos|ter|seus|quem|nas|me|esse|eles|estão|você|tinha|foram|essa|num|nem|suas|meu|às|minha|têm|numa|pelos|elas|havia|seja|qual|será|nós|tenho|lhe|deles|essas|esses|pelas|este|fosse|dele|tu|te|vocês|vos|lhes|meus|minhas|teu|tua|teus|tuas|nosso|nossa|nossos|nossas|dela|delas|esta|estes|estas|aquele|aquela|aqueles|aquelas|isto|aquilo|estou|está|estamos|estão|estive|esteve|estivemos|estiveram|estava|estávamos|estavam|estivera|estivéramos|esteja|estejamos|estejam|estivesse|estivéssemos|estivessem|estiver|estivermos|estiverem|hei|há|havemos|hão|houve|houvemos|houveram|houvera|houvéramos|haja|hajamos|hajam|houvesse|houvéssemos|houvessem|houver|houvermos|houverem|houverei|houverá|houveremos|houverão|houveria|houveríamos|houveriam|sou|somos|são|era|éramos|eram|fui|foi|fomos|foram|fora|fôramos|seja|sejamos|sejam|fosse|fôssemos|fossem|for|formos|forem|serei|será|seremos|serão|seria|seríamos|seriam|tenho|tem|temos|tém|tinha|tínhamos|tinham|tive|teve|tivemos|tiveram|tivera|tivéramos|tenha|tenhamos|tenham|tivesse|tivéssemos|tivessem|tiver|tivermos|tiverem|terei|terá|teremos|terão|teria|teríamos|teriam)\b/gi;
+
+    // Separando cada palavra em um array
+    const tituloWords = titulo.toLowerCase().split(" ");
+    const descricaoWords = descricao.toLowerCase().split(" ");
+
+    // Retirando palavras desnecessárias
+
+    console.log(tituloWords);
+    console.log(descricaoWords)
+}
+
 // TODO: colocar a barra de navegação
 /**
  * Página de formulário para pesquisa de projetos ou alunos.
@@ -16,6 +30,8 @@ export default function SearchPage() {
 
     const location = useLocation();
     const navigate = useNavigate();
+
+    generateKeywords("Cálculo de XP necessário para cada nível", "Código simples em python feito para descobrir quantos pontos de experiência (XP) serão necessários para chegar em certo nível, considerando um XP inicial.")
 
     const inputClassname = "transition-colors text-slate-500 px-5 py-3 border-[3px] rounded focus:outline-none focus:border-slate-400";
 
