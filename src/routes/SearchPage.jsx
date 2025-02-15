@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import CheckboxDisciplina from "../ui/components/search/CheckboxDisciplina.jsx";
 
@@ -60,8 +60,6 @@ export default function SearchPage() {
         setTurma(0);
     }
 
-    console.log(disciplinas);
-
     // Atualizar o texto de pesquisa quando input text mudar
     const changeQueryText = (e) => {
         setQueryText(e.target.value);
@@ -92,8 +90,7 @@ export default function SearchPage() {
         return (<Outlet/>);
     }
 
-    // TODO: fazer com que quando a opção aluno for selecionada, as opções de disciplinas sejam desabilitadas, tiradas da lista e
-    // TODO: componentização dos inputs e checkboxes
+    // TODO: fazer com que quando a opção projetos for marcada, todas as checkboxes serem desmarcadas
     return (
         <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
             <div className="flex flex-col gap-3">
@@ -106,14 +103,14 @@ export default function SearchPage() {
                     {/* TAGS (DISCIPLINAS) */}
                     <div className="min-w-80" id="checkboxes">
                         <h4>Disciplina</h4>
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="lp" text="Lógica de Programação" disabled={isDisabled} />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="poo" text="Programação Orientada a Objetos" disabled={isDisabled} />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="web" text="Desenvolvimento Web" disabled={isDisabled} />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="db" text="Banco de Dados" disabled={isDisabled} />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="redes" text="Redes de Computadores" disabled={isDisabled} />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="hardware" text="Hardware" disabled={isDisabled} />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="info" text="Informática Básica" disabled={isDisabled} />
-                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="tcc" text="Artigo" disabled={isDisabled} />
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="lp" text="Lógica de Programação" disabled={isDisabled}/>
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="poo" text="Programação Orientada a Objetos" disabled={isDisabled}/>
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="web" text="Desenvolvimento Web" disabled={isDisabled}/>
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="db" text="Banco de Dados" disabled={isDisabled}/>
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="redes" text="Redes de Computadores" disabled={isDisabled}/>
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="hardware" text="Hardware" disabled={isDisabled}/>
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="info" text="Informática Básica" disabled={isDisabled}/>
+                        <CheckboxDisciplina updateDisciplinas={updateDisciplinas} id="tcc" text="Artigo" disabled={isDisabled}/>
                     </div>
                     {/* TURMA */}
                     <div className="min-w-80">
@@ -136,11 +133,11 @@ export default function SearchPage() {
                     <div className="min-w-80">
                         <h4>Tipo de pesquisa</h4>
                         <div>
-                            <input type="radio" id="project" name="queryType" onChange={() => {setQueryType("projetos"); resetValues(); setIsDisabled(true)}} />
+                            <input type="radio" id="project" name="queryType" onChange={() => {setQueryType("projetos"); resetValues(); setIsDisabled(false)}} />
                             <label htmlFor="project">Projeto</label>
                         </div>
                         <div>
-                            <input type="radio" id="user" name="queryType" onChange={() => {setQueryType("alunos"); resetValues(); setIsDisabled(false)}}/>
+                            <input type="radio" id="user" name="queryType" onChange={() => {setQueryType("alunos"); resetValues(); setIsDisabled(true)}}/>
                             <label htmlFor="user">Aluno</label>
                         </div>
                     </div>
