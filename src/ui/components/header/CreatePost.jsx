@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import generateProjectKeywords from "../../../functions/generateProjectKeywords";
 
 import { auth, db } from "../../../config/firebase";
-import { setDoc, doc, serverTimestamp, collection, getCountFromServer } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp, collection, getCountFromServer, getDoc } from "firebase/firestore";
 import { storage } from "../../../config/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -29,7 +29,6 @@ export default function CreatePost(props) {
     const [tags, setTags] = useState([]);
     const [fileUpload, setFileUpload] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [keywords, setKeywords] = useState({});
     const user = auth.currentUser;
 
     const handleSubmit = async (e) => {
@@ -42,7 +41,10 @@ export default function CreatePost(props) {
                 let fileURL = null;
                 const projectRef = doc(db, "Projects", postID); // Documento dos projeto na coleçao "Projects".
 
-                const userRef = doc(db, "Users", user.uid); // Documento do usuário.        
+                const userRef = doc(db, "Users", user.uid); 
+                const userDoc = await getDoc(userRef);
+                const turma = userDoc.data().turma;
+
                 const projectsInUserRef = collection(db, userRef.path, "Projects"); // Subcoleção "Projects" no documento do usuário.
 
                 // Só será adicionada a URL do arquivo no objeto do projeto se ele for selecionado no formulário. 
@@ -61,16 +63,16 @@ export default function CreatePost(props) {
                     descricao: descricao,
                     authorID: user ? user.uid : "",
                     tags: tags,
+                    // TODO: talvez, só talvez, trocar esse sistemas de like e dislike por favoritado.
                     likes: 0,
                     dislikes: 0,
                     createdAt: serverTimestamp(),
                     fileURL: fileURL,
                     // TODO: Procurar os favoritos em um documento de uma coleção "Favoritos" no documento do usuário
                     collaborators: [],
-                    thumbnailURL: "",
                     pinned: false,
-                    isPublic: true,
-                    searchKeywords: generateProjectKeywords(title, descricao)
+                    searchKeywords: generateProjectKeywords(title, descricao),
+                    turma: turma
                     // comments: [] TODO: transformar em coleção
                 }
 

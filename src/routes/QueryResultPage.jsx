@@ -7,7 +7,7 @@ import { db } from "../config/firebase";
 import Project from "../ui/components/Project";
 import Loading from "../ui/components/extras/Loading";
 import UserBox from "../ui/components/search/UserBox";
-import generateProjectKeywords from "../functions/generateProjectKeywords";
+import { faTumblrSquare } from "@fortawesome/free-brands-svg-icons/faTumblrSquare";
 
 /**
  * Função que retorna o resultado da busca.
@@ -19,12 +19,12 @@ import generateProjectKeywords from "../functions/generateProjectKeywords";
  * 
  * @returns Lista de resultados de busca.
  */
-const fetchQueryData = async (queryType, queryText, turma) => {
+const fetchQueryData = async (queryType, queryText, turma, tags) => {
     try {
         if (queryType === "alunos") {
             const q = query(
                 collection(db, "Users"),
-                ("searchKeywords", "array-contains", queryText.toLowerCase()),
+                where("searchKeywords", "array-contains", queryText.toLowerCase()),
                 where("turma", "==", turma)
             );
 
@@ -38,7 +38,9 @@ const fetchQueryData = async (queryType, queryText, turma) => {
         if (queryType === "projetos") {
             const q = query(
                 collection(db, "Projects"),
-                where("searchKeywords", "array-contains", queryText.toLowerCase())
+                where("searchKeywords", "array-contains", queryText.toLowerCase()),
+                where("turma", "==", turma)
+                // TODO: compatibilidade com tags e a turma do autor
             );
 
             const querySnapshot = await getDocs(q);
@@ -89,7 +91,7 @@ export default function QueryResultPage() {
         const queryData = async () => {
             setLoading(true);
             try {
-                const resultadoAluno = await fetchQueryData(queryType, queryText, turma);
+                const resultadoAluno = await fetchQueryData(queryType, queryText, turma, tags);
                 if (queryType === "alunos") setAlunos(resultadoAluno);
                 else setProjetos(resultadoAluno);
             } catch (error) {

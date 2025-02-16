@@ -55,7 +55,7 @@ export default function SearchPage() {
         }
     }
 
-    console.log(queryText, disciplinas, turma, queryType)
+    console.log(queryText, disciplinas, turma, queryType);
 
     if (location.pathname !== "/pesquisa" ) {
         return (<Outlet/>);
