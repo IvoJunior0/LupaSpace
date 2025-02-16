@@ -71,7 +71,7 @@ export default function CreatePost(props) {
                     // TODO: Procurar os favoritos em um documento de uma coleção "Favoritos" no documento do usuário
                     collaborators: [],
                     pinned: false,
-                    searchKeywords: generateProjectKeywords(title, descricao),
+                    searchKeywords: generateProjectKeywords(title, descricao, tags),
                     turma: turma
                     // comments: [] TODO: transformar em coleção
                 }

@@ -11,7 +11,7 @@ function isChar(val) {
  * @param {string} titulo titulo do projeto
  * @param {string} descricao descrição do projeto
  */
-export default function generateProjectKeywords (titulo, descricao = "") {
+export default function generateProjectKeywords (titulo, descricao = "", tags) {
     const keywords = [];
 
     // Separando cada palavra em um array
@@ -27,7 +27,8 @@ export default function generateProjectKeywords (titulo, descricao = "") {
 
     let removedDuplicates = [...new Set(removedStopWords)];
     removedDuplicates = removedDuplicates.filter(isChar); // remover caractere vazio
-    return removedDuplicates.map(function(word) {
+    removedDuplicates = removedDuplicates.map(function(word) {
         return word.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     });
+    return removedDuplicates.concat(tags);
 }
