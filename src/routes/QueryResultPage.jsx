@@ -77,7 +77,7 @@ export default function QueryResultPage() {
 
     const [loading, setLoading] = useState(false);
 
-    console.log(queryText, queryType, tags, turma);
+    console.log("queryText :" + queryText);
 
     useEffect(() => {
         // TODO: fazer isso aqui ser uma função fora do componente

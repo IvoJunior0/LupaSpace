@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import generateKeywords from "../../../functions/generateProjectKeywords";
 
 import { auth, db } from "../../../config/firebase";
 import { setDoc, doc, serverTimestamp, collection, getCountFromServer } from "firebase/firestore";
@@ -28,6 +29,7 @@ export default function CreatePost(props) {
     const [tags, setTags] = useState([]);
     const [fileUpload, setFileUpload] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [keywords, setKeywords] = useState({});
     const user = auth.currentUser;
 
     const handleSubmit = async (e) => {
@@ -68,6 +70,7 @@ export default function CreatePost(props) {
                     thumbnailURL: "",
                     pinned: false,
                     isPublic: true,
+                    searchKeywords: generateKeywords(title, descricao)
                     // comments: [] TODO: transformar em coleção
                 }
 
