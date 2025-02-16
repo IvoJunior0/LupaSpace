@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import generateKeywords from "../../../functions/generateProjectKeywords";
+import generateProjectKeywords from "../../../functions/generateProjectKeywords";
 
 import { auth, db } from "../../../config/firebase";
 import { setDoc, doc, serverTimestamp, collection, getCountFromServer } from "firebase/firestore";
@@ -70,7 +70,7 @@ export default function CreatePost(props) {
                     thumbnailURL: "",
                     pinned: false,
                     isPublic: true,
-                    searchKeywords: generateKeywords(title, descricao)
+                    searchKeywords: generateProjectKeywords(title, descricao)
                     // comments: [] TODO: transformar em coleção
                 }
 

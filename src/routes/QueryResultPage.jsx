@@ -7,6 +7,7 @@ import { db } from "../config/firebase";
 import Project from "../ui/components/Project";
 import Loading from "../ui/components/extras/Loading";
 import UserBox from "../ui/components/search/UserBox";
+import generateProjectKeywords from "../functions/generateProjectKeywords";
 
 /**
  * Função que retorna o resultado da busca.
@@ -37,11 +38,15 @@ const fetchQueryData = async (queryType, queryText, turma) => {
         if (queryType === "projetos") {
             const q = query(
                 collection(db, "Projects"),
-                where("titulo", "==", queryText),
-                where("turma", "==", turma)
+                where("searchKeywords", "array-contains", queryText.toLowerCase())
             );
 
             const querySnapshot = await getDocs(q);
+
+            return querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
         }
         return [];
     } catch (error) {
@@ -85,7 +90,8 @@ export default function QueryResultPage() {
             setLoading(true);
             try {
                 const resultadoAluno = await fetchQueryData(queryType, queryText, turma);
-                setAlunos(resultadoAluno);
+                if (queryType === "alunos") setAlunos(resultadoAluno);
+                else setProjetos(resultadoAluno);
             } catch (error) {
                 console.error("Erro ao buscar os dados: ", error); // TODO: resposta visual
             } finally {
@@ -113,6 +119,15 @@ export default function QueryResultPage() {
                     {alunos.map(aluno => (
                         <li key={aluno.id}>
                             <UserBox props={aluno} />
+                        </li>
+                    ))}
+                </ul>
+            </> : <></>}
+            {queryType === "projetos" ? <>
+                <ul className="flex flex-col gap-6">
+                    {projetos.map(aluno => (
+                        <li key={aluno.id}>
+                            {console.log(aluno)}
                         </li>
                     ))}
                 </ul>

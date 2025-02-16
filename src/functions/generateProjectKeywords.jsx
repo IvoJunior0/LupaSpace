@@ -11,7 +11,7 @@ function isChar(val) {
  * @param {string} titulo titulo do projeto
  * @param {string} descricao descrição do projeto
  */
-export default function generateKeywords (titulo, descricao) {
+export default function generateProjectKeywords (titulo, descricao = "") {
     const keywords = [];
 
     // Separando cada palavra em um array

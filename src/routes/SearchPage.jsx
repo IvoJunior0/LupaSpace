@@ -25,7 +25,6 @@ export default function SearchPage() {
     // Resetar os valores dos campos de pesquisa
     const resetValues = () => {
         setQueryText("");
-        setQueryType(0);
         setDisciplinas([]);
         setTurma(0);
     }
@@ -55,6 +54,8 @@ export default function SearchPage() {
             resetValues();
         }
     }
+
+    console.log(queryText, disciplinas, turma, queryType)
 
     if (location.pathname !== "/pesquisa" ) {
         return (<Outlet/>);
