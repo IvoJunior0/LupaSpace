@@ -4,10 +4,10 @@ import capitalizeText from "../functions/capitalizeText";
 
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
-import Project from "../ui/components/Project";
 import Loading from "../ui/components/extras/Loading";
 import UserBox from "../ui/components/search/UserBox";
 import { faTumblrSquare } from "@fortawesome/free-brands-svg-icons/faTumblrSquare";
+import ProjectBox from "../ui/components/user/ProjectBox";
 
 /**
  * Função que retorna o resultado da busca.
@@ -127,9 +127,9 @@ export default function QueryResultPage() {
             </> : <></>}
             {queryType === "projetos" ? <>
                 <ul className="flex flex-col gap-6">
-                    {projetos.map(aluno => (
-                        <li key={aluno.id}>
-                            {console.log(aluno)}
+                    {projetos.map(projeto => (
+                        <li key={projeto.id}>
+                            <ProjectBox post={projeto} />
                         </li>
                     ))}
                 </ul>
