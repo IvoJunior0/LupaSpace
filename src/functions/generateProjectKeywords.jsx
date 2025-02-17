@@ -17,7 +17,7 @@ export default function generateProjectKeywords (titulo, descricao = "", tags) {
     // Separando cada palavra em um array
     const tituloWords = titulo.toLowerCase().split(" ");
     const descricaoWords = descricao.toLowerCase().split(" ");
-
+    
     // Retirando palavras desnecessárias
     tituloWords.forEach((word) => keywords.push(word));
     descricaoWords.forEach((word) => keywords.push(word));

@@ -19,7 +19,7 @@ import ProjectBox from "../ui/components/user/ProjectBox";
  * 
  * @returns Lista de resultados de busca.
  */
-const fetchQueryData = async (queryType, queryText, turma, tags) => {
+const fetchQueryData = async (queryType, queryText, turma) => {
     try {
         if (queryType === "alunos") {
             const q = query(

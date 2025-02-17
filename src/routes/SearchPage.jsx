@@ -104,7 +104,7 @@ export default function SearchPage() {
                     <div className="min-w-80">
                         <h4>Tipo de pesquisa</h4>
                         <div>
-                            <input type="radio" id="project" name="queryType" onChange={() => {setQueryType("projetos"); resetValues(); setIsDisabled(false)}} />
+                            <input type="radio" id="project" name="queryType" onChange={() => {setQueryType("projetos"); setIsDisabled(false)}} />
                             <label htmlFor="project">Projeto</label>
                         </div>
                         <div>

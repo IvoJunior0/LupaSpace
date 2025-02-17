@@ -18,6 +18,8 @@ import Error from "./routes/Error";
 import ProjectPage from "./routes/ProjectPage";
 import SearchPage from "./routes/SearchPage";
 import QueryResultPage from "./routes/QueryResultPage";
+import MainLayout from "./ui/components/extras/MainLayout";
+import Content from "./ui/components/home/Content";
 
 function App() {
     const [user, setUser] = useState();
@@ -29,7 +31,10 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<MainLayout />} >
+                    <Route path="/" element={<Content />} />
+                </Route>
+                {/* <Route path="/" element={<Home />} /> */}
                 <Route path="/seguindo" element={<Following />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/registro" element={<Register />} />

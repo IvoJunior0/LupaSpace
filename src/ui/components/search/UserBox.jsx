@@ -12,7 +12,7 @@ export default function UserBox({ props }) {
                     <h2>@{props.username}</h2>
                 </div>
                 <div className="flex flex-col">
-                    <p className="break-words">{props.bio}fbhu edjf fbvudejfv bhndiwjvbhedjij vhbfeidwjhdsdsdsdsxsdsdsdv dedijhdvbid wij vbhjdijebhdvjdw ih vbe</p>
+                    <p className="break-words">{props.bio}</p>
                     <span>Informática {props.turma}</span>
                 </div>
             </div>
