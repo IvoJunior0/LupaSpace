@@ -59,13 +59,11 @@ export default function User() {
     useEffect(() => {
         // Retornar erro visual se o usuário não for encontrado
         if (!userData && !loading) {
-            return (<div className='grid grid-rows-[90px_1fr] grid-cols-[320px_1fr] mx-lg:grid-cols-1 h-[100vh]'>
-                <Navbar />
-                <Sidebar />
+            return (
                 <div className="mt-[90px] mb-[24px] w-full h-fit col-end-2 max-[1199px]:col-span-full col-start-2">
                     <h1>Usuário não encontrado</h1>
                 </div>
-            </div>)
+            )
         }
 
         /**
@@ -81,51 +79,47 @@ export default function User() {
     }, [userData, loading]);
 
     return (
-        <div className='grid grid-rows-[90px_1fr] grid-cols-[320px_1fr] mx-lg:grid-cols-1 h-[100vh]'>
-            <Navbar />
-            <Sidebar />
-            <div className="mt-[90px] mb-[24px] w-full h-fit col-end-2 max-[1199px]:col-span-full col-start-2">
-                {loading ? <Loading /> : (<>
-                    {/* Cabeçalho */}
-                    <section className="flex items-center justify-around w-full bg-green-800 p-3">
-                        {/* Foto de perfil */}
-                        <h2 className=''>
-                            {!userData.pfp ? (
-                                <FontAwesomeIcon icon={faCircleUser} className='text-7xl text-green-500 border-4 border-white rounded-full' />
-                            ) : userData.pfp}
-                        </h2>
-                        {/* Nome e username */}
-                        <div className="text-white">
-                            <h2 className='font-bold'>{userData.name}</h2>
-                            <h2>@{userData.username}</h2>
+        <div className="mt-[90px] mb-[24px] w-full h-fit col-end-2 max-[1199px]:col-span-full col-start-2">
+            {loading ? <Loading /> : (<>
+                {/* Cabeçalho */}
+                <section className="flex items-center justify-around w-full bg-green-800 p-3">
+                    {/* Foto de perfil */}
+                    <h2 className=''>
+                        {!userData.pfp ? (
+                            <FontAwesomeIcon icon={faCircleUser} className='text-7xl text-green-500 border-4 border-white rounded-full' />
+                        ) : userData.pfp}
+                    </h2>
+                    {/* Nome e username */}
+                    <div className="text-white">
+                        <h2 className='font-bold'>{userData.name}</h2>
+                        <h2>@{userData.username}</h2>
+                    </div>
+                    {/* Botão de seguir */}
+                    <div className="">
+                        {uid === user.uid ? null : 
+                            // TODO: trocar pelo componente do botão de seguir
+                            <button className='bg-green-500 text-white py-1.5 px-3.5 rounded'>Seguir +</button>
+                        }
+                    </div>
+                </section>
+                {/* Informações */}
+                <section className='flex flex-col gap-2.5 p-6 text-gray-500'>
+                    {isParentRoute ? (<>
+                        <div className="grid grid-cols-2 grid-rows-1">
+                            {/* Biografia */}
+                            <p>{userData.bio}</p>
+                            {/* Contatos */}
                         </div>
-                        {/* Botão de seguir */}
+                        <hr className='border-2'/>
+                        {/* Projetos */}
                         <div className="">
-                            {uid === user.uid ? null : 
-                                // TODO: trocar pelo componente do botão de seguir
-                                <button className='bg-green-500 text-white py-1.5 px-3.5 rounded'>Seguir +</button>
-                            }
+                            <h1 className='text-3xl font-bold'>Projetos</h1>
+                            <ProjectsContainer userId={uid}/>
                         </div>
-                    </section>
-                    {/* Informações */}
-                    <section className='flex flex-col gap-2.5 p-6 text-gray-500'>
-                        {isParentRoute ? (<>
-                            <div className="grid grid-cols-2 grid-rows-1">
-                                {/* Biografia */}
-                                <p>{userData.bio}</p>
-                                {/* Contatos */}
-                            </div>
-                            <hr className='border-2'/>
-                            {/* Projetos */}
-                            <div className="">
-                                <h1 className='text-3xl font-bold'>Projetos</h1>
-                                <ProjectsContainer userId={uid}/>
-                            </div>
-                        </>) : 
-                        <Outlet />}
-                    </section>
-                </>)}
-            </div>
+                    </>) : 
+                    <Outlet />}
+                </section>
+            </>)}
         </div>
     );
 }

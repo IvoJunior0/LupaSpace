@@ -8,7 +8,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { auth } from "./config/firebase";
 
 // Rotas
-import Home from "./routes/Home";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import HelloWorld from "./routes/HelloWorld";
@@ -33,17 +32,18 @@ function App() {
             <Routes>
                 <Route path="/" element={<MainLayout />} >
                     <Route path="/" element={<Content />} />
+                    <Route path="/pesquisa" element={<SearchPage/>}>
+                        <Route path="busca" element={<QueryResultPage/>}/> {/* Resultado da pesquisa */}
+                    </Route>
+                    <Route path="/seguindo" element={<Following />} />
+                    <Route path="/user/:uid" element={<User />}>
+                        <Route path="projetos/:projectId" element={<ProjectPage />} />
+                    </Route>
                 </Route>
                 {/* <Route path="/" element={<Home />} /> */}
-                <Route path="/seguindo" element={<Following />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/registro" element={<Register />} />
-                <Route path="/user/:uid" element={<User />}>
-                    <Route path="projetos/:projectId" element={<ProjectPage />} />
-                </Route>
-                <Route path="/pesquisa" element={<SearchPage/>}>
-                    <Route path="busca" element={<QueryResultPage/>}/> {/* Resultado da pesquisa */}
-                </Route>
+                {/* Rotas easter eggs */}
                 <Route path="/helloworld" element={<HelloWorld />} />
                 <Route path="*" element={<Error />} />
             </Routes>
