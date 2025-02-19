@@ -12,7 +12,7 @@
 export default function CheckboxDisciplina({ updateDisciplinas, id, text, disabled }) {
     return (
         <div>
-            <input type="checkbox" id={id} value={id} onChange={updateDisciplinas} disabled={disabled}/>
+            <input type="checkbox" id={id} value={id} name={id} onChange={updateDisciplinas} disabled={disabled}/>
             <label htmlFor={id}>{text}</label>
         </div>
     );

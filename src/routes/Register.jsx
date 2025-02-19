@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import capitalizeText from "../functions/capitalizeText.jsx";
+import { generateUserKeywords } from "../functions/generateUserKeywords.jsx"; // ficar de olho nisso aqui pra ver se não buga
 
 // Firebase
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -12,33 +13,6 @@ import { setDoc, doc, serverTimestamp, collection } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobe, faLock, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons";
-
-/**
- * Gerador de keywords do usuário para busca.
- * 
- * @example
- * nome = "Ivo Junior";
- * keywords = ["ivo", "junior", "ivo junior"];
- * 
- * @param {string} nome Nome do usuário
- * @returns Lista de keywords
- */
-const generateKeywords = (nome) => {
-    const keywords = [];
-    const words = nome.toLowerCase().split(" ");
-
-    // Separação de cada palavra
-    words.forEach((word) => keywords.push(word));
-
-    // Combinações possíveis
-    for (let i = 0; i < words.length; i++) {
-        for (let j = i; j < words.length; j++) {
-            keywords.push(words.slice(i, j + 1).join(" "));
-        }
-    }
-
-    return [...new Set(keywords)]; // Remove duplicatas
-};
 
 export default function Register(){
     const [email, setEmail] = useState("");
@@ -89,7 +63,7 @@ export default function Register(){
                     contacs: [],
                     // Info. 1, Info. 2 ou Info. 3
                     turma: turma,
-                    keywords: generateKeywords(nomeAluno)
+                    keywords: generateUserKeywords(nomeAluno)
                 });
             }
             navigate("/");

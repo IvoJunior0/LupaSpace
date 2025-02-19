@@ -24,7 +24,7 @@ const fetchQueryData = async (queryType, queryText, turma) => {
         if (queryType === "alunos") {
             const q = query(
                 collection(db, "Users"),
-                where("searchKeywords", "array-contains", queryText.toLowerCase()),
+                ("keywords", "array-contains", queryText.toLowerCase()),
                 where("turma", "==", turma)
             );
 
@@ -40,7 +40,6 @@ const fetchQueryData = async (queryType, queryText, turma) => {
                 collection(db, "Projects"),
                 where("searchKeywords", "array-contains", queryText.toLowerCase()),
                 where("turma", "==", turma)
-                // TODO: compatibilidade com tags e a turma do autor
             );
 
             const querySnapshot = await getDocs(q);
@@ -84,14 +83,12 @@ export default function QueryResultPage() {
 
     const [loading, setLoading] = useState(false);
 
-    console.log("queryText :" + queryText);
-
     useEffect(() => {
         // TODO: fazer isso aqui ser uma função fora do componente
         const queryData = async () => {
             setLoading(true);
             try {
-                const resultadoAluno = await fetchQueryData(queryType, queryText, turma, tags);
+                const resultadoAluno = await fetchQueryData(queryType, queryText, turma);
                 if (queryType === "alunos") setAlunos(resultadoAluno);
                 else setProjetos(resultadoAluno);
             } catch (error) {
@@ -103,18 +100,13 @@ export default function QueryResultPage() {
         queryData();
         console.log(alunos);
     }, []);
-    console.log(typeof(turma));
 
     if (loading) {
-        return (
-            <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
-                <Loading />
-            </div>
-        )
+        return (<Loading />);
     }
 
     return (
-        <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
+        <>
             {queryParams.size === 0 ? <h1>Nenhum filtro selecionado.</h1> : <></>}
             {queryType === "alunos" ? <>
                 <ul className='flex flex-col gap-6'>
@@ -127,13 +119,13 @@ export default function QueryResultPage() {
             </> : <></>}
             {queryType === "projetos" ? <>
                 <ul className="flex flex-col gap-6">
-                    {projetos.map(projeto => (
+                    {projetos?.map(projeto => (
                         <li key={projeto.id}>
                             <ProjectBox post={projeto} />
                         </li>
                     ))}
                 </ul>
             </> : <></>}
-        </div>
+        </>
     );
 }

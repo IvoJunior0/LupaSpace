@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import CheckboxDisciplina from "../ui/components/search/CheckboxDisciplina.jsx";
 
 // TODO: colocar a barra de navegação
@@ -27,6 +27,10 @@ export default function SearchPage() {
         setQueryText("");
         setDisciplinas([]);
         setTurma(0);
+    }
+
+    const uncheckTags = () => {
+
     }
 
     // Atualizar o texto de pesquisa quando input text mudar
@@ -58,7 +62,11 @@ export default function SearchPage() {
     console.log(queryText, disciplinas, turma, queryType);
 
     if (location.pathname !== "/pesquisa" ) {
-        return (<Outlet/>);
+        return (
+            <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
+                <Outlet/>
+            </div>
+        );
     }
 
     // TODO: fazer com que quando a opção projetos for marcada, todas as checkboxes serem desmarcadas
@@ -108,7 +116,7 @@ export default function SearchPage() {
                             <label htmlFor="project">Projeto</label>
                         </div>
                         <div>
-                            <input type="radio" id="user" name="queryType" onChange={() => {setQueryType("alunos"); resetValues(); setIsDisabled(true)}}/>
+                            <input type="radio" id="user" name="queryType" onChange={() => {setQueryType("alunos"); setIsDisabled(true)}}/>
                             <label htmlFor="user">Aluno</label>
                         </div>
                     </div>
