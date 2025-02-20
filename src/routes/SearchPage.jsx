@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import CheckboxDisciplina from "../ui/components/search/CheckboxDisciplina.jsx";
+import TitlePage from "../ui/components/extras/TitlePage.jsx";
+
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
 
 // TODO: colocar a barra de navegação
 /**
@@ -71,11 +74,10 @@ export default function SearchPage() {
     return (
         <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
             <div className="flex flex-col gap-3">
-                <h1 className="sm:text-4xl text-2xl font-semibold">Formulário de pesquisa</h1>
-                <p className="text-base">Selecione os filtros e digite o que está procurando no site.</p>
+                <TitlePage text="Formulário de pesquisa" />
+                <p className="text-base">Selecione os filtros e digite o que está procurando no LupaSpace.</p>
             </div>
             <div className="py-3 flex flex-col gap-3.5">
-                <h2 className="text-xl">Pesquisa por filtros</h2>
                 <hr />
                 <div className="flex flex-wrap gap-2.5 justify-between w-full">
                     {/* TAGS (DISCIPLINAS) */}

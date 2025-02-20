@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import capitalizeText from "../functions/capitalizeText";
 
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../config/firebase";
 import Loading from "../ui/components/extras/Loading";
 import UserBox from "../ui/components/search/UserBox";
-import { faTumblrSquare } from "@fortawesome/free-brands-svg-icons/faTumblrSquare";
 import ProjectBox from "../ui/components/user/ProjectBox";
+import TitlePage from "../ui/components/extras/TitlePage";
 
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../config/firebase";
+
+import { faTumblrSquare } from "@fortawesome/free-brands-svg-icons/faTumblrSquare";
 /**
  * Função que retorna o resultado da busca.
  * Depende do tipo de pesquisa do usuário (aluno ou projeto).
@@ -106,9 +108,7 @@ export default function QueryResultPage() {
 
     return (
         <>
-            <div className="sm:text-4xl text-2xl text-gray-500 font-semibold">
-                <h1>Resultado da pesquisa</h1>
-            </div>
+            <TitlePage text="Resultado da pesquisa" />
             <div>
                 {queryParams.size === 0 ? <h1>Por favor, selecione os filtros de pesquisa.</h1> : <></>}
             </div>
