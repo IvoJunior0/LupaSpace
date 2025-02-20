@@ -2,6 +2,7 @@
 
 import { db } from "../config/firebase";
 import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
+import { mapFirestoreDocs } from "./mapFirestoreDocs";
 
 export default async function getPosts(path, organizer, limitItems = 10, getFixed = false) {
     try {
@@ -13,15 +14,8 @@ export default async function getPosts(path, organizer, limitItems = 10, getFixe
             postsRef,
             ...(getFixed ? [where("fixed", "==", true)] : [orderBy(organizer, "desc"), limit(limitItems)])
         );
-        const postsSnapshot = await getDocs(postsQuery);
-
-        // Armazenando em uma lista
-        const posts = postsSnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
-
-        return posts; // Retornando a lista 
+        
+        return mapFirestoreDocs(postsQuery);
     } catch (error) {
         console.log(error); // Debug
         return [];

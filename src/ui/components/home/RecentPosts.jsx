@@ -1,10 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import Project from '../Project';
+import FilterButton from '../buttons/FilterButton';
+import { mapFirestoreDocs } from '../../../functions/mapFirestoreDocs';
 
 import { collection, query, orderBy, getDocs, limit } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
-import Project from '../Project';
-import FilterButton from '../buttons/FilterButton';
 
 /**
  * Retorna as informações dos 10 projetos mais recentes.
@@ -15,16 +16,8 @@ const getRecentPosts = async () => {
     try {
         const projectsRef = collection(db, "Projects"); // Referência
         const projectsQuery = query(projectsRef, orderBy("createdAt", "desc"), limit(10)); // Filtro
-        const projectsSnapshot = await getDocs(projectsQuery); // Informações
     
-        // Lista dos projetos mais recentes.
-        // TODO: fazer com que o usuário possa aumentar o limite de 10 projetos.
-        const projects = projectsSnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
-    
-        return projects;
+        return mapFirestoreDocs(projectsQuery);
     }
     catch (error) {
         console.error("Error fetching data RECENTPOSTS:", error);

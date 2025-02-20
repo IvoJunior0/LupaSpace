@@ -11,6 +11,8 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 import { faTumblrSquare } from "@fortawesome/free-brands-svg-icons/faTumblrSquare";
+import { mapFirestoreDocs } from "../functions/mapFirestoreDocs";
+
 /**
  * Função que retorna o resultado da busca.
  * Depende do tipo de pesquisa do usuário (aluno ou projeto).
@@ -30,12 +32,7 @@ const fetchQueryData = async (queryType, queryText, turma) => {
                 where("turma", "==", turma)
             );
 
-            const querySnapshot = await getDocs(q);
-
-            return querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
+            return mapFirestoreDocs(q);
         }
         if (queryType === "projetos") {
             const q = query(
@@ -44,12 +41,7 @@ const fetchQueryData = async (queryType, queryText, turma) => {
                 where("turma", "==", turma)
             );
 
-            const querySnapshot = await getDocs(q);
-
-            return querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
+            return mapFirestoreDocs(q);
         }
         return [];
     } catch (error) {
