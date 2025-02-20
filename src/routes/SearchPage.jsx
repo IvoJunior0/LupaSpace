@@ -53,8 +53,7 @@ export default function SearchPage() {
         if (queryText === "" || queryType === 0 || disciplinas == [] || turma === 0) {
             console.log("NENHUM campo preenchido"); // TODO: resposta visual
         } else {
-            // TODO: outra rota
-            navigate(`busca?q=${queryText}&type=${queryType}&info=${turma}${queryType === "projetos" ? `&tag=${disciplinas}` : ``}`); // TODO: passar os parametros CORRETOS dps
+            navigate(`busca?q=${queryText}&type=${queryType}&info=${turma}${queryType === "projetos" ? `&tag=${disciplinas}` : ``}`);
             resetValues();
         }
     }
@@ -69,7 +68,6 @@ export default function SearchPage() {
         );
     }
 
-    // TODO: fazer com que quando a opção projetos for marcada, todas as checkboxes serem desmarcadas
     return (
         <div className="px-5 w-full mt-[90px] mb-[24px] py-[24px] h-fit col-end-2 max-[1199px]:col-span-full col-start-2 text-gray-500">
             <div className="flex flex-col gap-3">
@@ -78,6 +76,7 @@ export default function SearchPage() {
             </div>
             <div className="py-3 flex flex-col gap-3.5">
                 <h2 className="text-xl">Pesquisa por filtros</h2>
+                <hr />
                 <div className="flex flex-wrap gap-2.5 justify-between w-full">
                     {/* TAGS (DISCIPLINAS) */}
                     <div className="min-w-80" id="checkboxes">

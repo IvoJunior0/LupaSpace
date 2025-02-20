@@ -106,10 +106,15 @@ export default function QueryResultPage() {
 
     return (
         <>
-            {queryParams.size === 0 ? <h1>Nenhum filtro selecionado.</h1> : <></>}
+            <div className="sm:text-4xl text-2xl text-gray-500 font-semibold">
+                <h1>Resultado da pesquisa</h1>
+            </div>
+            <div>
+                {queryParams.size === 0 ? <h1>Por favor, selecione os filtros de pesquisa.</h1> : <></>}
+            </div>
             {queryType === "alunos" ? <>
                 <ul className='flex flex-col gap-6'>
-                    {alunos.map(aluno => (
+                    {alunos?.map(aluno => (
                         <li key={aluno.id}>
                             <UserBox props={aluno} />
                         </li>
