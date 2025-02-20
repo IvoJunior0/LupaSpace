@@ -24,7 +24,7 @@ const fetchQueryData = async (queryType, queryText, turma) => {
         if (queryType === "alunos") {
             const q = query(
                 collection(db, "Users"),
-                ("keywords", "array-contains", queryText.toLowerCase()),
+                where("keywords", "array-contains", queryText.toLowerCase()),
                 where("turma", "==", turma)
             );
 
@@ -98,7 +98,6 @@ export default function QueryResultPage() {
             }
         };
         queryData();
-        console.log(alunos);
     }, []);
 
     if (loading) {

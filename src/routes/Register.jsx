@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import capitalizeText from "../functions/capitalizeText.jsx";
-import { generateUserKeywords } from "../functions/generateUserKeywords.jsx"; // ficar de olho nisso aqui pra ver se não buga
+import { generateUserKeywords } from "../functions/generateUserKeywords.jsx";
 
 // Firebase
 import { createUserWithEmailAndPassword } from "firebase/auth";
