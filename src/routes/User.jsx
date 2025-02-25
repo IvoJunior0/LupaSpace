@@ -27,8 +27,6 @@ export default function User() {
     const location = useLocation(); // URL.
 
     const [userData, setUserData] = useState(null);
-    const [userLvl, setUserLvl] = useState(0);
-    const [lvlPer, setLvlPer] = useState(0); // Porcentagem de lvl completo em decimal
     const [loading, setLoading] = useState(true);
 
     const user = auth.currentUser;
@@ -40,8 +38,6 @@ export default function User() {
 
                 if (userDoc.exists()) {
                     setUserData(userDoc.data());
-                    setUserLvl(calculateUserLvl(userData.xp));
-                    setLvlPer(userLvl - Math.trunc(userLvl)); // Removendo a parte inteira. exemplo: 1.5 - 1 = 0.5
                 } else {
                     console.log('Usuário não encontrado');
                 }
@@ -109,8 +105,8 @@ export default function User() {
                             <p>{userData.bio}</p>
                             {/* Contatos */}
                             <div className="">
-                                <span>{"LVL " + Math.trunc(userLvl)}</span>
-                                <progress value={lvlPer}></progress>
+                                <span>{"LVL " + Math.trunc(calculateUserLvl(userData.xp))}</span>
+                                <progress value={calculateUserLvl(userData.xp) - Math.trunc(calculateUserLvl(userData.xp))}></progress>
                             </div>
                         </div>
                         <hr className='border-2'/>
