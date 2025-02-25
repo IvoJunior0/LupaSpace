@@ -1,11 +1,10 @@
 // Hooks
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 // Componentes
-import Navbar from "../ui/components/header/Navbar";
 import Loading from '../ui/components/extras/Loading';
-import Sidebar from '../ui/components/home/Sidebar';
+import calculateUserLvl from '../functions/calculateUserLvl';
 
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,12 +27,12 @@ export default function User() {
     const location = useLocation(); // URL.
 
     const [userData, setUserData] = useState(null);
+    const [userLvl, setUserLvl] = useState(0);
+    const [lvlPer, setLvlPer] = useState(0); // Porcentagem de lvl completo em decimal
     const [loading, setLoading] = useState(true);
 
-    // Atual usuário
     const user = auth.currentUser;
 
-    // Coletando os dados do usuário e colocando no userData.
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -41,6 +40,8 @@ export default function User() {
 
                 if (userDoc.exists()) {
                     setUserData(userDoc.data());
+                    setUserLvl(calculateUserLvl(userData.xp));
+                    setLvlPer(userLvl - Math.trunc(userLvl)); // Removendo a parte inteira. exemplo: 1.5 - 1 = 0.5
                 } else {
                     console.log('Usuário não encontrado');
                 }
@@ -55,9 +56,7 @@ export default function User() {
     // É falso quando está na página de algum projeto de usuário.
     const isParentRoute = location.pathname === `/user/${uid}`;
 
-    // Mudando o título da página e dando mensagem de erro.
     useEffect(() => {
-        // Retornar erro visual se o usuário não for encontrado
         if (!userData && !loading) {
             return (
                 <div className="mt-[90px] mb-[24px] w-full h-fit col-end-2 max-[1199px]:col-span-full col-start-2">
@@ -109,6 +108,10 @@ export default function User() {
                             {/* Biografia */}
                             <p>{userData.bio}</p>
                             {/* Contatos */}
+                            <div className="">
+                                <span>{"LVL " + Math.trunc(userLvl)}</span>
+                                <progress value={lvlPer}></progress>
+                            </div>
                         </div>
                         <hr className='border-2'/>
                         {/* Projetos */}
