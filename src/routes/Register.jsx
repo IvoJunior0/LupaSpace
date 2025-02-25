@@ -42,7 +42,6 @@ export default function Register(){
                     bio: "",
                     pfp: null,
                     createdAt: serverTimestamp(),
-                    lvl: 1,
                     xp: 0,
                     badge: [], // TODO: fazer uma coleção com todas as badges e depois colocar o id dos documentos nesse array
                     achviments: [], // Talvez trocar por uma coleção ao invés de um atributo no futuro.

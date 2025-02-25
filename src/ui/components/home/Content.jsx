@@ -4,6 +4,11 @@ import FilterButton from "../buttons/FilterButton";
 import RecentPosts from "./RecentPosts";
 import TitlePage from "../extras/TitlePage";
 
+/**
+ * Homepage do LupaSpace.
+ * 
+ * @returns {JSX.Element} Componente renderizado.
+ */
 export default function Content() {
     useEffect(() => {
         document.title = 'LupaSpace';

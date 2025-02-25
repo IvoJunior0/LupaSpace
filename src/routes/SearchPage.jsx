@@ -32,10 +32,6 @@ export default function SearchPage() {
         setTurma(0);
     }
 
-    const uncheckTags = () => {
-
-    }
-
     // Atualizar o texto de pesquisa quando input text mudar
     const changeQueryText = (e) => {
         setQueryText(e.target.value);

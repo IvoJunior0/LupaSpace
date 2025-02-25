@@ -41,9 +41,10 @@ export default function CreatePost(props) {
                 let fileURL = null;
                 const projectRef = doc(db, "Projects", postID); // Documento dos projeto na coleçao "Projects".
 
-                const userRef = doc(db, "Users", user.uid); 
+                const userRef = doc(db, "Users", user.uid);
                 const userDoc = await getDoc(userRef);
                 const turma = userDoc.data().turma;
+                const xp = userDoc.data().xp;
 
                 const projectsInUserRef = collection(db, userRef.path, "Projects"); // Subcoleção "Projects" no documento do usuário.
 
@@ -55,7 +56,7 @@ export default function CreatePost(props) {
                 }
 
                 const countSnapshot = await getCountFromServer(collection(db, "Projects"));
-                console.log(countSnapshot.data().count);
+                console.log(countSnapshot.data().count); // Debug
 
                 const projectData = {
                     // projectId: countSnapshot + 1
@@ -63,9 +64,7 @@ export default function CreatePost(props) {
                     descricao: descricao,
                     authorID: user ? user.uid : "",
                     tags: tags,
-                    // TODO: talvez, só talvez, trocar esse sistemas de like e dislike por favoritado.
                     likes: 0,
-                    dislikes: 0,
                     createdAt: serverTimestamp(),
                     fileURL: fileURL,
                     // TODO: Procurar os favoritos em um documento de uma coleção "Favoritos" no documento do usuário

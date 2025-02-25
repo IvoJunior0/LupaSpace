@@ -99,7 +99,7 @@ export default function QueryResultPage() {
     }
 
     return (
-        <>
+        <div className="flex flex-col gap-3">
             <TitlePage text="Resultado da pesquisa" />
             <div>
                 {queryParams.size === 0 ? <h1>Por favor, selecione os filtros de pesquisa.</h1> : <></>}
@@ -122,6 +122,6 @@ export default function QueryResultPage() {
                     ))}
                 </ul>
             </> : <></>}
-        </>
+        </div>
     );
 }
