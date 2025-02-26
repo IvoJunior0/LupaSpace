@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import generateProjectKeywords from "../../../functions/generateProjectKeywords";
 
 import { auth, db } from "../../../config/firebase";
-import { setDoc, doc, serverTimestamp, collection, getCountFromServer, getDoc } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp, collection, getCountFromServer, getDoc, writeBatch, increment } from "firebase/firestore";
 import { storage } from "../../../config/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -11,6 +11,8 @@ import { v4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import TagSelector from "../Posts/TagSelector";
+
+import calculateUserLvl from "../../../functions/calculateUserLvl";
 
 /**
  * Componente do formulário de criação de publicações.
@@ -36,15 +38,23 @@ export default function CreatePost(props) {
             e.preventDefault();
         if (title.trim() && descricao.trim()) {
             setLoading(true);
+            const batch = writeBatch(db);
             try {
-                const postID = v4();
+                const postID = v4(); // Gerador de ID do post
                 let fileURL = null;
                 const projectRef = doc(db, "Projects", postID); // Documento dos projeto na coleçao "Projects".
 
                 const userRef = doc(db, "Users", user.uid);
                 const userDoc = await getDoc(userRef);
                 const turma = userDoc.data().turma;
-                const xp = userDoc.data().xp;
+
+                // Atualizando o xp do usuário após postar um projeto
+                const userLvl = calculateUserLvl(userDoc.data().xp);
+                let newPostXp = 20;
+
+                if (userLvl >= 10 && userLvl < 20) newPostXp = 30;
+                else if (userLvl >= 20) newPostXp = 40;
+                batch.update(userRef, { xp: increment(newPostXp) });
 
                 const projectsInUserRef = collection(db, userRef.path, "Projects"); // Subcoleção "Projects" no documento do usuário.
 
@@ -87,6 +97,7 @@ export default function CreatePost(props) {
                 setMensagem('');
                 // setMensagem('Post criado com sucesso!');
                 console.log("deu certo mano");
+                await batch.commit();
             } catch (error) {
                 // setMensagem('Erro ao criar o post. Tente novamente.');
                 console.log("deu erro mano");
