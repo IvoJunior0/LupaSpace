@@ -17,6 +17,11 @@ import { db, auth } from "../config/firebase";
 import { Outlet } from 'react-router-dom';
 import ProjectsContainer from '../ui/components/user/ProjectsContainer';
 
+const xpNecessario = (proximoNivel) => {
+    const xp = (6/5) * Math.pow(proximoNivel, 3) - 15 * Math.pow(proximoNivel, 2) + 100 * proximoNivel - 140;
+    return Math.trunc(xp);
+}
+
 /**
  * Página de perfil do usuário.
  * 
@@ -28,6 +33,7 @@ export default function User() {
 
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [userLvl, setUserlvl] = useState(0);
 
     const user = auth.currentUser;
 
@@ -39,7 +45,7 @@ export default function User() {
                 if (userDoc.exists()) {
                     setUserData(userDoc.data());
                 } else {
-                    console.log('Usuário não encontrado');
+                    console.log('Usuário não encontrado'); // TODO: resposta visual
                 }
                 setLoading(false);
             } catch (error) {
@@ -48,6 +54,12 @@ export default function User() {
         };
         fetchUserData();
     }, [uid]);
+
+    useEffect(() => {
+        if (userData) {
+            setUserlvl(calculateUserLvl(userData.xp));
+        }
+    }, [userData]);
 
     // É falso quando está na página de algum projeto de usuário.
     const isParentRoute = location.pathname === `/user/${uid}`;
@@ -105,8 +117,10 @@ export default function User() {
                             <p>{userData.bio}</p>
                             {/* Contatos */}
                             <div className="">
-                                <span>{"LVL " + Math.trunc(calculateUserLvl(userData.xp))}</span>
-                                <progress value={calculateUserLvl(userData.xp) - Math.trunc(calculateUserLvl(userData.xp))}></progress>
+                                {/* O .trunc tira a parte decimal do nível */}
+                                <span>{"LVL " + Math.trunc(userLvl)}</span>
+                                <progress value={userLvl - Math.trunc(userLvl)}></progress>
+                                <span>{`(${userData.xp} / ${xpNecessario(userLvl+1)}) EXP`}</span>
                             </div>
                         </div>
                         <hr className='border-2'/>
