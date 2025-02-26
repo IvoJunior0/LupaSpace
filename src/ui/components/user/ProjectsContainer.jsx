@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Loading from "../extras/Loading";
 import Project from "../Project";
 
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../../../config/firebase";
 import ProjectBox from "./ProjectBox";
 
@@ -25,7 +25,7 @@ export default function ProjectsContainer({ userId }) {
                 const projectPath = `Users/${userId}/Projects`;
 
                 const projectsRef = collection(db, projectPath);
-                const projectsSnapshot = await getDocs(projectsRef);
+                const projectsSnapshot = await getDocs(query(projectsRef, orderBy('createdAt', 'desc')));
                 const projects = projectsSnapshot.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data()
