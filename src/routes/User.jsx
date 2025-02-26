@@ -17,6 +17,13 @@ import { db, auth } from "../config/firebase";
 import { Outlet } from 'react-router-dom';
 import ProjectsContainer from '../ui/components/user/ProjectsContainer';
 
+/**
+ * Retorna a quantidade total de exp necessario
+ * para upar de nível.
+ * 
+ * @param {number} proximoNivel Nível desejado
+ * @returns {number} Total de xp do nível atual
+ */
 const xpNecessario = (proximoNivel) => {
     const xp = (6/5) * Math.pow(proximoNivel, 3) - 15 * Math.pow(proximoNivel, 2) + 100 * proximoNivel - 140;
     return Math.trunc(xp);
@@ -120,7 +127,7 @@ export default function User() {
                                 {/* O .trunc tira a parte decimal do nível */}
                                 <span>{"LVL " + Math.trunc(userLvl)}</span>
                                 <progress value={userLvl - Math.trunc(userLvl)}></progress>
-                                <span>{`(${userData.xp} / ${xpNecessario(userLvl+1)}) EXP`}</span>
+                                <span>{`(${userData.xp} / ${xpNecessario(Math.trunc(userLvl) + 1)}) EXP`}</span>
                             </div>
                         </div>
                         <hr className='border-2'/>
