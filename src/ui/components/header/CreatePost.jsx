@@ -75,6 +75,7 @@ export default function CreatePost(props) {
                     authorID: user ? user.uid : "",
                     tags: tags,
                     likes: 0,
+                    dislikes: 0,
                     createdAt: serverTimestamp(),
                     fileURL: fileURL,
                     // TODO: Procurar os favoritos em um documento de uma coleção "Favoritos" no documento do usuário

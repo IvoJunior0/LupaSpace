@@ -10,8 +10,8 @@ import File from "../ui/components/Posts/File";
 import TagsList from "../ui/components/Posts/TagsList";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp as likeActive, faThumbsDown as dislikeActive, faHeart as postFavoritedIcon, faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp as likeDesactive, faThumbsDown as dislikeDesactive, faHeart as notFavoritedIcon } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp as likeActive, faThumbsDown as dislikeActive, faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp as likeDesactive, faThumbsDown as dislikeDesactive } from '@fortawesome/free-regular-svg-icons';
 
 import parse from 'html-react-parser';
 
@@ -116,10 +116,8 @@ export default function ProjectPage() {
                         <FontAwesomeIcon icon={dislikeDesactive} />
                     </button>
                     <span>
-                        {projectData.dislikes}</span>
-                    <button>
-                        <FontAwesomeIcon icon={notFavoritedIcon} />
-                    </button>
+                        {projectData.dislikes}
+                    </span>
                 </div>
                 {/* Lista de tags */}
                 <div className="">

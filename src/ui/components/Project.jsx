@@ -7,8 +7,8 @@ import { db } from '../../config/firebase';
 
 // Icones de like, dislike e favorito
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp as likeActive, faThumbsDown as dislikeActive, faHeart as postFavoritedIcon, faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp as likeDesactive, faThumbsDown as dislikeDesactive, faHeart as notFavoritedIcon } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp as likeActive, faThumbsDown as dislikeActive, faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp as likeDesactive, faThumbsDown as dislikeDesactive } from '@fortawesome/free-regular-svg-icons';
 
 import parse from 'html-react-parser'; // Suporte a tags html nas descrições
 
@@ -101,7 +101,6 @@ export default function Project(props) {
                         {post.likes}
                         <button><FontAwesomeIcon icon={dislikeDesactive} /></button>
                         {post.dislikes}
-                        <button> <FontAwesomeIcon icon={notFavoritedIcon} /> </button>
                     </div>
                 </>)
                 }

@@ -46,7 +46,6 @@ export default function Register(){
                     badge: [], // TODO: fazer uma coleção com todas as badges e depois colocar o id dos documentos nesse array
                     achviments: [], // Talvez trocar por uma coleção ao invés de um atributo no futuro.
                     projects: [], // TODO: trocar por uma subcoleção com id dos documentos dos projetos
-                    favoritedProjects: [], // TODO: mesma coisa do de cima
                     following: [],
                     followers: [],
                     /**
