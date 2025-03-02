@@ -2,8 +2,8 @@ import { useLocation, useParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { collection, deleteDoc, doc, getDoc, getDocs, increment, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { auth, db } from "../config/firebase";
 
 import Loading from "../ui/components/extras/Loading";
 import File from "../ui/components/Posts/File";
@@ -17,6 +17,7 @@ import parse from 'html-react-parser';
 
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";
+import React from "react";
 
 /**
  *  Página com detalhes do projeto feito pelo usuário.
@@ -30,6 +31,17 @@ export default function ProjectPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
+    // States de likes e dislikes
+    const [likesCount, setLikesCount] = useState(0);
+    const [dislikesCount, setDislikesCount] = useState(0);
+    const [liked, setLiked] = useState(false);
+    const [disliked, setDisliked] = useState(false);
+    const [likeIcon, setLikeIcon] = useState(likeDesactive);
+    const [dislikeIcon, setDislikeIcon] = useState(dislikeDesactive);
+
+    const [loadingFeedback, setLoadingFeedback] = useState(false);
+    const [userRef, setUserRef] = useState("");
+
     let timeAgo;
 
     useEffect(() => {
@@ -39,6 +51,26 @@ export default function ProjectPage() {
                 const projectDoc = await getDoc(doc(db, 'Projects', projectId));
                 if (projectDoc.exists()) {
                     setProjectData(projectDoc.data());
+                    setUserRef(doc(db, 'Users', projectDoc.data().authorID));
+
+                    const likePath = collection(db, `Users/${auth.currentUser.uid}/Likes`);
+                    const dislikePath = collection(db,`Users/${auth.currentUser.uid}/Dislikes`);
+
+                    const likeSnapshot = await getDocs(query(likePath, where("id", '==', projectId)));
+                    const docLiked = likeSnapshot.docs.map(doc => ({ id: doc.id }));
+                    if (docLiked[0]?.id === projectId) {
+                        setLiked(true); setLikeIcon(likeActive); setLikesCount(projectDoc.data().likes); 
+                    } else {
+                        setLiked(false); setLikeIcon(likeDesactive); setLikesCount(projectDoc.data().likes);
+                    }
+
+                    const dislikeSnapshot = await getDocs(query(dislikePath, where("id", '==', projectId)));
+                    const docDisliked = dislikeSnapshot.docs.map(doc => ({ id: doc.id }));
+                    if (docDisliked.id === projectId) {
+                        setDisliked(true); setDislikeIcon(dislikeActive); setDislikesCount(projectDoc.data().dislikes);
+                    } else {
+                        setDisliked(false); setDislikeIcon(dislikeDesactive); setDislikesCount(projectDoc.data().dislikes);
+                    }
                 } else {
                     setError(true);
                 }
@@ -62,6 +94,55 @@ export default function ProjectPage() {
         }
         fetchProjectData();
     }, []);
+
+    const handleFeedback = async (value) => {
+        setLoadingFeedback(true);
+        const postRef = doc(db, `Projects/${projectId}`);
+        const userRefPath = userRef.path;
+        const feedbackObject = { id: projectId };
+        try {
+            // TODO: incrementar e diminuir no banco de dados o valor de like e dislike.
+            // O documento serve só pra checar o id, por isso tem um objeto vazio.
+            switch (value) {
+                case "like":
+                    if (!liked) {
+                        const likesCollection = collection(db, userRefPath, "Likes");
+                        await setDoc(doc(likesCollection, projectId), feedbackObject);
+                        await updateDoc(postRef, { likes: increment(1) });
+                        setLiked(true);
+                        setLikeIcon(likeActive);
+                        setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
+                        return;
+                    }
+                    await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Likes/${projectId}`));
+                    await updateDoc(postRef, { likes: increment(-1) });
+                    setLiked(false);
+                    setLikeIcon(likeDesactive);
+                    setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
+                    break;
+                case "dislike":
+                    if (!disliked) {
+                        const dislikesCollection = collection(db, userRefPath, "Dislikes");
+                        await setDoc(doc(dislikesCollection, projectId), feedbackObject);
+                        await updateDoc(postRef, { dislikes: increment(1) });
+                        setDisliked(true);
+                        setDislikeIcon(dislikeActive);
+                        setDislikesCount((prev) => (disliked ? prev - 1 : prev + 1));
+                        return;
+                    }
+                    await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Likes/${projectId}`));
+                    await updateDoc(postRef, { dislikes: increment(-1) });
+                    setDisliked(false);
+                    setDislikeIcon(dislikeDesactive);
+                    setDislikesCount((prev) => (disliked ? prev - 1 : prev + 1));
+                    break;
+            }
+        } catch (error) {
+            console.log(error); // TODO: resposta visual
+        } finally {
+            setLoadingFeedback(false);
+        }
+    }
 
     if (loading) return <Loading/>
 
@@ -106,18 +187,14 @@ export default function ProjectPage() {
                 </div>
                 {/* Likes, dislikes, e favoritos */}
                 <div className="flex gap-1.5">
-                    <button>
-                        <FontAwesomeIcon icon={likeDesactive} />
+                    <button onClick={() => handleFeedback("like")}>
+                        <FontAwesomeIcon icon={likeIcon} />
                     </button>
-                    <span>
-                        {projectData.likes}
-                    </span>
-                    <button>
-                        <FontAwesomeIcon icon={dislikeDesactive} />
+                    <span>{likesCount}</span>
+                    <button onClick={() => handleFeedback("dislike")}>
+                        <FontAwesomeIcon icon={dislikeIcon} />
                     </button>
-                    <span>
-                        {projectData.dislikes}
-                    </span>
+                    <span>{dislikesCount}</span>
                 </div>
                 {/* Lista de tags */}
                 <div className="">

@@ -79,13 +79,12 @@ export default function Project({ post }) {
         fetchUserData();
     }, [post.authorID, post.createdAt]);
     
-    // TODO: Sistema de likes, dislikes e favoritos
     const handleFeedback = async (value) => {
         setLoadingFeedback(true);
         const postRef = doc(db, `Projects/${post.id}`);
+        const userRefPath = userRef.path;
+        const feedbackObject = { id: post.id };
         try {
-            const userRefPath = userRef.path;
-            const feedbackObject = { id: post.id };
             // TODO: incrementar e diminuir no banco de dados o valor de like e dislike.
             // O documento serve só pra checar o id, por isso tem um objeto vazio.
             switch (value) {
@@ -93,25 +92,33 @@ export default function Project({ post }) {
                     if (!liked) {
                         const likesCollection = collection(db, userRefPath, "Likes");
                         await setDoc(doc(likesCollection, post.id), feedbackObject);
+                        await updateDoc(postRef, { likes: increment(1) });
                         setLiked(true);
                         setLikeIcon(likeActive);
-                        await updateDoc(postRef, { likes: increment(1) });
                         setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
                         return;
                     }
                     await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Likes/${post.id}`));
+                    await updateDoc(postRef, { likes: increment(-1) });
                     setLiked(false);
                     setLikeIcon(likeDesactive);
-                    await updateDoc(postRef, { likes: increment(-1) });
                     setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
                     break;
                 case "dislike":
                     if (!disliked) {
                         const dislikesCollection = collection(db, userRefPath, "Dislikes");
                         await setDoc(doc(dislikesCollection, post.id), feedbackObject);
+                        await updateDoc(postRef, { dislikes: increment(1) });
+                        setDisliked(true);
                         setDislikeIcon(dislikeActive);
+                        setDislikesCount((prev) => (disliked ? prev - 1 : prev + 1));
                         return;
                     }
+                    await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Likes/${post.id}`));
+                    await updateDoc(postRef, { dislikes: increment(-1) });
+                    setDisliked(false);
+                    setDislikeIcon(dislikeDesactive);
+                    setDislikesCount((prev) => (disliked ? prev - 1 : prev + 1));
                     break;
             }
         } catch (error) {
@@ -153,7 +160,7 @@ export default function Project({ post }) {
                     <div className="sm:row-span-3 sm:col-start-2 sm:row-start-1 h-full">
                         <File filePath={post.fileURL} />
                     </div>
-                    {/* Likes, dislikes e favoritar */}
+                    {/* Likes, dislikes */}
                     <div className="flex items-start justify-center gap-2 ">
                         <button onClick={() => handleFeedback("like")}><FontAwesomeIcon icon={likeIcon} /></button>
                         {likesCount}
