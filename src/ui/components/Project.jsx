@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import File from './Posts/File';
 
-import { collection, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, increment, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { auth, db } from '../../config/firebase';
 
 // Icones de like, dislike e favorito
@@ -82,22 +82,36 @@ export default function Project({ post }) {
     // TODO: Sistema de likes, dislikes e favoritos
     const handleFeedback = async (value) => {
         setLoadingFeedback(true);
+        const postRef = doc(db, `Projects/${post.id}`);
         try {
             const userRefPath = userRef.path;
             const feedbackObject = { id: post.id };
+            // TODO: incrementar e diminuir no banco de dados o valor de like e dislike.
             // O documento serve só pra checar o id, por isso tem um objeto vazio.
             switch (value) {
                 case "like":
-                    const likesCollection = collection(db, userRefPath, "Likes");
-                    await setDoc(doc(likesCollection, post.id), feedbackObject);
-                    setLikeIcon(likeActive);
-                    console.log("like")
+                    if (!liked) {
+                        const likesCollection = collection(db, userRefPath, "Likes");
+                        await setDoc(doc(likesCollection, post.id), feedbackObject);
+                        setLiked(true);
+                        setLikeIcon(likeActive);
+                        await updateDoc(postRef, { likes: increment(1) });
+                        setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
+                        return;
+                    }
+                    await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Likes/${post.id}`));
+                    setLiked(false);
+                    setLikeIcon(likeDesactive);
+                    await updateDoc(postRef, { likes: increment(-1) });
+                    setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
                     break;
                 case "dislike":
-                    const dislikesCollection = collection(db, userRefPath, "Dislikes");
-                    await setDoc(doc(dislikesCollection, post.id), feedbackObject);
-                    setDislikeIcon(dislikeActive);
-                    console.log("dislike")
+                    if (!disliked) {
+                        const dislikesCollection = collection(db, userRefPath, "Dislikes");
+                        await setDoc(doc(dislikesCollection, post.id), feedbackObject);
+                        setDislikeIcon(dislikeActive);
+                        return;
+                    }
                     break;
             }
         } catch (error) {
