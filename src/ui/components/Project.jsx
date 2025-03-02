@@ -2,8 +2,8 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import File from './Posts/File';
 
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from '../../config/firebase';
+import { collection, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { auth, db } from '../../config/firebase';
 
 // Icones de like, dislike e favorito
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,7 +31,8 @@ export default function Project({ post }) {
     // States de likes e dislikes
     const [likeCount, setLikes] = useState(0);
     const [dislikeCount, setDislikes] = useState(0);
-    const [hasLiked, setHasLiked] = useState(false);
+    const [liked, setLiked] = useState(false);
+    const [disliked, setDisliked] = useState(false);
     const [likeIcon, setLikeIcon] = useState(null);
     const [dislikeIcon, setDislikeIcon] = useState(null);
 
@@ -39,25 +40,33 @@ export default function Project({ post }) {
     const userRef = doc(db, 'Users', post.authorID);
 
     let timeAgo;
-    console.log(post);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const userDoc = await getDoc(userRef);
-                if (userDoc.exists()) {
-                    setUserData(userDoc.data());
-                    setUserUid(userDoc.id);
+                const userDocSnap = await getDoc(userRef);
+                if (userDocSnap.exists()) {
+                    setUserData(userDocSnap.data());
+                    setUserUid(userDocSnap.id);
+
+                    const likePath = collection(db, `Users/${auth.currentUser.uid}/Likes`);
+                    const dislikePath = collection(db,`Users/${auth.currentUser.uid}/Dislikes`);
+
+                    const likeSnapshot = await getDocs(query(likePath, where("id", '==', post.id)));
+                    if (likeSnapshot.docs.map(doc => ({ id: doc.id })).length >= 1) setLiked(true);
+                    const dislikeSnapshot = await getDocs(query(dislikePath, where("id", '==', post.id)));
+                    if (dislikeSnapshot.docs.map(doc => ({ id: doc.id })).length >= 1) setDisliked(true);
                 } else {
                     console.log("Usuário não encontrado"); // TODO: Resposta visual
                 }
             } catch (err) {
-                console.log('Erro ao buscar dados do usuário'); // TODO: Resposta visual
+                console.log('Erro ao buscar dados do usuário ', err); // TODO: Resposta visual
             } finally {
                 setLoading(false);
             }
         };
         fetchUserData();
+        console.log(liked);
     }, [post.authorID, post.createdAt]);
     
     // TODO: Sistema de likes, dislikes e favoritos
@@ -65,12 +74,20 @@ export default function Project({ post }) {
         setLoadingFeedback(true);
         try {
             const userRefPath = userRef.path;
-            const likesCollection = collection(db, userRefPath, "Likes");
-            const dislikesCollection = collection(db, userRefPath, "Dislikes");
-
-            // O switch case pra saber se é like ou dislike ainda não existe.
+            const feedbackObject = { id: post.id };
             // O documento serve só pra checar o id, por isso tem um objeto vazio.
-            await setDoc(doc(likesCollection, post.id), { });
+            switch (value) {
+                case "like":
+                    const likesCollection = collection(db, userRefPath, "Likes");
+                    await setDoc(doc(likesCollection, post.id), feedbackObject);
+                    console.log("like")
+                    break;
+                case "dislike":
+                    const dislikesCollection = collection(db, userRefPath, "Dislikes");
+                    await setDoc(doc(dislikesCollection, post.id), feedbackObject);
+                    console.log("dislike")
+                    break;
+            }
         } catch (error) {
             console.log(error); // TODO: resposta visual
         } finally {

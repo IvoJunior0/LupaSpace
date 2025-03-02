@@ -17,7 +17,8 @@ const getRecentPosts = async () => {
         const projectsRef = collection(db, "Projects"); // Referência
         const projectsQuery = query(projectsRef, orderBy("createdAt", "desc"), limit(10)); // Filtro
     
-        return mapFirestoreDocs(projectsQuery);
+        let postData = mapFirestoreDocs(projectsQuery);
+        return postData;
     }
     catch (error) {
         console.error("Error fetching data RECENTPOSTS:", error);
