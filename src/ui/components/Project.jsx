@@ -33,8 +33,8 @@ export default function Project({ post }) {
     const [dislikeCount, setDislikes] = useState(0);
     const [liked, setLiked] = useState(false);
     const [disliked, setDisliked] = useState(false);
-    const [likeIcon, setLikeIcon] = useState(null);
-    const [dislikeIcon, setDislikeIcon] = useState(null);
+    const [likeIcon, setLikeIcon] = useState(likeDesactive);
+    const [dislikeIcon, setDislikeIcon] = useState(dislikeDesactive);
 
     const [loadingFeedback, setLoadingFeedback] = useState(false);
     const userRef = doc(db, 'Users', post.authorID);
@@ -53,9 +53,20 @@ export default function Project({ post }) {
                     const dislikePath = collection(db,`Users/${auth.currentUser.uid}/Dislikes`);
 
                     const likeSnapshot = await getDocs(query(likePath, where("id", '==', post.id)));
-                    if (likeSnapshot.docs.map(doc => ({ id: doc.id })).length >= 1) setLiked(true);
+                    const docLiked = likeSnapshot.docs.map(doc => ({ id: doc.id }));
+                    if (docLiked[0]?.id === post.id) {
+                        setLiked(true); setLikeIcon(likeActive);
+                    } else {
+                        setLiked(false); setLikeIcon(likeDesactive);
+                    }
+
                     const dislikeSnapshot = await getDocs(query(dislikePath, where("id", '==', post.id)));
-                    if (dislikeSnapshot.docs.map(doc => ({ id: doc.id })).length >= 1) setDisliked(true);
+                    const docDisliked = dislikeSnapshot.docs.map(doc => ({ id: doc.id }));
+                    if (docDisliked.id === post.id) {
+                        setDisliked(true); setDislikeIcon(dislikeActive);
+                    } else {
+                        setDisliked(false); setDislikeIcon(dislikeDesactive);
+                    }
                 } else {
                     console.log("Usuário não encontrado"); // TODO: Resposta visual
                 }
@@ -66,7 +77,7 @@ export default function Project({ post }) {
             }
         };
         fetchUserData();
-        console.log(liked);
+        console.log(liked, disliked);
     }, [post.authorID, post.createdAt]);
     
     // TODO: Sistema de likes, dislikes e favoritos
@@ -129,9 +140,9 @@ export default function Project({ post }) {
                     </div>
                     {/* Likes, dislikes e favoritar */}
                     <div className="flex items-start justify-center gap-2 ">
-                        <button onClick={() => handleFeedback("like")}><FontAwesomeIcon icon={likeDesactive} /></button>
+                        <button onClick={() => handleFeedback("like")}><FontAwesomeIcon icon={likeIcon} /></button>
                         {post.likes}
-                        <button onClick={() => handleFeedback("dislike")}><FontAwesomeIcon icon={dislikeDesactive} /></button>
+                        <button onClick={() => handleFeedback("dislike")}><FontAwesomeIcon icon={dislikeIcon} /></button>
                         {post.dislikes}
                     </div>
                 </>)
