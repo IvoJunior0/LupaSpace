@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import File from './Posts/File';
 
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from '../../config/firebase';
 
 // Icones de like, dislike e favorito
@@ -23,25 +23,28 @@ import TagsList from './Posts/TagsList';
  * Componente que mostra o projeto na homepage e no perfil do usuário
  * @param {object} props - Informações do post em específico
  */
-export default function Project(props) {
+export default function Project({ post }) {
     const [userData, setUserData] = useState(null); // Objeto do usuário
     const [userUid, setUserUid] = useState("")
     const [loading, setLoading] = useState(true);
     
     // States de likes e dislikes
-    const [likes, setLikes] = useState(0);
-    const [dislikes, setDislikes] = useState(0);
+    const [likeCount, setLikes] = useState(0);
+    const [dislikeCount, setDislikes] = useState(0);
     const [hasLiked, setHasLiked] = useState(false);
     const [likeIcon, setLikeIcon] = useState(null);
     const [dislikeIcon, setDislikeIcon] = useState(null);
 
+    const [loadingFeedback, setLoadingFeedback] = useState(false);
+    const userRef = doc(db, 'Users', post.authorID);
+
     let timeAgo;
-    const post = props.post;    
+    console.log(post);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const userDoc = await getDoc(doc(db, 'Users', post.authorID));
+                const userDoc = await getDoc(userRef);
                 if (userDoc.exists()) {
                     setUserData(userDoc.data());
                     setUserUid(userDoc.id);
@@ -58,11 +61,23 @@ export default function Project(props) {
     }, [post.authorID, post.createdAt]);
     
     // TODO: Sistema de likes, dislikes e favoritos
-    const handleLike = () => {
-        
+    const handleFeedback = async (value) => {
+        setLoadingFeedback(true);
+        try {
+            const userRefPath = userRef.path;
+            const likesCollection = collection(db, userRefPath, "Likes");
+            const dislikesCollection = collection(db, userRefPath, "Dislikes");
+
+            // O switch case pra saber se é like ou dislike ainda não existe.
+            // O documento serve só pra checar o id, por isso tem um objeto vazio.
+            await setDoc(doc(likesCollection, post.id), { });
+        } catch (error) {
+            console.log(error); // TODO: resposta visual
+        } finally {
+            setLoadingFeedback(false);
+        }
     }
 
-    // Convertendo a data que vem do banco de dados
     // TODO: trocar pela função convertDate.jsx
     if (!loading) {
         const convertedDate = new Date(post.createdAt.seconds * 1000);
@@ -97,9 +112,9 @@ export default function Project(props) {
                     </div>
                     {/* Likes, dislikes e favoritar */}
                     <div className="flex items-start justify-center gap-2 ">
-                        <button onClick={handleLike}><FontAwesomeIcon icon={likeDesactive} /></button>
+                        <button onClick={() => handleFeedback("like")}><FontAwesomeIcon icon={likeDesactive} /></button>
                         {post.likes}
-                        <button><FontAwesomeIcon icon={dislikeDesactive} /></button>
+                        <button onClick={() => handleFeedback("dislike")}><FontAwesomeIcon icon={dislikeDesactive} /></button>
                         {post.dislikes}
                     </div>
                 </>)

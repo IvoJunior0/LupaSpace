@@ -66,7 +66,7 @@ export default function RecentPosts() {
                     <ul className='flex flex-col gap-6'>
                         {posts.map(post => (
                             <li key={post.id}>
-                                <Project post={post}/>
+                                <Project post={post} />
                             </li>
                         ))}
                     </ul>
