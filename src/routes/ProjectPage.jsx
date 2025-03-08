@@ -114,7 +114,7 @@ export default function ProjectPage() {
                         setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
                         return;
                     }
-                    await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Likes/${projectId}`));
+                    await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Likes`, projectId));
                     await updateDoc(postRef, { likes: increment(-1) });
                     setLiked(false);
                     setLikeIcon(likeDesactive);
@@ -130,7 +130,7 @@ export default function ProjectPage() {
                         setDislikesCount((prev) => (disliked ? prev - 1 : prev + 1));
                         return;
                     }
-                    await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Likes/${projectId}`));
+                    await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Dislikes`, projectId));
                     await updateDoc(postRef, { dislikes: increment(-1) });
                     setDisliked(false);
                     setDislikeIcon(dislikeDesactive);
