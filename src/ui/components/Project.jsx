@@ -18,6 +18,7 @@ import ptBR from 'date-fns/locale/pt-BR';
 import { Link } from 'react-router-dom';
 import Tag from './Posts/Tag';
 import TagsList from './Posts/TagsList';
+import Loading from './extras/Loading';
 
 /**
  * Componente que mostra o projeto na homepage e no perfil do usuário
@@ -36,9 +37,7 @@ export default function Project({ post }) {
     const [likeIcon, setLikeIcon] = useState(likeDesactive);
     const [dislikeIcon, setDislikeIcon] = useState(dislikeDesactive);
 
-    const [loadingFeedback, setLoadingFeedback] = useState(false);
     const userRef = doc(db, 'Users', post.authorID);
-
     let timeAgo;
 
     useEffect(() => {
@@ -80,51 +79,64 @@ export default function Project({ post }) {
     }, [post.authorID, post.createdAt]);
     
     const handleFeedback = async (value) => {
-        setLoadingFeedback(true);
         const postRef = doc(db, `Projects/${post.id}`);
         const userRefPath = userRef.path;
         const feedbackObject = { id: post.id };
+        const likeDoc = doc(db, `Users/${auth.currentUser.uid}/Likes`, post.id);
+        const dislikeDoc = doc(db, `Users/${auth.currentUser.uid}/Dislikes`, post.id);
         try {
             // TODO: incrementar e diminuir no banco de dados o valor de like e dislike.
             // O documento serve só pra checar o id, por isso tem um objeto vazio.
             switch (value) {
                 case "like":
                     if (!liked) {
+                        setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
+                        setLikeIcon(likeActive);
+                        setLiked(true);
+                        if (disliked) {
+                            setDislikesCount((prev) => (disliked ? prev - 1 : prev + 1));
+                            setDislikeIcon(dislikeDesactive);
+                            setDisliked(false);
+                            await deleteDoc(dislikeDoc);
+                            await updateDoc(postRef, { dislikes: increment(-1) });
+                        }
                         const likesCollection = collection(db, userRefPath, "Likes");
                         await setDoc(doc(likesCollection, post.id), feedbackObject);
                         await updateDoc(postRef, { likes: increment(1) });
-                        setLiked(true);
-                        setLikeIcon(likeActive);
-                        setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
-                        return;
+                        break;
                     }
-                    await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Likes`, post.id));
-                    await updateDoc(postRef, { likes: increment(-1) });
-                    setLiked(false);
-                    setLikeIcon(likeDesactive);
                     setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
+                    setLikeIcon(likeDesactive);
+                    setLiked(false);
+                    await deleteDoc(likeDoc);
+                    await updateDoc(postRef, { likes: increment(-1) });
                     break;
                 case "dislike":
                     if (!disliked) {
+                        setDislikesCount((prev) => (disliked ? prev - 1 : prev + 1));
+                        setDislikeIcon(dislikeActive);
+                        setDisliked(true);
+                        if (liked) {
+                            setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
+                            setLikeIcon(likeDesactive);
+                            setLiked(false);
+                            await deleteDoc(likeDoc);
+                            await updateDoc(postRef, { likes: increment(-1) });
+                        }
                         const dislikesCollection = collection(db, userRefPath, "Dislikes");
                         await setDoc(doc(dislikesCollection, post.id), feedbackObject);
                         await updateDoc(postRef, { dislikes: increment(1) });
-                        setDisliked(true);
-                        setDislikeIcon(dislikeActive);
-                        setDislikesCount((prev) => (disliked ? prev - 1 : prev + 1));
-                        return;
+                        break;
                     }
-                    await deleteDoc(doc(db, `Users/${auth.currentUser.uid}/Dislikes`, post.id));
-                    await updateDoc(postRef, { dislikes: increment(-1) });
-                    setDisliked(false);
-                    setDislikeIcon(dislikeDesactive);
                     setDislikesCount((prev) => (disliked ? prev - 1 : prev + 1));
+                    setDislikeIcon(dislikeDesactive);
+                    setDisliked(false);
+                    await deleteDoc(dislikeDoc);
+                    await updateDoc(postRef, { dislikes: increment(-1) });
                     break;
             }
         } catch (error) {
             console.log(error); // TODO: resposta visual
-        } finally {
-            setLoadingFeedback(false);
         }
     }
 
