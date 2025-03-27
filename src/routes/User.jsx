@@ -119,14 +119,22 @@ export default function User() {
                 {/* Informações */}
                 <section className='flex flex-col gap-2.5 p-6 text-gray-500'>
                     {isParentRoute ? (<>
-                        <div className="grid grid-cols-2 grid-rows-1">
+                        <div className="grid md:grid-cols-2 md:grid-rows-1 gap-2.5 grid-cols-1 grid-rows-2 place-items-center">
                             {/* Biografia */}
-                            <p>{userData.bio}</p>
+                            <p className='md:w-full'>{userData.bio}</p>
                             {/* Contatos */}
-                            <div className="">
+                            <div className="flex items-center gap-2 md:w-full md:justify-end">
                                 {/* O .trunc tira a parte decimal do nível */}
-                                <span>{"LVL " + Math.trunc(userLvl)}</span>
-                                <progress value={userLvl - Math.trunc(userLvl)}></progress>
+                                <div className="border-green-800 border-[3px] p-5 w-3 h-3 rounded-full flex justify-center items-center bg-green-50">
+                                    <span className="font-bold text-green-800">{Math.trunc(userLvl)}</span>
+                                </div>
+                                {/*
+                                { (userData && userLvl) ? 
+                                <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                    <div className={`bg-blue-600 h-2.5 rounded-full w-[${}%]`}/>
+                                </div> : null
+                                } */}
+                                <progress value={userLvl - Math.trunc(userLvl)}/>
                                 <span>{`(${userData.xp} / ${xpNecessario(Math.trunc(userLvl) + 1)}) EXP`}</span>
                             </div>
                         </div>

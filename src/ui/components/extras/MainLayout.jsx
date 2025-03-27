@@ -3,6 +3,7 @@ import Sidebar from "../home/Sidebar";
 
 import { Outlet } from "react-router-dom";
 
+// TODO: mudar o tema do site para escuro como default: "bg-gray-900"
 /**
  * Layout com a navbar e a sidebar para o site inteiro.
  * Não é usado somente nas telas de registro e login.
