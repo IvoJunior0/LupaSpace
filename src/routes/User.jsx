@@ -125,8 +125,8 @@ export default function User() {
                             {/* Contatos */}
                             <div className="flex items-center gap-2 md:w-full md:justify-end">
                                 {/* O .trunc tira a parte decimal do nível */}
-                                <div className="border-green-800 border-[3px] p-5 w-3 h-3 rounded-full flex justify-center items-center bg-green-50">
-                                    <span className="font-bold text-green-800">{Math.trunc(userLvl)}</span>
+                                <div className="border-green-500 border-[3px] p-5 w-3 h-3 rounded-full flex justify-center items-center bg-green-50">
+                                    <span className="font-bold text-green-700">{Math.trunc(userLvl)}</span>
                                 </div>
                                 {/*
                                 { (userData && userLvl) ? 
@@ -134,7 +134,7 @@ export default function User() {
                                     <div className={`bg-blue-600 h-2.5 rounded-full w-[${}%]`}/>
                                 </div> : null
                                 } */}
-                                <progress value={userLvl - Math.trunc(userLvl)}/>
+                                <progress className='[&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-bar]:bg-slate-300 [&::-webkit-progress-value]:bg-green-400 [&::-moz-progress-bar]:bg-green-400' value={userLvl - Math.trunc(userLvl)}/>
                                 <span>{`(${userData.xp} / ${xpNecessario(Math.trunc(userLvl) + 1)}) EXP`}</span>
                             </div>
                         </div>
